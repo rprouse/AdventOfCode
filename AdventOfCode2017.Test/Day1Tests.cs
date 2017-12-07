@@ -5,7 +5,7 @@ namespace Tests
 {
     public class Day1Tests
     {
-        [TestCase("1112", 3)]
+        [TestCase("1122", 3)]
         [TestCase("1111", 4)]
         [TestCase("1234", 0)]
         [TestCase("91212129", 9)]
