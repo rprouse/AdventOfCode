@@ -17,5 +17,19 @@ namespace AdventOfCode2017
             }
             return sum;
         }
+
+        public static int CalculateCaptcha2(string captcha)
+        {
+            int sum = 0;
+            for (int i = 0; i < captcha.Length; i++)
+            {
+                int j = (i + captcha.Length / 2) % captcha.Length;
+                if (captcha[i] == captcha[j])
+                {
+                    sum += captcha[i] - '0';
+                }
+            }
+            return sum;
+        }
     }
 }
