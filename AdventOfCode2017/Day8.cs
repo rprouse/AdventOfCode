@@ -9,11 +9,16 @@ namespace AdventOfCode2017
         public static IEnumerable<Instruction> ReadInstructions(string filename) =>
             LineReader.ReadLines(filename).Select(l => new Instruction(l));
 
-        public static IDictionary<string, int> RunProgram(this IEnumerable<Instruction> instructions)
+        public static IDictionary<string, int> RunProgram(this IEnumerable<Instruction> instructions, out int max)
         {
+            max = 0;
             IDictionary<string, int> registers = new Dictionary<string, int>();
             foreach (var instruction in instructions)
+            {
                 instruction.Apply(registers);
+                int currentMax = registers.FindLargestRegister();
+                if (currentMax > max) max = currentMax;
+            }
             return registers;
         }
 

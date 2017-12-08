@@ -31,8 +31,16 @@ namespace AdventOfCode2017.Test
         [TestCase("Day8.txt", 4902)]
         public void CanRunProgram(string filename, int expected)
         {
-            var registers = Day8.ReadInstructions(filename).RunProgram();
+            var registers = Day8.ReadInstructions(filename).RunProgram(out int max);
             Assert.That(registers.FindLargestRegister(), Is.EqualTo(expected));
+        }
+
+        [TestCase("Day8Test.txt", 10)]
+        [TestCase("Day8.txt", 7037)]
+        public void CanFindHighestValue(string filename, int expected)
+        {
+            var registers = Day8.ReadInstructions(filename).RunProgram(out int max);
+            Assert.That(max, Is.EqualTo(expected));
         }
     }
 }
