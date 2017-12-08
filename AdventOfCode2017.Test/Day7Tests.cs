@@ -10,7 +10,7 @@ namespace AdventOfCode2017.Test
         {
             var program = new Program("fwft (72) -> ktlj, cntj, xhth");
             Assert.That(program.Code, Is.EqualTo("fwft"));
-            Assert.That(program.Weight, Is.EqualTo("72"));
+            Assert.That(program.Weight, Is.EqualTo(72));
             Assert.That(program.ChildCodes, Has.Count.EqualTo(3));
         }
 
@@ -19,7 +19,7 @@ namespace AdventOfCode2017.Test
         {
             var program = new Program("ktlj (57)");
             Assert.That(program.Code, Is.EqualTo("ktlj"));
-            Assert.That(program.Weight, Is.EqualTo("57"));
+            Assert.That(program.Weight, Is.EqualTo(57));
             Assert.That(program.ChildCodes, Has.Count.EqualTo(0));
         }
 
@@ -46,6 +46,15 @@ namespace AdventOfCode2017.Test
             var programs = Day7.ReadPrograms(filename);
             var root = programs.FindRootProgram();
             Assert.That(root, Is.EqualTo(expected));
+        }
+
+        [TestCase("Day7Test.txt", 60)]
+        [TestCase("Day7.txt", 646)]
+        public void CanBalanceTower(string filename, int expected)
+        {
+            var programs = Day7.ReadPrograms(filename);
+            var weight = programs.BalanceTower();
+            Assert.That(weight, Is.EqualTo(expected));
         }
     }
 }
