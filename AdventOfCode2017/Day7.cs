@@ -1,26 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2017
 {
     public static class Day7
     {
-        public static IEnumerable<Program> ReadPrograms(string filename)
-        {
-            using (var reader = new StreamReader(filename))
-            {
-                string program = reader.ReadLine();
-                while (!string.IsNullOrWhiteSpace(program))
-                {
-                    yield return new Program(program);
-                    program = reader.ReadLine();
-                }
-            }
-        }
+        public static IEnumerable<Program> ReadPrograms(string filename) =>
+            LineReader.ReadLines(filename).Select(l => new Program(l));
 
         public static string FindRootProgram(this IEnumerable<Program> programs)
         {
