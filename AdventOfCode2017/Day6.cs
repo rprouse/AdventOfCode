@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AdventOfCode2017
 {
@@ -10,19 +8,36 @@ namespace AdventOfCode2017
         public static int CountReallocations(this int[] blocks)
         {
             var comparer = new IntArrayComparer();
-            int count = 0;
             var previous = new List<int[]>();
             previous.Add(blocks);
             do
             {
-                count++;
                 blocks = blocks.Reallocate();
-                if (previous.Contains(blocks, comparer)) break;
+                if (previous.Contains(blocks, comparer)) return previous.Count;
                 previous.Add(blocks);
 
             } while (true);
+        }
 
-            return count;
+        public static int FindLoopSize(this int[] blocks)
+        {
+            var comparer = new IntArrayComparer();
+            var previous = new List<int[]>();
+            previous.Add(blocks);
+            do
+            {
+                blocks = blocks.Reallocate();
+                if (previous.Contains(blocks, comparer))
+                {
+                    for(int i = 0; i < previous.Count; i++)
+                    {
+                        if (comparer.Equals(previous[i], blocks))
+                            return previous.Count - i;
+                    }
+                }
+                previous.Add(blocks);
+
+            } while (true);
         }
 
         class IntArrayComparer : IEqualityComparer<int[]>
