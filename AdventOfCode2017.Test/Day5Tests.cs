@@ -21,6 +21,20 @@ namespace AdventOfCode2017.Test
             Assert.That(instructions.CountJumps(), Is.EqualTo(358131));
         }
 
+        [Test]
+        public void TestCountJumpsPartTwo()
+        {
+            var instructions = new int[] { 0, 3, 0, 1, -3 };
+            Assert.That(instructions.CountJumpsPartTwo(), Is.EqualTo(10));
+        }
+
+        [Test]
+        public async Task TestCountJumpsSolutionPartTwo()
+        {
+            var instructions = await ReadInstructions();
+            Assert.That(instructions.CountJumpsPartTwo(), Is.EqualTo(25558839));
+        }
+
 
         async Task<int[]> ReadInstructions()
         {
