@@ -12,6 +12,13 @@ namespace AdventOfCode2017.Test
             Assert.That(str.ScoreGroups(), Is.EqualTo(expected));
         }
 
+        [TestCase("Day9.txt", 6425)]
+        public void FindSolutionPartTwo(string filename, int expected)
+        {
+            var str = Day9.ReadSomething(filename).First();
+            Assert.That(str.CountGarbage(), Is.EqualTo(expected));
+        }
+
         [TestCase("<>")]
         [TestCase("<random characters>")]
         [TestCase("<<<<>")]
@@ -36,5 +43,18 @@ namespace AdventOfCode2017.Test
         {
             Assert.That(line.ScoreGroups(), Is.EqualTo(expected));
         }
+
+        [TestCase("<>", 0)]
+        [TestCase("<random characters>", 17)]
+        [TestCase("<<<<>", 3)]
+        [TestCase("<{!>}>", 2)]
+        [TestCase("<!!>", 0)]
+        [TestCase("<!!!>>", 0)]
+        [TestCase("<{o\"i!a,<{i<a>", 10)]
+        public void CanCountGarbage(string line, int expected)
+        {
+            Assert.That(line.CountGarbage(), Is.EqualTo(expected));
+        }
+
     }
 }

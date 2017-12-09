@@ -30,6 +30,15 @@ namespace AdventOfCode2017
             return sum;
         }
 
+        public static int CountGarbage(this string str)
+        {
+            count = 0;
+            str.StripGarbage();
+            return count;
+        }
+
+        static int count; // Ick but quick
+
         public static string StripGarbage(this string str)
         {
             var sb = new StringBuilder();
@@ -45,6 +54,7 @@ namespace AdventOfCode2017
                 switch (c)
                 {
                     case '<':
+                        if (garbage) count++;
                         garbage = true;
                         continue;
                     case '!':
@@ -54,8 +64,10 @@ namespace AdventOfCode2017
                         garbage = false;
                         continue;
                 }
-                if(!garbage)
+                if (!garbage)
                     sb.Append(c);
+                else
+                    count++;
             }
             return sb.ToString();
         }
