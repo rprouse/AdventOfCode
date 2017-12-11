@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode2017.Day11
 {
@@ -10,33 +8,11 @@ namespace AdventOfCode2017.Day11
         {
             int x = 0;
             int y = 0;
-            foreach(var step in steps)
+            foreach (var step in steps)
             {
-                switch(step)
-                {
-                    case "n":
-                        y++;
-                        break;
-                    case "ne":
-                        x++;
-                        y++;
-                        break;
-                    case "nw":
-                        x--;
-                        break;
-                    case "s":
-                        y--;
-                        break;
-                    case "se":
-                        x++;
-                        break;
-                    case "sw":
-                        x--;
-                        y--;
-                        break;
-                }
+                Step(ref x, ref y, step);
             }
-            return Math.Max(Math.Max(Math.Abs(x), Math.Abs(y)), Math.Abs((x - y) * -1));
+            return CalculateDistance(x, y);
         }
 
         public static int PartTwo(string[] steps)
@@ -46,34 +22,43 @@ namespace AdventOfCode2017.Day11
             int max = 0;
             foreach (var step in steps)
             {
-                switch (step)
-                {
-                    case "n":
-                        y++;
-                        break;
-                    case "ne":
-                        x++;
-                        y++;
-                        break;
-                    case "nw":
-                        x--;
-                        break;
-                    case "s":
-                        y--;
-                        break;
-                    case "se":
-                        x++;
-                        break;
-                    case "sw":
-                        x--;
-                        y--;
-                        break;
-                }
-                int d = Math.Max(Math.Max(Math.Abs(x), Math.Abs(y)), Math.Abs((x - y) * -1));
+                Step(ref x, ref y, step);
+                int d = CalculateDistance(x, y);
                 if (d > max) max = d;
             }
             return max;
+        }
 
+        private static void Step(ref int x, ref int y, string step)
+        {
+            switch (step)
+            {
+                case "n":
+                    y++;
+                    break;
+                case "ne":
+                    x++;
+                    y++;
+                    break;
+                case "nw":
+                    x--;
+                    break;
+                case "s":
+                    y--;
+                    break;
+                case "se":
+                    x++;
+                    break;
+                case "sw":
+                    x--;
+                    y--;
+                    break;
+            }
+        }
+
+        private static int CalculateDistance(int x, int y)
+        {
+            return Math.Max(Math.Max(Math.Abs(x), Math.Abs(y)), Math.Abs((x - y) * -1));
         }
     }
 }
