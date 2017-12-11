@@ -41,7 +41,39 @@ namespace AdventOfCode2017.Day11
 
         public static int PartTwo(string[] steps)
         {
-            return 0;
+            int x = 0;
+            int y = 0;
+            int max = 0;
+            foreach (var step in steps)
+            {
+                switch (step)
+                {
+                    case "n":
+                        y++;
+                        break;
+                    case "ne":
+                        x++;
+                        y++;
+                        break;
+                    case "nw":
+                        x--;
+                        break;
+                    case "s":
+                        y--;
+                        break;
+                    case "se":
+                        x++;
+                        break;
+                    case "sw":
+                        x--;
+                        y--;
+                        break;
+                }
+                int d = Math.Max(Math.Max(Math.Abs(x), Math.Abs(y)), Math.Abs((x - y) * -1));
+                if (d > max) max = d;
+            }
+            return max;
+
         }
     }
 }
