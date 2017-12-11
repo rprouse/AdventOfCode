@@ -42,7 +42,7 @@ namespace AdventOfCode2017.Test
         async Task<int> NumberOfValidPasswords(Func<string, bool> test)
         {
             int valid = 0;
-            using (var reader = new StreamReader("Day4-1.txt"))
+            using (var reader = new StreamReader("Day04\\Day4-1.txt"))
             {
                 string passphrase = await reader.ReadLineAsync();
                 while (!string.IsNullOrWhiteSpace(passphrase))

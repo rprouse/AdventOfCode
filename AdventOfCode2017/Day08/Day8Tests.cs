@@ -19,24 +19,24 @@ namespace AdventOfCode2017.Test
             Assert.That(instr.ConditionalValue, Is.EqualTo(val));
         }
 
-        [TestCase("Day8Test.txt", 4)]
-        [TestCase("Day8.txt", 1000)]
+        [TestCase("Day08\\Day8Test.txt", 4)]
+        [TestCase("Day08\\Day8.txt", 1000)]
         public void CanReadInstructions(string filename, int expected)
         {
             var count = Day8.ReadInstructions(filename).Count();
             Assert.That(count, Is.EqualTo(expected));
         }
 
-        [TestCase("Day8Test.txt", 1)]
-        [TestCase("Day8.txt", 4902)]
+        [TestCase("Day08\\Day8Test.txt", 1)]
+        [TestCase("Day08\\Day8.txt", 4902)]
         public void CanRunProgram(string filename, int expected)
         {
             var registers = Day8.ReadInstructions(filename).RunProgram(out int max);
             Assert.That(registers.FindLargestRegister(), Is.EqualTo(expected));
         }
 
-        [TestCase("Day8Test.txt", 10)]
-        [TestCase("Day8.txt", 7037)]
+        [TestCase("Day08\\Day8Test.txt", 10)]
+        [TestCase("Day08\\Day8.txt", 7037)]
         public void CanFindHighestValue(string filename, int expected)
         {
             var registers = Day8.ReadInstructions(filename).RunProgram(out int max);

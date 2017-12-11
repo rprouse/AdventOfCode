@@ -5,14 +5,14 @@ namespace AdventOfCode2017.Test
 {
     public class Day9Tests
     {
-        [TestCase("Day9.txt", 12803)]
+        [TestCase("Day09\\Day9.txt", 12803)]
         public void FindSolution(string filename, int expected)
         {
             var str = Day9.ReadSomething(filename).First();
             Assert.That(str.ScoreGroups(), Is.EqualTo(expected));
         }
 
-        [TestCase("Day9.txt", 6425)]
+        [TestCase("Day09\\Day9.txt", 6425)]
         public void FindSolutionPartTwo(string filename, int expected)
         {
             var str = Day9.ReadSomething(filename).First();

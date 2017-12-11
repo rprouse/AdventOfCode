@@ -31,16 +31,16 @@ namespace AdventOfCode2017.Test
             Assert.That(program.ContainsChild(child), Is.EqualTo(expected));
         }
 
-        [TestCase("Day7Test.txt", 13)]
-        [TestCase("Day7.txt", 1083)]
+        [TestCase("Day07\\Day7Test.txt", 13)]
+        [TestCase("Day07\\Day7.txt", 1083)]
         public void CanReadPrograms(string filename, int expected)
         {
             var count = Day7.ReadPrograms(filename).Count();
             Assert.That(count, Is.EqualTo(expected));
         }
 
-        [TestCase("Day7Test.txt", "tknk")]
-        [TestCase("Day7.txt", "azqje")]
+        [TestCase("Day07\\Day7Test.txt", "tknk")]
+        [TestCase("Day07\\Day7.txt", "azqje")]
         public void CanFindRootProgram(string filename, string expected)
         {
             var programs = Day7.ReadPrograms(filename);
@@ -48,8 +48,8 @@ namespace AdventOfCode2017.Test
             Assert.That(root, Is.EqualTo(expected));
         }
 
-        [TestCase("Day7Test.txt", 60)]
-        [TestCase("Day7.txt", 646)]
+        [TestCase("Day07\\Day7Test.txt", 60)]
+        [TestCase("Day07\\Day7.txt", 646)]
         public void CanBalanceTower(string filename, int expected)
         {
             var programs = Day7.ReadPrograms(filename);

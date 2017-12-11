@@ -39,7 +39,7 @@ namespace AdventOfCode2017.Test
         async Task<int[]> ReadInstructions()
         {
             var instructions = new List<int>();
-            using (var reader = new StreamReader("Day5-1.txt"))
+            using (var reader = new StreamReader("Day05\\Day5-1.txt"))
             {
                 string instruction = await reader.ReadLineAsync();
                 while (!string.IsNullOrWhiteSpace(instruction))
