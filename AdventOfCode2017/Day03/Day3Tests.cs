@@ -2,7 +2,7 @@
 
 namespace AdventOfCode2017
 {
-    public class Day3Tests
+    public class Day03Tests
     {
         [TestCase(1, 0)]
         [TestCase(12, 3)]

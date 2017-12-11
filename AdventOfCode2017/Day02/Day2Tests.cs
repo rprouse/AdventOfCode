@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day2Tests
+    public class Day02Tests
     {
         [TestCaseSource(nameof(Day2ChecksumData))]
         public void TestChecksum(int[][] spreadsheet, int expected)

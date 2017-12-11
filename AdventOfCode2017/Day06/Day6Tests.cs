@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day6Tests
+    public class Day06Tests
     {
         [TestCaseSource(nameof(TestData))]
         public void TestReallocation(int[] blocks, int expected)

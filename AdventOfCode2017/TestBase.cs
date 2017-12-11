@@ -1,16 +1,9 @@
 ﻿namespace AdventOfCode2017
 {
-    public abstract class TestBase
+    public class TestBase
     {
-        private int _day;
+        public static string TestFile(int day) => $"Day{day}\\Test.txt";
 
-        public TestBase(int day)
-        {
-            _day = day;
-        }
-
-        public string TestFile => $"Day{_day}\\Test.txt";
-
-        public string PuzzleFile => $"Day{_day}\\Data.txt";
+        public static string PuzzleFile(int day) => $"Day{day}\\Data.txt";
     }
 }

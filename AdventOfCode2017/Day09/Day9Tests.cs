@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day9Tests
+    public class Day09Tests
     {
         [TestCase("Day09\\Day9.txt", 12803)]
         public void FindSolution(string filename, int expected)

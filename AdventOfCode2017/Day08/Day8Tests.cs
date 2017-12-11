@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day8Tests
+    public class Day08Tests
     {
         [TestCase("b inc 5 if a > 1", "b", 5, "a", ">", 1)]
         [TestCase("a inc 1 if b < 5", "a", 1, "b", "<", 5)]

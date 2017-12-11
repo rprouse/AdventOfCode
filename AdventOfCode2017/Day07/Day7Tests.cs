@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day7Tests
+    public class Day07Tests
     {
         [Test]
         public void CanParseWithChildren()

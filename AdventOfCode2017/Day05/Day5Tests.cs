@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day5Tests
+    public class Day05Tests
     {
         [Test]
         public void TestCountJumps()

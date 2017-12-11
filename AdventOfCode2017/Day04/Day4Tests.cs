@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day4Tests
+    public class Day04Tests
     {
         [TestCase("aa bb cc dd ee", true)]
         [TestCase("aa bb cc dd aa", false)]
