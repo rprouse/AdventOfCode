@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AdventOfCode2017
 {
@@ -17,5 +18,8 @@ namespace AdventOfCode2017
                 }
             }
         }
+
+        public static string ReadLine(string filename) =>
+            ReadLines(filename).First();
     }
 }
