@@ -4,36 +4,36 @@ using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
-    public class Day12Tests : TestBase
+    public class Day00Tests : TestBase
     {
-        const int DAY = 12;
+        const int DAY = 00;
 
         [Test]
         public void TestPartOne()
         {
             string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day12.PartOne(str), Is.EqualTo(0));
+            Assert.That(Day00.PartOne(str), Is.EqualTo(0));
         }
 
         [Test]
         public void TestPartTwo()
         {
             string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day12.PartTwo(str), Is.EqualTo(0));
+            Assert.That(Day00.PartTwo(str), Is.EqualTo(0));
         }
 
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
             string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day12.PartOne(str), Is.EqualTo(expected));
+            Assert.That(Day00.PartOne(str), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
             string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day12.PartTwo(str), Is.EqualTo(expected));
+            Assert.That(Day00.PartTwo(str), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()

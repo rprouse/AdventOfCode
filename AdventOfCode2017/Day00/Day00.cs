@@ -2,7 +2,7 @@
 
 namespace AdventOfCode2017
 {
-    public static class Day12
+    public static class Day00
     {
         public static int PartOne(string str)
         {
