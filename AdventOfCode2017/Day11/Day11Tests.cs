@@ -2,19 +2,21 @@
 
 namespace AdventOfCode2017.Day11
 {
-    public class Day11Tests
+    public class Day11Tests : TestBase
     {
+        public Day11Tests() : base(11) { }
+
         [Test] // 794
         public void TestPartOne()
         {
-            string[] steps = LineReader.SplitStrings("Day11\\Data.txt");
+            string[] steps = FileExtensions.SplitStrings(PuzzleFile);
             Assert.Pass(Day11.PartOne(steps).ToString());
         }
 
         [Test] // 1524
         public void TestPartTwo()
         {
-            string[] steps = LineReader.SplitStrings("Day11\\Data.txt");
+            string[] steps = FileExtensions.SplitStrings(PuzzleFile);
             Assert.Pass(Day11.PartTwo(steps).ToString());
         }
 

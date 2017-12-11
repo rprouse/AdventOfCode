@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -8,7 +9,7 @@ namespace AdventOfCode2017
     public static class Day7
     {
         public static IEnumerable<Program> ReadPrograms(string filename) =>
-            LineReader.ReadLines(filename).Select(l => new Program(l));
+            File.ReadLines(filename).Select(l => new Program(l));
 
         public static string FindRootProgram(this IEnumerable<Program> programs)
         {

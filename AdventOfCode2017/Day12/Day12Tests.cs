@@ -1,21 +1,24 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 
 namespace AdventOfCode2017.Day12
 {
-    public class Day12Tests
+    public class Day12Tests : TestBase
     {
+        public Day12Tests() : base(12) { }
+
         [Test]
         public void TestPartOne()
         {
-            string[] steps = LineReader.SplitStrings ("Day12\\Data.txt");
-            Assert.Pass(Day12.PartOne(steps).ToString());
+            string str = File.ReadAllText(PuzzleFile);
+            Assert.Pass(Day12.PartOne(str).ToString());
         }
 
         [Test]
         public void TestPartTwo()
         {
-            string[] steps = LineReader.SplitStrings("Day12\\Data.txt");
-            Assert.Pass(Day12.PartTwo(steps).ToString());
+            string str = File.ReadAllText(PuzzleFile);
+            Assert.Pass(Day12.PartTwo(str).ToString());
         }
     }
 }

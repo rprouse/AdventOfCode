@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -7,7 +8,7 @@ namespace AdventOfCode2017
     public static class Day8
     {
         public static IEnumerable<Instruction> ReadInstructions(string filename) =>
-            LineReader.ReadLines(filename).Select(l => new Instruction(l));
+            File.ReadLines(filename).Select(l => new Instruction(l));
 
         public static IDictionary<string, int> RunProgram(this IEnumerable<Instruction> instructions, out int max)
         {

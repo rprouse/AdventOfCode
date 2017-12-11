@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using NUnit.Framework;
 
 namespace AdventOfCode2017
@@ -8,14 +9,14 @@ namespace AdventOfCode2017
         [TestCase("Day09\\Day9.txt", 12803)]
         public void FindSolution(string filename, int expected)
         {
-            var str = Day9.ReadSomething(filename).First();
+            var str = File.ReadLines(filename).First();
             Assert.That(str.ScoreGroups(), Is.EqualTo(expected));
         }
 
         [TestCase("Day09\\Day9.txt", 6425)]
         public void FindSolutionPartTwo(string filename, int expected)
         {
-            var str = Day9.ReadSomething(filename).First();
+            var str = File.ReadLines(filename).First();
             Assert.That(str.CountGarbage(), Is.EqualTo(expected));
         }
 

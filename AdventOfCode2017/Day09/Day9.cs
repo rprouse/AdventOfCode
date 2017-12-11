@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace AdventOfCode2017
 {
     public static class Day9
     {
-        public static IEnumerable<string> ReadSomething(string filename) =>
-            LineReader.ReadLines(filename);
-
         public static int ScoreGroups(this string str)
         {
             var clean = str.StripGarbage();
