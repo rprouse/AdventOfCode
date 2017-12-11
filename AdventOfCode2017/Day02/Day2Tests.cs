@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using NUnit.Framework;
 
-namespace AdventOfCode2017.Test
+namespace AdventOfCode2017
 {
     public class Day2Tests
     {

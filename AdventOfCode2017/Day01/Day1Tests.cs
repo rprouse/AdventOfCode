@@ -1,7 +1,6 @@
-using AdventOfCode2017;
 using NUnit.Framework;
 
-namespace Tests
+namespace AdventOfCode2017
 {
     public class Day1Tests
     {

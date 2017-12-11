@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace AdventOfCode2017.Test
+namespace AdventOfCode2017
 {
     public class Day5Tests
     {

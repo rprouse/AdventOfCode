@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace AdventOfCode2017.Test
+namespace AdventOfCode2017
 {
     public class Day10Tests
     {
