@@ -40,5 +40,12 @@ namespace AdventOfCode2017.Test
             yield return new TestCaseData(new[] { 3, 4, 1, 5 }, 5, 12);
             yield return new TestCaseData(new[] { 76, 1, 88, 148, 166, 217, 130, 0, 128, 254, 16, 2, 130, 71, 255, 229 }, 256, 29240);
         }
+
+        // 4db3799145278dc9f73dcdbc680bd53d
+        [Test]
+        public void PartTwo()
+        {
+            Assert.Pass(Day10.PartTwo("76,1,88,148,166,217,130,0,128,254,16,2,130,71,255,229"));
+        }
     }
 }
