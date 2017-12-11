@@ -21,5 +21,16 @@ namespace AdventOfCode2017
 
         public static string ReadLine(string filename) =>
             ReadLines(filename).First();
+
+        public static int[] SplitInts(string filename) =>
+            SplitStrings(filename)
+            .Select(s => {
+                int.TryParse(s, out int x);
+                return x;
+            }).ToArray();
+
+        public static string[] SplitStrings(string filename) =>
+            ReadLine(filename)
+            .Split(',');
     }
 }

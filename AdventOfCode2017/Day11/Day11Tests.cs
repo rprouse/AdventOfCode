@@ -7,16 +7,14 @@ namespace AdventOfCode2017.Day11
         [Test] // 794
         public void TestPartOne()
         {
-            string line = LineReader.ReadLine("Day11\\Data.txt");
-            string[] steps = line.Split(',');
+            string[] steps = LineReader.SplitStrings("Day11\\Data.txt");
             Assert.Pass(Day11.PartOne(steps).ToString());
         }
 
         [Test] // 1524
         public void TestPartTwo()
         {
-            string line = LineReader.ReadLine("Day11\\Data.txt");
-            string[] steps = line.Split(',');
+            string[] steps = LineReader.SplitStrings("Day11\\Data.txt");
             Assert.Pass(Day11.PartTwo(steps).ToString());
         }
 
