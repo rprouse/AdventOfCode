@@ -8,20 +8,6 @@ namespace AdventOfCode2017
     {
         const int DAY = 12;
 
-        //[Test]
-        //public void TestPartOne()
-        //{
-        //    string str = File.ReadAllText(PuzzleFile(DAY));
-        //    Assert.That(Day12.PartOne(str), Is.EqualTo(0));
-        //}
-
-        //[Test]
-        //public void TestPartTwo()
-        //{
-        //    string str = File.ReadAllText(PuzzleFile(DAY));
-        //    Assert.That(Day12.PartTwo(str), Is.EqualTo(0));
-        //}
-
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
@@ -44,8 +30,8 @@ namespace AdventOfCode2017
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 2);
+            yield return new TestCaseData(PuzzleFile(DAY), 213);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2017
@@ -17,9 +16,8 @@ namespace AdventOfCode2017
 
             bool[] connected = new bool[dict.Count];
             for (int i = 0; i < dict.Count; i++)
-            {
                 connected[i] = false;
-            }
+
             var root = dict[0];
             FindConnected(dict, connected, root);
 
@@ -38,10 +36,36 @@ namespace AdventOfCode2017
             }
         }
 
-
         public static int PartTwo(IEnumerable<string> lines)
         {
-            return 0;
+            var programs = lines.Where(s => !string.IsNullOrWhiteSpace(s))
+                            .Select(s => new Day12Program(s));
+
+            var dict = new Dictionary<int, Day12Program>();
+            foreach (var program in programs)
+                dict.Add(program.Id, program);
+
+            int count = 0;
+
+            while (dict.Count > 0)
+            {
+                count++;
+                var root = dict[dict.Keys.First()];
+                CountConnected(dict, root);
+            }
+
+            return count;
+        }
+
+        private static void CountConnected(Dictionary<int, Day12Program> dict, Day12Program root)
+        {
+            var children = root.Connected.ToArray();
+            dict.Remove(root.Id);
+            foreach (var id in children.Where(id => dict.ContainsKey(id)))
+            {
+                var child = dict[id];
+                CountConnected(dict, child);
+            }
         }
     }
 
