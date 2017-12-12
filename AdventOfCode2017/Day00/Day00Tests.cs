@@ -25,14 +25,14 @@ namespace AdventOfCode2017
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
-            string str = File.ReadAllText(PuzzleFile(DAY));
+            string str = File.ReadAllText(filename);
             Assert.That(Day00.PartOne(str), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
-            string str = File.ReadAllText(PuzzleFile(DAY));
+            string str = File.ReadAllText(filename);
             Assert.That(Day00.PartTwo(str), Is.EqualTo(expected));
         }
 
