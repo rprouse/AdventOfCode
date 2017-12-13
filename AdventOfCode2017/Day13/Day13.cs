@@ -17,9 +17,7 @@ namespace AdventOfCode2017
             while(true)
             {
                 if (Clear(layers, delay++))
-                    return delay -1;
-
-                //if (delay > 15) return -1;
+                    return delay - 1;
             }
         }
 

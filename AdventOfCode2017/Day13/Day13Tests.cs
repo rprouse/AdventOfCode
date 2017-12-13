@@ -45,7 +45,7 @@ namespace AdventOfCode2017
         public static IEnumerable TestDataTwo()
         {
             yield return new TestCaseData(TestFile(DAY), 10);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 3897604);
         }
     }
 }
