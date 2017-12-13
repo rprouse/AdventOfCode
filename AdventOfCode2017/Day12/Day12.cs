@@ -15,8 +15,6 @@ namespace AdventOfCode2017
                 dict.Add(program.Id, program);
 
             bool[] connected = new bool[dict.Count];
-            for (int i = 0; i < dict.Count; i++)
-                connected[i] = false;
 
             var root = dict[0];
             FindConnected(dict, connected, root);
