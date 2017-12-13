@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2017
@@ -21,15 +19,15 @@ namespace AdventOfCode2017
             }
         }
 
-        static bool Clear(Layer[] layers, int delay)
+        static bool Clear(Layer[] layers, int delay) =>
+            Enumerable.Range(0, 100)
+                .All(depth => layers.IsLayerOpen(delay, depth));
+
+        private static bool IsLayerOpen(this Layer[] layers, int delay, int depth)
         {
-            for (int depth = 0; depth < 100; depth++)
-            {
-                var layer = layers.GetLayer(depth);
-                if (layer != null && !layer.Open(delay + depth))
-                    return false;
-            }
-            return true;
+            var layer = layers.GetLayer(depth);
+            if (layer == null) return true;
+            return layer.Open(delay + depth);
         }
 
         static Layer GetLayer(this Layer[] layers, int depth) =>
@@ -39,8 +37,6 @@ namespace AdventOfCode2017
             input.Where(s => !string.IsNullOrWhiteSpace(s))
                  .Select(s => new Layer(s))
                  .ToArray();
-
-
 
         class Layer
         {
@@ -56,11 +52,11 @@ namespace AdventOfCode2017
                 Range = range;
             }
 
-            public int Cost() =>
-                 Depth % (2 * (Range - 1)) == 0 ? Depth * Range : 0;
+            public int Cost() => !OpenAtDepth(Depth) ? Depth * Range : 0;
 
-            public bool Open(int delay) =>
-                 (delay) % (2 * (Range - 1)) != 0;
+            public bool Open(int delay) => OpenAtDepth(delay);
+
+            private bool OpenAtDepth(int depth) => depth % (2 * (Range - 1)) != 0;
         }
     }
 }
