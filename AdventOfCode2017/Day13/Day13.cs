@@ -26,8 +26,7 @@ namespace AdventOfCode2017
         private static bool IsLayerOpen(this Layer[] layers, int delay, int depth)
         {
             var layer = layers.GetLayer(depth);
-            if (layer == null) return true;
-            return layer.Open(delay + depth);
+            return layer == null || layer.Open(delay + depth);
         }
 
         static Layer GetLayer(this Layer[] layers, int depth) =>
