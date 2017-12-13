@@ -8,6 +8,20 @@ namespace AdventOfCode2017
     {
         const int DAY = 13;
 
+        [TestCase(0, true)]
+        [TestCase(1, false)]
+        [TestCase(2, false)]
+        [TestCase(3, false)]
+        [TestCase(4, false)]
+        [TestCase(5, false)]
+        [TestCase(6, true)]
+        [TestCase(7, false)]
+        public void TestTheorum(int step, bool expected)
+        {
+            var actual = step % (2 * 4 - 2) == 0;
+            Assert.AreEqual(actual, expected);
+        }
+
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
