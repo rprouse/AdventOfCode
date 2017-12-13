@@ -18,7 +18,7 @@ namespace AdventOfCode2017
         [TestCase(7, false)]
         public void TestTheorum(int step, bool expected)
         {
-            var actual = step % (2 * 4 - 2) == 0;
+            var actual = step % ((4-1) * 2) == 0;
             Assert.AreEqual(actual, expected);
         }
 
