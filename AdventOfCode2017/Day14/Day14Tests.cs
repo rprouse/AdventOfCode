@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
@@ -15,13 +13,12 @@ namespace AdventOfCode2017
             Assert.That(Day14.PartOne(hash), Is.EqualTo(expected));
         }
 
-        [TestCase("flqrgnkx", 8108)]
-        [TestCase("hwlqcszp", 0)]
+        [TestCase("flqrgnkx", 1242)]
+        [TestCase("hwlqcszp", 1018)]
         public void TestPartTwo(string hash, int expected)
         {
             Assert.That(Day14.PartTwo(hash), Is.EqualTo(expected));
         }
-
 
         [TestCase("00", 0)]
         [TestCase("01", 1)]
