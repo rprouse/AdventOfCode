@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
@@ -15,9 +16,9 @@ namespace AdventOfCode2017
 
         [TestCase("flqrgnkx", 1242)]
         [TestCase("hwlqcszp", 1018)]
-        public void TestPartTwo(string hash, int expected)
+        public async Task TestPartTwo(string hash, int expected)
         {
-            Assert.That(Day14.PartTwo(hash), Is.EqualTo(expected));
+            Assert.That(await Day14.PartTwo(hash), Is.EqualTo(expected));
         }
 
         [TestCase("00", 0)]
