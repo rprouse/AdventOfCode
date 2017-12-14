@@ -8,44 +8,29 @@ namespace AdventOfCode2017
     {
         const int DAY = 14;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase("flqrgnkx", 8108)]
+        [TestCase("hwlqcszp", 8304)]
+        public void TestPartOne(string hash, int expected)
         {
-            string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day14.PartOne(str), Is.EqualTo(0));
+            Assert.That(Day14.PartOne(hash), Is.EqualTo(expected));
         }
 
-        [Test]
-        public void TestPartTwo()
+        [TestCase("flqrgnkx", 8108)]
+        [TestCase("hwlqcszp", 0)]
+        public void TestPartTwo(string hash, int expected)
         {
-            string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day14.PartTwo(str), Is.EqualTo(0));
+            Assert.That(Day14.PartTwo(hash), Is.EqualTo(expected));
         }
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            string str = File.ReadAllText(filename);
-            Assert.That(Day14.PartOne(str), Is.EqualTo(expected));
-        }
 
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        [TestCase("00", 0)]
+        [TestCase("01", 1)]
+        [TestCase("0e", 3)]
+        [TestCase("0f", 4)]
+        [TestCase("a0c20170", 9)]
+        public void CanCountBits(string hash, int expected)
         {
-            string str = File.ReadAllText(filename);
-            Assert.That(Day14.PartTwo(str), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Assert.That(Day14.CountBits(hash), Is.EqualTo(expected));
         }
     }
 }
