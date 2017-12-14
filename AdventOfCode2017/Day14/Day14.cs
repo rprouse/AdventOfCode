@@ -52,6 +52,7 @@ namespace AdventOfCode2017
             var count = await CountGroups(grid);
             if(Visualize)
             {
+                Console.ResetColor();
                 Console.SetCursorPosition(0, 129);
                 Console.WriteLine(count);
             }
