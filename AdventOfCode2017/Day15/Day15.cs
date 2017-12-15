@@ -10,27 +10,29 @@ namespace AdventOfCode2017
         const int FACTOR_A = 16807;
         const int FACTOR_B = 48271;
         const long DIVISOR = 2147483647;
-        const int ITERATIONS = 40000000;
+        const int ITERATIONS_A = 40000000;
+        const int ITERATIONS_B = 5000000;
 
-        public static int PartOne(int seedA, int seedB, int iterations = ITERATIONS)
+        delegate void ActionRef(ref int arg1, ref int arg2);
+
+        public static int PartOne(int seedA, int seedB, int iterations = ITERATIONS_A) =>
+            Generator(seedA, seedB, iterations, (ref int a, ref int b) => {
+                a = Generate(a, FACTOR_A);
+                b = Generate(b, FACTOR_B);
+            });
+
+        public static int PartTwo(int seedA, int seedB) =>
+            Generator(seedA, seedB, ITERATIONS_B, (ref int a, ref int b) => {
+                a = GenerateWithCriteria(a, FACTOR_A, 4);
+                b = GenerateWithCriteria(b, FACTOR_B, 8);
+            });
+
+        static int Generator(int seedA, int seedB, int iterations, ActionRef generate)
         {
             int count = 0;
-            for(int i = 0; i < iterations; i++)
+            for (int i = 0; i < iterations; i++)
             {
-                seedA = Generate(seedA, FACTOR_A);
-                seedB = Generate(seedB, FACTOR_B);
-                if (LowerBitsMatch(seedA, seedB)) count++;
-            }
-            return count;
-        }
-
-        public static int PartTwo(int seedA, int seedB)
-        {
-            int count = 0;
-            for (int i = 0; i < 5000000; i++)
-            {
-                seedA = GenerateWithCriteria(seedA, FACTOR_A, 4);
-                seedB = GenerateWithCriteria(seedB, FACTOR_B, 8);
+                generate(ref seedA, ref seedB);
                 if (LowerBitsMatch(seedA, seedB)) count++;
             }
             return count;
