@@ -26,7 +26,14 @@ namespace AdventOfCode2017
 
         public static int PartTwo(int seedA, int seedB)
         {
-            return 0;
+            int count = 0;
+            for (int i = 0; i < 5000000; i++)
+            {
+                seedA = GenerateWithCriteria(seedA, FACTOR_A, 4);
+                seedB = GenerateWithCriteria(seedB, FACTOR_B, 8);
+                if (LowerBitsMatch(seedA, seedB)) count++;
+            }
+            return count;
         }
 
         public static int Generate(long seed, long multiplier) =>
@@ -34,5 +41,15 @@ namespace AdventOfCode2017
 
         public static bool LowerBitsMatch(int a, int b) =>
             (a & 0xFFFF) == (b & 0xFFFF);
+
+        public static int GenerateWithCriteria(int seed, int multiplier, int divisor)
+        {
+            do
+            {
+                seed = Generate(seed, multiplier);
+            }
+            while (seed % divisor != 0);
+            return seed;
+        }
     }
 }

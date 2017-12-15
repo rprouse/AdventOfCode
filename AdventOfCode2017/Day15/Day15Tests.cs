@@ -21,8 +21,8 @@ namespace AdventOfCode2017
             Assert.That(Day15.PartOne(65, 8921, 5), Is.EqualTo(1));
         }
 
-        [TestCase(65, 8921, 0)]
-        [TestCase(873, 583, 0)]
+        [TestCase(65, 8921, 309)]
+        [TestCase(873, 583, 279)]
         public void TestPartTwo(int seedA, int seedB, int expected)
         {
             Assert.That(Day15.PartTwo(seedA, seedB), Is.EqualTo(expected));
