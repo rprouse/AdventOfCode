@@ -10,34 +10,55 @@ namespace AdventOfCode2017
         public static string PartOne(string str)
         {
             string[] dance = str.Trim().Split(",");
-            string programs = Create(16);
-            foreach(string step in dance)
+            char[] programs = Create(16);
+
+            return new string(Dance(programs, dance));
+        }
+
+        public static string PartTwo(string str)
+        {
+            string[] dance = str.Trim().Split(",");
+            char[] first = Create(16);
+            char[] programs = Create(16);
+            int i = 0;
+            while(true)
             {
-                switch(step[0])
+                i++;
+                Dance(programs, dance);
+                if (Enumerable.SequenceEqual(first, programs)) break;
+            }
+            foreach(var x in Enumerable.Range(0, 1000000000 % i))
+            {
+                Dance(programs, dance);
+            }
+
+            return new string(programs);
+        }
+
+        private static char[] Dance(char[] programs, string[] dance)
+        {
+            foreach (string step in dance)
+            {
+                switch (step[0])
                 {
                     case 's':
-                        programs = programs.Spin(ParseSpin(step));
+                        programs.Spin(ParseSpin(step));
                         break;
                     case 'x':
                         var ex = ParseExchange(step);
-                        programs = programs.Exchange(ex.a, ex.b);
+                        programs.Exchange(ex.a, ex.b);
                         break;
                     case 'p':
                         var pr = ParsePartner(step);
-                        programs = programs.Partner(pr.a, pr.b);
+                        programs.Partner(pr.a, pr.b);
                         break;
                 }
             }
             return programs;
         }
 
-        public static int PartTwo(string str)
-        {
-            return 0;
-        }
-
-        public static string Create(int length) =>
-            new string(Enumerable.Range('a', length).Select(i => (char)i).ToArray());
+        public static char[] Create(int length) =>
+            Enumerable.Range('a', length).Select(i => (char)i).ToArray();
 
         public static int ParseSpin(string spin)
         {
@@ -62,19 +83,28 @@ namespace AdventOfCode2017
             return (split[0][0], split[1][0]);
         }
 
-        public static string Spin(this string programs, int x) =>
-            programs.Substring(programs.Length - x) + programs.Substring(0, programs.Length - x);
+        static char[] first = new char[16];
+        static char[] second = new char[16];
+        static int len;
 
-        public static string Exchange(this string programs, int a, int b)
+        public static void Spin(this char[] programs, int x)
         {
-            char[] array = programs.ToArray();
-            char cA = array[a];
-            array[a] = array[b];
-            array[b] = cA;
-            return new string(array);
+            len = programs.Length - x;
+            Array.Copy(programs, first, len);
+            Array.Copy(programs, len, second, 0, x);
+            Array.Copy(second, programs, x);
+            Array.Copy(first, 0, programs, x, len);
         }
 
-        public static string Partner(this string programs, char a, char b) =>
-            programs.Exchange(programs.IndexOf(a), programs.IndexOf(b));
+        static char cA;
+        public static void Exchange(this char[] programs, int a, int b)
+        {
+            cA = programs[a];
+            programs[a] = programs[b];
+            programs[b] = cA;
+        }
+
+        public static void Partner(this char[] programs, char a, char b) =>
+            programs.Exchange(Array.IndexOf(programs, a), Array.IndexOf(programs,b));
     }
 }

@@ -19,25 +19,31 @@ namespace AdventOfCode2017
         public void TestPartTwo()
         {
             string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day16.PartTwo(str), Is.EqualTo(0));
+            Assert.That(Day16.PartTwo(str), Is.EqualTo("gjmiofcnaehpdlbk"));
         }
 
         [Test]
         public void CanSpin()
         {
-            Assert.That("abcde".Spin(1), Is.EqualTo("eabcd"));
+            char[] array = "abcde".ToCharArray();
+            array.Spin(1);
+            Assert.That(array, Is.EqualTo("eabcd".ToCharArray()));
         }
 
         [Test]
         public void CanExchange()
         {
-            Assert.That("eabcd".Exchange(3, 4), Is.EqualTo("eabdc"));
+            char[] array = "eabcd".ToCharArray();
+            array.Exchange(3, 4);
+            Assert.That(array, Is.EqualTo("eabdc".ToCharArray()));
         }
 
         [Test]
         public void CanPartner()
         {
-            Assert.That("eabdc".Partner('e', 'b'), Is.EqualTo("baedc"));
+            char[] array = "eabdc".ToCharArray();
+            array.Partner('e', 'b');
+            Assert.That(array, Is.EqualTo("baedc".ToCharArray()));
         }
 
         //[TestCaseSource(nameof(TestDataOne))]
