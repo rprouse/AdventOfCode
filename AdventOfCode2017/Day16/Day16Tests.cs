@@ -12,7 +12,7 @@ namespace AdventOfCode2017
         public void TestPartOne()
         {
             string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day16.PartOne(str), Is.EqualTo(0));
+            Assert.That(Day16.PartOne(str), Is.EqualTo("cgpfhdnambekjiol"));
         }
 
         [Test]
@@ -22,30 +22,48 @@ namespace AdventOfCode2017
             Assert.That(Day16.PartTwo(str), Is.EqualTo(0));
         }
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        [Test]
+        public void CanSpin()
         {
-            string str = File.ReadAllText(filename);
-            Assert.That(Day16.PartOne(str), Is.EqualTo(expected));
+            Assert.That("abcde".Spin(1), Is.EqualTo("eabcd"));
         }
 
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        [Test]
+        public void CanExchange()
         {
-            string str = File.ReadAllText(filename);
-            Assert.That(Day16.PartTwo(str), Is.EqualTo(expected));
+            Assert.That("eabcd".Exchange(3, 4), Is.EqualTo("eabdc"));
         }
 
-        public static IEnumerable TestDataOne()
+        [Test]
+        public void CanPartner()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Assert.That("eabdc".Partner('e', 'b'), Is.EqualTo("baedc"));
         }
 
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
+        //[TestCaseSource(nameof(TestDataOne))]
+        //public void TestPartOne(string filename, int expected)
+        //{
+        //    string str = File.ReadAllText(filename);
+        //    Assert.That(Day16.PartOne(str), Is.EqualTo(expected));
+        //}
+
+        //[TestCaseSource(nameof(TestDataTwo))]
+        //public void TestPartTwo(string filename, int expected)
+        //{
+        //    string str = File.ReadAllText(filename);
+        //    Assert.That(Day16.PartTwo(str), Is.EqualTo(expected));
+        //}
+
+        //public static IEnumerable TestDataOne()
+        //{
+        //    yield return new TestCaseData(TestFile(DAY), 0);
+        //    yield return new TestCaseData(PuzzleFile(DAY), 0);
+        //}
+
+        //public static IEnumerable TestDataTwo()
+        //{
+        //    yield return new TestCaseData(TestFile(DAY), 0);
+        //    yield return new TestCaseData(PuzzleFile(DAY), 0);
+        //}
     }
 }
