@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace AdventOfCode2017
 {
@@ -23,7 +21,7 @@ namespace AdventOfCode2017
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day17.PartTwo(343), Is.EqualTo(0));
+            Assert.That(Day17.PartTwo(343), Is.EqualTo(41797835));
         }
     }
 }
