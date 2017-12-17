@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NUnit.Framework;
+
+[assembly:Parallelizable(ParallelScope.All)]
 
 namespace AdventOfCode2017
 {
