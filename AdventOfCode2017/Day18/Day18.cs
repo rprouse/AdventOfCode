@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,56 +8,12 @@ namespace AdventOfCode2017
     {
         public static long PartOne(string[] program)
         {
-            int ptr = 0;
-            long frq = 0;
-            var registers = new Dictionary<char, long>();
-            while (ptr >= 0 && ptr < program.Length && !string.IsNullOrWhiteSpace(program[ptr]))
-            {
-                string instr = program[ptr];
-                char reg = instr[4];
-                long val = 0;
-                if (instr.Length > 6)
-                {
-                    string valStr = instr.Substring(6);
-                    if (!long.TryParse(valStr, out val))
-                    {
-                        if (registers.ContainsKey(valStr[0]))
-                            val = registers[valStr[0]];
-                    }
-                }
-                if (!registers.ContainsKey(reg))
-                    registers.Add(reg, 0);
-
-                switch (instr.Substring(0, 3))
-                {
-                    case "snd":
-                        frq = registers[reg];
-                        break;
-                    case "set":
-                        registers[reg] = val;
-                        break;
-                    case "add":
-                        registers[reg] = registers[reg] + val;
-                        break;
-                    case "mul":
-                        registers[reg] = registers[reg] * val;
-                        break;
-                    case "mod":
-                        registers[reg] = registers[reg] % val;
-                        break;
-                    case "rcv":
-                        return frq;   // Jump out of the program
-                    case "jgz":
-                        if (registers[reg] > 0)
-                        {
-                            ptr += (int)val;
-                            continue;
-                        }
-                        break;
-                }
-                ptr++;
-            }
-            return frq;
+            var zero = new Program(0, program);
+            zero.RecvQueue = new Queue<long>();
+            zero.Run();
+            while (zero.SendQueue.Count() > 1)
+                zero.SendQueue.Dequeue();
+            return zero.SendQueue.Dequeue();
         }
 
         public static long PartTwo(string[] program)
@@ -78,16 +33,11 @@ namespace AdventOfCode2017
 
         public class Program
         {
-            internal long _ptr = 0;
-            internal IDictionary<char, long> _registers = new Dictionary<char, long>();
-            internal string[] _program;
+            long _ptr = 0;
+            IDictionary<char, long> _registers = new Dictionary<char, long>();
+            string[] _program;
 
             public int SendCount { get; private set; }
-
-            /// <summary>
-            /// Blocked in a RCV
-            /// </summary>
-            public bool Blocked { get; private set; }
 
             public Queue<long> SendQueue { get; } = new Queue<long>();
             public Queue<long> RecvQueue { get; set; }
