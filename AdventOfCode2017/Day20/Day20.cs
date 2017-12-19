@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace AdventOfCode2017
 {
-    public static class Day00
+    public static class Day20
     {
         public static int PartOne(string filename)
         {
