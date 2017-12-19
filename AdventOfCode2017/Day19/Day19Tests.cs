@@ -8,44 +8,28 @@ namespace AdventOfCode2017
     {
         const int DAY = 19;
 
-        [Test]
-        public void TestPartOne()
-        {
-            string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day19.PartOne(str), Is.EqualTo(0));
-        }
-
-        [Test]
-        public void TestPartTwo()
-        {
-            string str = File.ReadAllText(PuzzleFile(DAY));
-            Assert.That(Day19.PartTwo(str), Is.EqualTo(0));
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        public void TestPartOne(string filename, string expected)
         {
-            string str = File.ReadAllText(filename);
-            Assert.That(Day19.PartOne(str), Is.EqualTo(expected));
+            Assert.That(Day19.PartOne(filename), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(string filename, string expected)
         {
-            string str = File.ReadAllText(filename);
-            Assert.That(Day19.PartTwo(str), Is.EqualTo(expected));
+            Assert.That(Day19.PartTwo(filename), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), "ABCDEF");
+            yield return new TestCaseData(PuzzleFile(DAY), "KGPTMEJVS");
         }
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), "");
+            yield return new TestCaseData(PuzzleFile(DAY), "");
         }
     }
 }
