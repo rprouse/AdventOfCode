@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.IO;
 using NUnit.Framework;
 
 namespace AdventOfCode2017
@@ -15,7 +14,7 @@ namespace AdventOfCode2017
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, string expected)
+        public void TestPartTwo(string filename, int expected)
         {
             Assert.That(Day19.PartTwo(filename), Is.EqualTo(expected));
         }
@@ -28,8 +27,8 @@ namespace AdventOfCode2017
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), "");
-            yield return new TestCaseData(PuzzleFile(DAY), "");
+            yield return new TestCaseData(TestFile(DAY), 38);
+            yield return new TestCaseData(PuzzleFile(DAY), 16328);
         }
     }
 }

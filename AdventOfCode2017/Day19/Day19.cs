@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace AdventOfCode2017
@@ -11,36 +8,43 @@ namespace AdventOfCode2017
     {
         public static string PartOne(string filename)
         {
+            return WalkRoute(filename).route;
+        }
+
+        public static int PartTwo(string filename)
+        {
+            return WalkRoute(filename).steps;
+        }
+
+        public static (string route, int steps) WalkRoute(string filename)
+        {
             var board = File.ReadAllLines(filename);
             int x = FindStart(board);
             int y = 1;
+            int steps = 1;
             int xDir = 0;
             int yDir = 1;
             var path = new StringBuilder();
-            while(x > 0 && y > 0 && x < board[0].Length && y < board.Length && board[y][x] != ' ')
+            while (x > 0 && y > 0 && x < board[0].Length && y < board.Length && board[y][x] != ' ')
             {
                 //Print(x, y, xDir, yDir, board);
-                switch(board[y][x])
+                switch (board[y][x])
                 {
                     case '|':
                     case '-':
                         break;
                     case '+':
                         (xDir, yDir) = NewDirection(x, y, xDir, yDir, board);
-                        break; 
+                        break;
                     default:
                         path.Append(board[y][x]);
                         break;
                 }
                 x += xDir;
                 y += yDir;
+                steps++;
             }
-            return path.ToString();
-        }
-
-        public static string PartTwo(string filename)
-        {
-            return "";
+            return (path.ToString(), steps);
         }
 
         static int FindStart(string[] board) => board[0].IndexOf('|');
