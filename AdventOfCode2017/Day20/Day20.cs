@@ -9,9 +9,21 @@ namespace AdventOfCode2017
 {
     public static class Day20
     {
+        public static int PartOneBruteForce(string filename)
+        {
+            // Brute force
+            Particle.FirstId = 0;
+            var particles = GetParticles(filename).ToList();
+            foreach(int i in Enumerable.Range(0, 500))
+                particles.MoveAll();
+
+            var minDist = particles.Min(p => p.P.Distance);
+            return particles.First(p => p.P.Distance == minDist).Id;
+        }
+
         public static int PartOne(string filename)
         {
-            // Incorrect solution, but it works for the real data, not the test data :(
+            // A nearly correct solution. Works on the given data
             Particle.FirstId = 0;
             var particle = GetParticles(filename)
                 .OrderBy(p => p.A.Distance)
@@ -27,24 +39,31 @@ namespace AdventOfCode2017
             var particles = GetParticles(filename).ToList();
             // Number of steps without collisions
             int noCollisions = 0;
-            while (noCollisions < 500)
+            while (noCollisions < 100)
             {
                 // Step
-                foreach (var p in particles)
-                    p.Move();
+                particles.MoveAll();
 
                 // Remove duplicates
                 bool collided = false;
                 var collisions = particles.GetCollisions();
-                while (collisions.Count() > 0)
+                if (collisions.Count() > 0)
                 {
                     collided = true;
-                    particles.RemoveAll(p => collisions.Any(c => c == p.Position));
-                    collisions = particles.GetCollisions();
+                }
+                foreach (var c in collisions)
+                {
+                    particles.RemoveAll(p => c == p.Position);
                 }
                 if (!collided) noCollisions++;
             }
             return particles.Count;
+        }
+
+        public static void MoveAll(this IEnumerable<Particle> particles)
+        {
+            foreach (var p in particles)
+                p.Move();
         }
 
         public static IEnumerable<Particle> GetParticles(string filename) =>

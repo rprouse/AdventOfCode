@@ -22,14 +22,14 @@ namespace AdventOfCode2017
 
         public static IEnumerable TestDataOne()
         {
-            //yield return new TestCaseData(TestFile(DAY), 1);
+            yield return new TestCaseData(TestFile(DAY), 0);
             yield return new TestCaseData(PuzzleFile(DAY), 300);
         }
 
         public static IEnumerable TestDataTwo()
         {
             yield return new TestCaseData($"Day{DAY:00}\\Test2.txt", 1);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 502);
         }
     }
 }
