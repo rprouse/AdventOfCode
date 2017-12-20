@@ -94,21 +94,10 @@ namespace AdventOfCode2017
                 P.X += V.X;
                 P.Y += V.Y;
                 P.Z += V.Z;
-                long d = Distance;
-                MovingAway = d > _lastDistance;
-                _lastDistance = d;
-                return d;
+                return P.Distance;
             }
 
             public string Position => P.ToString();
-
-            public bool CollidesWith(Particle p) => Id != p.Id && P.Equals(p.P);
-
-            public bool MovingAway { get; private set; }
-
-            public long Distance => P.Distance;
-
-            long _lastDistance = long.MaxValue;
         }
 
         public class Point3D
@@ -125,8 +114,6 @@ namespace AdventOfCode2017
             public long Z { get; set; }
 
             public long Distance => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
-
-            public bool Equals(Point3D p) => p != null && X == p.X && Y == p.Y && Z == p.Z;
 
             public override string ToString() => $"{X},{Y},{Z}";
         }
