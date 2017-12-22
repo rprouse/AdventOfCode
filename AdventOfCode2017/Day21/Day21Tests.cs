@@ -16,7 +16,7 @@ namespace AdventOfCode2017
         }
 
         [Test]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo()
         {
             Assert.That(Day21.PartOne(PuzzleFile(DAY), 18), Is.EqualTo(0));
         }
