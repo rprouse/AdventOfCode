@@ -15,22 +15,16 @@ namespace AdventOfCode2017
             Assert.That(Day21.PartOne(filename, iterations), Is.EqualTo(expected));
         }
 
-        [TestCaseSource(nameof(TestDataTwo))]
+        [Test]
         public void TestPartTwo(string filename, int expected)
         {
-            Assert.That(Day21.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day21.PartOne(PuzzleFile(DAY), 18), Is.EqualTo(0));
         }
 
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(TestFile(DAY), 2, 12);
-            yield return new TestCaseData(PuzzleFile(DAY), 5, 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 5, 190);
         }
 
         [Test]
@@ -47,11 +41,14 @@ namespace AdventOfCode2017
             Assert.That(actual, Is.EqualTo(".#./#../###"));
         }
 
-        [Test]
-        public void CanRotate()
+        [TestCase(".#./..#/###", "#../#.#/##.")]
+        [TestCase("#../#.#/##.", "###/#../.#.")]
+        [TestCase("###/#../.#.", ".##/#.#/..#")]
+        [TestCase(".##/#.#/..#", ".#./..#/###")]
+        public void CanRotate(string start, string expected)
         {
-            var actual = Day21.START_IMAGE.Rotate();
-            Assert.That(actual, Is.EqualTo("#../#.#/##."));
+            var actual = start.Rotate();
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(MatrixChildren))]
@@ -60,8 +57,8 @@ namespace AdventOfCode2017
             Assert.That(matrix.BreakupMatrix().ToArray(), Is.EqualTo(children));
         }
 
-        [TestCaseSource(nameof(MatrixChildren))]
-        public void CanJoinMatrixes(string matrix, string[] children)
+        [TestCaseSource(nameof(ChildrenMatrix))]
+        public void CanJoinMatrixes(string[] children, string matrix)
         {
             Assert.That(children.JoinMatrixes(), Is.EqualTo(matrix));
         }
@@ -70,6 +67,14 @@ namespace AdventOfCode2017
         {
             yield return new TestCaseData("###/..#/.#.", new[] { "###/..#/.#." });
             yield return new TestCaseData("####/..##/.#.#/..##", new[] { "##/..", "##/##", ".#/..", ".#/##" });
+            yield return new TestCaseData("##.##./#..#../....../##.##./#..#../......", new[] { "##/#.", ".#/.#", "#./..", "../##", "../.#", "../#.", "#./..", ".#/..", "../.."});
+        }
+
+        public static IEnumerable ChildrenMatrix()
+        {
+            yield return new TestCaseData(new[] { "###/..#/.#." }, "###/..#/.#.");
+            yield return new TestCaseData(new[] { "##/..", "##/##", ".#/..", ".#/##" }, "####/..##/.#.#/..##");
+            yield return new TestCaseData(new[] { "##./#../...", "##./#../...", "##./#../...", "##./#../..." }, "##.##./#..#../....../##.##./#..#../......");
         }
     }
 }
