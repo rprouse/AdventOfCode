@@ -8,16 +8,36 @@ namespace AdventOfCode2017
     {
         const int DAY = 22;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase(Day22.Direction.Up, true, Day22.Direction.Right)]
+        [TestCase(Day22.Direction.Up, false, Day22.Direction.Left)]
+        [TestCase(Day22.Direction.Right, true, Day22.Direction.Down)]
+        [TestCase(Day22.Direction.Right, false, Day22.Direction.Up)]
+        [TestCase(Day22.Direction.Down, true, Day22.Direction.Left)]
+        [TestCase(Day22.Direction.Down, false, Day22.Direction.Right)]
+        [TestCase(Day22.Direction.Left, true, Day22.Direction.Up)]
+        [TestCase(Day22.Direction.Left, false, Day22.Direction.Down)]
+        public void CanTurn(Day22.Direction start, bool infected, Day22.Direction expected)
         {
-            Assert.That(Day22.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            var virus = new Day22.Virus(new string[] { "...", "...", "..." });
+            if (infected) virus.Infect();
+            virus._dir = start;
+            virus.Turn();
+            Assert.That(virus._dir, Is.EqualTo(expected));
         }
 
         [Test]
-        public void TestPartTwo()
+        public void CanReadBoard()
         {
-            Assert.That(Day22.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            var virus = new Day22.Virus(new string[] { "###", ".#.", "..." });
+            Assert.That(virus._nodes["-1,1"], Is.True);
+            Assert.That(virus._nodes["0,1"], Is.True);
+            Assert.That(virus._nodes["1,1"], Is.True);
+            Assert.That(virus._nodes["-1,0"], Is.False);
+            Assert.That(virus._nodes["0,0"], Is.True);
+            Assert.That(virus._nodes["1,0"], Is.False);
+            Assert.That(virus._nodes["-1,-1"], Is.False);
+            Assert.That(virus._nodes["0,-1"], Is.False);
+            Assert.That(virus._nodes["1,-1"], Is.False);
         }
 
         [TestCaseSource(nameof(TestDataOne))]
@@ -34,7 +54,7 @@ namespace AdventOfCode2017
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 5587);
             yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 
