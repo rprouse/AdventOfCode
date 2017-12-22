@@ -18,12 +18,18 @@ namespace AdventOfCode2017
         public static int PartTwo(string filename)
         {
             string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            return 0;
+            var virus = new Virus(lines);
+            return virus.Run2();
         }
 
         public class Virus
         {
-            internal Dictionary<string, bool> _nodes = new Dictionary<string, bool>();
+            const char CLEAN = 'c';
+            const char INFECTED = 'i';
+            const char WEAKENED = 'w';
+            const char FLAGGED = 'f'
+;
+            internal Dictionary<string, char> _nodes = new Dictionary<string, char>();
             int _x = 0;
             int _y = 0;
             internal Direction _dir = Direction.Up;
@@ -37,7 +43,7 @@ namespace AdventOfCode2017
                 foreach(var line in lines)
                 {
                     for (int x = 0; x < line.Length; x++)
-                        _nodes[Position(x - mid, y)] = line[x] == '#';
+                        _nodes[Position(x - mid, y)] = line[x] == '#' ? INFECTED : CLEAN;
                     y--;
                 }
             }
@@ -51,6 +57,15 @@ namespace AdventOfCode2017
                 return NumInfected;
             }
 
+            public int Run2()
+            {
+                foreach (int i in Enumerable.Range(0, 10000000))
+                {
+                    Burst2();
+                }
+                return NumInfected;
+            }
+
             public void Burst()
             {
                 Turn();
@@ -58,12 +73,22 @@ namespace AdventOfCode2017
                 Move();
             }
 
+            public void Burst2()
+            {
+                Turn();
+                Infect2();
+                Move();
+            }
+
             public void Turn()
             {
-                if(_nodes[Position()]) 
-                    TurnRight();
-                else
+                char status = _nodes[Position()];
+                if (status == CLEAN)
                     TurnLeft();
+                else if (status == INFECTED)
+                    TurnRight();
+                else if (status == FLAGGED)
+                    TurnAround();
             }
 
             void TurnRight()
@@ -104,11 +129,52 @@ namespace AdventOfCode2017
                 }
             }
 
+            void TurnAround()
+            {
+                switch (_dir)
+                {
+                    case Direction.Up:
+                        _dir = Direction.Down;
+                        break;
+                    case Direction.Right:
+                        _dir = Direction.Left;
+                        break;
+                    case Direction.Down:
+                        _dir = Direction.Up;
+                        break;
+                    case Direction.Left:
+                        _dir = Direction.Right;
+                        break;
+                }
+            }
+
             public void Infect()
             {
-                bool infected = !_nodes[Position()];
-                if (infected) NumInfected++;
+                char infected = _nodes[Position()] == CLEAN ? INFECTED : CLEAN;
+                if (infected == INFECTED) NumInfected++;
                 _nodes[Position()] = infected;
+            }
+
+            public void Infect2()
+            {
+                char status = _nodes[Position()];
+                if(status == CLEAN)
+                {
+                    _nodes[Position()] = WEAKENED;
+                }
+                else if(status == WEAKENED)
+                {
+                    _nodes[Position()] = INFECTED;
+                    NumInfected++;
+                }
+                else if (status == INFECTED)
+                {
+                    _nodes[Position()] = FLAGGED;
+                }
+                else
+                {
+                    _nodes[Position()] = CLEAN;
+                }
             }
 
             public void Move()
@@ -129,7 +195,7 @@ namespace AdventOfCode2017
                         break;
                 }
                 if (!_nodes.ContainsKey(Position()))
-                    _nodes[Position()] = false;
+                    _nodes[Position()] = CLEAN;
             }
 
             string Position() => Position(_x, _y);

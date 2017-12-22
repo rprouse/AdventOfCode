@@ -29,15 +29,15 @@ namespace AdventOfCode2017
         public void CanReadBoard()
         {
             var virus = new Day22.Virus(new string[] { "###", ".#.", "..." });
-            Assert.That(virus._nodes["-1,1"], Is.True);
-            Assert.That(virus._nodes["0,1"], Is.True);
-            Assert.That(virus._nodes["1,1"], Is.True);
-            Assert.That(virus._nodes["-1,0"], Is.False);
-            Assert.That(virus._nodes["0,0"], Is.True);
-            Assert.That(virus._nodes["1,0"], Is.False);
-            Assert.That(virus._nodes["-1,-1"], Is.False);
-            Assert.That(virus._nodes["0,-1"], Is.False);
-            Assert.That(virus._nodes["1,-1"], Is.False);
+            Assert.That(virus._nodes["-1,1"], Is.EqualTo('i'));
+            Assert.That(virus._nodes["0,1"], Is.EqualTo('i'));
+            Assert.That(virus._nodes["1,1"], Is.EqualTo('i'));
+            Assert.That(virus._nodes["-1,0"], Is.EqualTo('c'));
+            Assert.That(virus._nodes["0,0"], Is.EqualTo('i'));
+            Assert.That(virus._nodes["1,0"], Is.EqualTo('c'));
+            Assert.That(virus._nodes["-1,-1"], Is.EqualTo('c'));
+            Assert.That(virus._nodes["0,-1"], Is.EqualTo('c'));
+            Assert.That(virus._nodes["1,-1"], Is.EqualTo('c'));
         }
 
         [TestCaseSource(nameof(TestDataOne))]
@@ -46,6 +46,7 @@ namespace AdventOfCode2017
             Assert.That(Day22.PartOne(filename), Is.EqualTo(expected));
         }
 
+        [Ignore("Works, but slow")]
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
@@ -60,8 +61,8 @@ namespace AdventOfCode2017
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 2511944);
+            yield return new TestCaseData(PuzzleFile(DAY), 2511456);
         }
     }
 }
