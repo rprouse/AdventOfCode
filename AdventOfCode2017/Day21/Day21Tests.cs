@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
@@ -18,37 +17,13 @@ namespace AdventOfCode2017
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day21.PartOne(PuzzleFile(DAY), 18), Is.EqualTo(0));
+            Assert.That(Day21.PartOne(PuzzleFile(DAY), 18), Is.EqualTo(2335049));
         }
 
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(TestFile(DAY), 2, 12);
             yield return new TestCaseData(PuzzleFile(DAY), 5, 190);
-        }
-
-        [Test]
-        public void CanFlipVertically()
-        {
-            var actual = Day21.START_IMAGE.FlipV();
-            Assert.That(actual, Is.EqualTo("###/..#/.#."));
-        }
-
-        [Test]
-        public void CanFlipHorizontally()
-        {
-            var actual = Day21.START_IMAGE.FlipH();
-            Assert.That(actual, Is.EqualTo(".#./#../###"));
-        }
-
-        [TestCase(".#./..#/###", "#../#.#/##.")]
-        [TestCase("#../#.#/##.", "###/#../.#.")]
-        [TestCase("###/#../.#.", ".##/#.#/..#")]
-        [TestCase(".##/#.#/..#", ".#./..#/###")]
-        public void CanRotate(string start, string expected)
-        {
-            var actual = start.Rotate();
-            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(MatrixChildren))]

@@ -8,13 +8,11 @@ namespace AdventOfCode2017
 {
     public static class Day21
     {
-        public const string START_IMAGE = ".#./..#/###";
-
         public static int PartOne(string filename, int iterations)
         {
-            var rules = GetRules(filename);
-            var matrix = START_IMAGE;
-            for (int i = 0; i < iterations; i++)
+            var rules = AddTransformationsToRules(GetRules(filename));
+            var matrix = ".#./..#/###";
+            foreach (int i in Enumerable.Range(0, iterations))
             {
                 matrix = matrix.Transform(rules);
             }
@@ -27,57 +25,37 @@ namespace AdventOfCode2017
                 .Select(s => s.Split(" => "))
                 .ToDictionary(s => s[0], s => s[1]);
 
+        public static Dictionary<string, string> AddTransformationsToRules(Dictionary<string, string> rules)
+        {
+            var copy = new Dictionary<string, string>(rules.Count*5);
+            foreach (var pair in rules)
+            {
+                string group = pair.Key;
+                copy[group] = pair.Value;
+                foreach (int i in Enumerable.Range(0, 4))
+                {
+                    group = Symmetric(group);
+                    copy[group] = pair.Value;
+
+                    group = Flip(group);
+                    copy[group] = pair.Value;
+                }
+            }
+            return copy;
+        }
+
         public static string Transform(this string matrix, Dictionary<string, string> rules) =>
             matrix.BreakupMatrix()
-                  .Select(g => g.ApplyTransformation(rules))
+                  .Select(g => rules[g])
                   .JoinMatrixes();
 
-        public static string ApplyTransformation(this string group, Dictionary<string, string> rules)
-        {
-            if (rules.ContainsKey(group)) return rules[group];
+        public static string Symmetric(string m) =>
+            m.Length == 11 ? $"{m[0]}{m[4]}{m[8]}/{m[1]}{m[5]}{m[9]}/{m[2]}{m[6]}{m[10]}" :
+                             $"{m[0]}{m[3]}/{m[1]}{m[4]}";
 
-            group = Symmetric(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            group = Flip(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            group = Symmetric(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            group = Flip(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            group = Symmetric(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            group = Flip(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            group = Symmetric(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            group = Flip(group);
-            if (rules.ContainsKey(group)) return rules[group];
-
-            throw new ArgumentException($"Rule not found for group {group}");
-        }
-
-        public static string Symmetric(string m)
-        {
-            if (m.Length == 11) // 3
-                return $"{m[0]}{m[4]}{m[8]}/{m[1]}{m[5]}{m[9]}/{m[2]}{m[6]}{m[10]}";
-            else
-                return $"{m[0]}{m[3]}/{m[1]}{m[4]}";
-        }
-
-        public static string Flip(string m)
-        {
-            if (m.Length == 11) // 3
-                return $"{m[8]}{m[9]}{m[10]}/{m[4]}{m[5]}{m[6]}/{m[0]}{m[1]}{m[2]}";
-            else
-                return $"{m[3]}{m[4]}/{m[0]}{m[1]}";
-        }
+        public static string Flip(string m) =>
+            m.Length == 11 ? $"{m[8]}{m[9]}{m[10]}/{m[4]}{m[5]}{m[6]}/{m[0]}{m[1]}{m[2]}" :
+                             $"{m[3]}{m[4]}/{m[0]}{m[1]}";
 
         public static IEnumerable<string> BreakupMatrix(this string matrix)
         {
@@ -112,53 +90,9 @@ namespace AdventOfCode2017
                 {
                     sb.Append(groups[(y / divisor) * (size/divisor) + x / divisor][y % divisor][x % divisor]);
                 }
-                if (y != size - 1)
-                    sb.Append('/');
+                if (y != size - 1) sb.Append('/');
             }
             return sb.ToString();
-        }
-
-        public static string FlipV(this string matrix)
-        {
-            string[] rows = matrix.Split('/');
-            string[] ret = new string[rows.Length];
-            for (int i = 0; i < rows.Length; i++)
-            {
-                ret[rows.Length - i - 1] = rows[i];
-            }
-            return string.Join('/', ret);
-        }
-
-        public static string FlipH(this string matrix)
-        {
-            string[] rows = matrix.Split('/');
-            string[] ret = new string[rows.Length];
-            for (int i = 0; i < rows.Length; i++)
-            {
-                var row = new StringBuilder(rows.Length);
-                for (int j = 0; j < rows.Length; j++)
-                {
-                    row.Append(rows[i][rows.Length - j - 1]);
-                }
-                ret[i] = row.ToString();
-            }
-            return string.Join('/', ret);
-        }
-
-        public static string Rotate(this string matrix)
-        {
-            string[] rows = matrix.Split('/');
-            string[] ret = new string[rows.Length];
-            for (int i = 0; i < rows.Length; i++)
-            {
-                var row = new StringBuilder(rows.Length);
-                for (int j = 0; j < rows.Length; j++)
-                {
-                    row.Append(rows[rows.Length - j - 1][i]);
-                }
-                ret[i] = row.ToString();
-            }
-            return string.Join('/', ret);
         }
     }
 }
