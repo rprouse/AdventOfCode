@@ -28,10 +28,12 @@ namespace AdventOfCode2017
             int _y = 0;
             internal Direction _dir = Direction.Up;
 
+            public int NumInfected { get; set; }
+
             public Virus(string[] lines)
             {
                 int mid = lines.Length / 2;
-                int y = 1;
+                int y = mid;
                 foreach(var line in lines)
                 {
                     for (int x = 0; x < line.Length; x++)
@@ -42,32 +44,26 @@ namespace AdventOfCode2017
 
             public int Run(int iterations)
             {
-                int count = 0;
                 foreach(int i in Enumerable.Range(0, iterations))
                 {
-                    if (Burst()) count++;
+                    Burst();
                 }
-                return count;
+                return NumInfected;
             }
 
-            public bool Burst()
+            public void Burst()
             {
                 Turn();
-                bool infected = Infect();
+                Infect();
                 Move();
-                return infected;
             }
 
             public void Turn()
             {
                 if(_nodes[Position()]) 
-                {
                     TurnRight();
-                }
                 else
-                {
                     TurnLeft();
-                }
             }
 
             void TurnRight()
@@ -108,11 +104,11 @@ namespace AdventOfCode2017
                 }
             }
 
-            public bool Infect()
+            public void Infect()
             {
                 bool infected = !_nodes[Position()];
+                if (infected) NumInfected++;
                 _nodes[Position()] = infected;
-                return infected;
             }
 
             public void Move()
