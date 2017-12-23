@@ -13,8 +13,8 @@ namespace AdventOfCode2017
         {
             //Day14.Visualize = true;
             //await Day14.PartTwo("hwlqcszp");
-            
-            Day19.PartOne("Day19\\Data.txt");
+
+            Day23.PartOne("Day23\\Data.txt");
 
             Console.ResetColor();
             Console.ReadLine();
