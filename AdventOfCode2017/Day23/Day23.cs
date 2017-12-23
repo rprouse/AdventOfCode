@@ -21,16 +21,40 @@ namespace AdventOfCode2017
             return new Program(lines);
         }
 
-        public static int PartTwo(string filename)
+        public static long PartTwo(string filename)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            return 0;
+
+            int g = 0, h = 0;
+            int b = 106700;
+            int c = b + 17000;
+            do
+            {
+                bool f = false; // 9
+
+                // 12
+                for (int d = 2; d * d <= b; d++)
+                {
+                    if (b % d == 0)
+                    {
+                        f = true;  // Not prime
+                        break;
+                    }
+                }
+
+                // 25
+                if (f) h++;
+
+                g = b - c; // 27, 28
+                b += 17;   // 31
+            }
+            while (g != 0);
+            return h;
         }
 
         public class Program
         {
             long _ptr = 0;
-            IDictionary<char, long> _registers = new Dictionary<char, long>();
+            public IDictionary<char, long> Registers { get; } = new Dictionary<char, long>();
             string[] _program;
 
             public int MulCount { get; private set; }
@@ -53,8 +77,8 @@ namespace AdventOfCode2017
                 {
                     var instr = _program[_ptr].Split(' ');
                     char reg = instr[1][0];
-                    if (!_registers.ContainsKey(reg))
-                        _registers.Add(reg, 0);
+                    if (!Registers.ContainsKey(reg))
+                        Registers.Add(reg, 0);
 
                     long val = instr.Length == 3 ? Value(instr[2]) : 0;
 
@@ -63,27 +87,27 @@ namespace AdventOfCode2017
                     switch (instr[0])
                     {
                         case "snd":
-                            SendQueue.Enqueue(_registers[reg]);
+                            SendQueue.Enqueue(Registers[reg]);
                             break;
                         case "rcv":
                             if (RecvQueue.Count == 0) return true;
-                            _registers[reg] = RecvQueue.Dequeue();
+                            Registers[reg] = RecvQueue.Dequeue();
                             break;
                         case "set":
-                            _registers[reg] = val;
+                            Registers[reg] = val;
                             break;
                         case "add":
-                            _registers[reg] += val;
+                            Registers[reg] += val;
                             break;
                         case "sub":
-                            _registers[reg] -= val;
+                            Registers[reg] -= val;
                             break;
                         case "mul":
-                            _registers[reg] *= val;
+                            Registers[reg] *= val;
                             MulCount++;
                             break;
                         case "mod":
-                            _registers[reg] %= val;
+                            Registers[reg] %= val;
                             break;
                         case "jgz":
                             if (Value(instr[1]) > 0)
@@ -109,9 +133,9 @@ namespace AdventOfCode2017
             {
                 long val = 0;
                 if (!long.TryParse(register, out val) &&
-                    _registers.ContainsKey(register[0]))
+                    Registers.ContainsKey(register[0]))
                 {
-                    val = _registers[register[0]];
+                    val = Registers[register[0]];
                 }
                 return val;
             }
@@ -125,10 +149,10 @@ namespace AdventOfCode2017
                     Console.Write(_program[i]);
                     Console.ResetColor();
 
-                    if (i < _registers.Count)
+                    if (i < Registers.Count)
                     {
                         Console.CursorLeft = 20;
-                        Console.Write($"{_registers.Keys.ElementAt(i)}:{_registers.Values.ElementAt(i)}");
+                        Console.Write($"{Registers.Keys.ElementAt(i)}:{Registers.Values.ElementAt(i)}");
                     }
 
                     Console.WriteLine();
