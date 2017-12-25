@@ -8,20 +8,27 @@ namespace AdventOfCode2017
 {
     public static class Day24
     {
+        static int maxDepth = 0;
+        static int maxStrengthAtDepth = 0;
+
         public static int PartOne(string filename)
         {
             var parts = GetParts(filename);
-            return BuildBridge(parts, 0, 0);
+            return BuildBridge(parts);
         }
 
         public static int PartTwo(string filename)
         {
             var parts = GetParts(filename);
-            return 0;
+            maxDepth = 0;
+            maxStrengthAtDepth = 0;
+            BuildBridge(parts);
+            return maxStrengthAtDepth;
         }
 
-        static int BuildBridge(List<Part> parts, int strength, int port)
+        static int BuildBridge(List<Part> parts, int strength = 0, int depth = 0, int port = 0)
         {
+            depth++;
             int maxStrength = strength;
             foreach (var part in parts.Where(p => p.Matches(port)))
             {
@@ -29,11 +36,41 @@ namespace AdventOfCode2017
                 // Remove part
                 copy.Remove(part);
                 // Recurse
-                var newStrength = BuildBridge(copy, strength + part.P1 + part.P2, part.OtherPort(port));
+                var newStrength = BuildBridge(copy, strength + part.P1 + part.P2, depth, part.OtherPort(port));
                 if (newStrength > maxStrength)
                     maxStrength = newStrength;
             }
+            if(depth > maxDepth)
+            {
+                maxStrengthAtDepth = maxStrength;
+                maxDepth = depth;
+            } else if (depth == maxDepth && maxStrength > maxStrengthAtDepth)
+            {
+                maxStrengthAtDepth = maxStrength;
+            }
             return maxStrength;
+        }
+
+        static (int strength, int depth) BuildBridge2(List<Part> parts, int strength, int depth, int port)
+        {
+            int maxDepth = depth++;
+            int maxStrength = strength;
+            foreach (var part in parts.Where(p => p.Matches(port)))
+            {
+                var copy = new List<Part>(parts);
+                // Remove part
+                copy.Remove(part);
+                // Recurse
+                (var newStrength, var newDepth) = BuildBridge2(copy, strength + part.P1 + part.P2, depth, part.OtherPort(port));
+                if (newDepth > maxDepth)
+                {
+                    maxDepth = newDepth;
+                    maxStrength = newStrength;
+                }
+                else if (newStrength > maxStrength)
+                    maxStrength = newStrength;
+            }
+            return (maxStrength, maxDepth);
         }
 
         public static List<Part> GetParts(string filename) =>
