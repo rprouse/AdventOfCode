@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -51,28 +49,6 @@ namespace AdventOfCode2017
             return maxStrength;
         }
 
-        static (int strength, int depth) BuildBridge2(List<Part> parts, int strength, int depth, int port)
-        {
-            int maxDepth = depth++;
-            int maxStrength = strength;
-            foreach (var part in parts.Where(p => p.Matches(port)))
-            {
-                var copy = new List<Part>(parts);
-                // Remove part
-                copy.Remove(part);
-                // Recurse
-                (var newStrength, var newDepth) = BuildBridge2(copy, strength + part.P1 + part.P2, depth, part.OtherPort(port));
-                if (newDepth > maxDepth)
-                {
-                    maxDepth = newDepth;
-                    maxStrength = newStrength;
-                }
-                else if (newStrength > maxStrength)
-                    maxStrength = newStrength;
-            }
-            return (maxStrength, maxDepth);
-        }
-
         public static List<Part> GetParts(string filename) =>
             File.ReadAllLines(filename)
                 .Where(s => !string.IsNullOrWhiteSpace(s))
@@ -93,12 +69,6 @@ namespace AdventOfCode2017
                 int p2 = 0;
                 int.TryParse(ports[1], out p2);
                 P2 = p2;
-            }
-
-            public Part(Part other)
-            {
-                P1 = other.P1;
-                P2 = other.P2;
             }
 
             public bool Matches(int port) => P1 == port || P2 == port;
