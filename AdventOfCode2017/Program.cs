@@ -11,13 +11,15 @@ namespace AdventOfCode2017
     {
         public static async Task Main()
         {
-            //Day14.Visualize = true;
-            //await Day14.PartTwo("hwlqcszp");
+            Day14.Visualize = true;
+            await Day14.PartTwo("hwlqcszp");
 
-            Day23.PartOne("Day23\\Data.txt");
+            //Day23.PartOne("Day23\\Data.txt");
 
             Console.ResetColor();
             Console.ReadLine();
+
+            await Task.FromResult(false);
         }
     }
 }

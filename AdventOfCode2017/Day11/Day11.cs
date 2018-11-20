@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdventOfCode2017.Day11
+namespace AdventOfCode2017
 {
     public static class Day11
     {

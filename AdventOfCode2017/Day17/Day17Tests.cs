@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using AdventOfCode.Core;
+using NUnit.Framework;
 
 namespace AdventOfCode2017
 {

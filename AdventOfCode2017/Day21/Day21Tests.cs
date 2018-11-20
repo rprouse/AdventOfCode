@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using AdventOfCode.Core;
 using NUnit.Framework;
 
 namespace AdventOfCode2017

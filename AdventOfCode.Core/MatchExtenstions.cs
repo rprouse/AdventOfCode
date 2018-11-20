@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace AdventOfCode2017
+namespace AdventOfCode.Core
 {
     public static class MatchExtenstions
     {

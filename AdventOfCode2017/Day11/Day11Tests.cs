@@ -1,6 +1,7 @@
-﻿using NUnit.Framework;
+﻿using AdventOfCode.Core;
+using NUnit.Framework;
 
-namespace AdventOfCode2017.Day11
+namespace AdventOfCode2017
 {
     public class Day11Tests : TestBase
     {

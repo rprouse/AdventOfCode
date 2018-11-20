@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2017
+namespace AdventOfCode.Core
 {
     public static class FileExtensions
     {
