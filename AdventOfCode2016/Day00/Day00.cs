@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using AdventOfCode.Core;
 
 namespace AdventOfCode2016
 {

@@ -6,17 +6,22 @@ namespace AdventOfCode.Core
 {
     public static class FileExtensions
     {
-        public static int[] SplitInts(string filename) =>
+        public static int[] SplitInts(this string filename) =>
             SplitStrings(filename)
             .Select(s => {
                 int.TryParse(s, out int x);
                 return x;
             }).ToArray();
 
-        public static string[] SplitStrings(string filename) =>
+        public static string[] SplitStrings(this string filename) =>
+            filename
+            .ReadFirstLine()
+            .Split(',');
+
+        public static string ReadFirstLine(this string filename) =>
             File.ReadLines(filename)
             .First()
-            .Trim()
-            .Split(',');
+            .Trim();
+
     }
 }
