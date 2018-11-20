@@ -10,15 +10,11 @@ namespace AdventOfCode2016
     {
         static string keys = "123456789ABCD";
 
-        public static string PartOne(string filename)
-        {
-            return Solve(filename, Move1);
-        }
+        public static string PartOne(string filename) =>
+            Solve(filename, Move1);
 
-        public static string PartTwo(string filename)
-        {
-            return Solve(filename, Move2);
-        }
+        public static string PartTwo(string filename) =>
+            Solve(filename, Move2);
 
         private static string Solve(string filename, Func<char, int, int> move)
         {

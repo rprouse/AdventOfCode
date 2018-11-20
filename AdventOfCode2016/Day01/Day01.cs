@@ -91,16 +91,10 @@ namespace AdventOfCode2016
             }
         }
 
-        public static int PartOne(string theWalk)
-        {
-            var day = new Day01();
-            return day.Walk(theWalk);
-        }
+        public static int PartOne(string theWalk) => 
+            new Day01().Walk(theWalk);
 
-        public static int PartTwo(string theWalk)
-        {
-            var day = new Day01();
-            return day.FullWalk(theWalk);
-        }
+        public static int PartTwo(string theWalk) =>
+            new Day01().FullWalk(theWalk);
     }
 }
