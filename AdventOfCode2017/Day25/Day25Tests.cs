@@ -14,22 +14,10 @@ namespace AdventOfCode2017
             Assert.That(Day25.PartOne(filename), Is.EqualTo(expected));
         }
 
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day25.PartTwo(filename), Is.EqualTo(expected));
-        }
-
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(TestFile(DAY), 3);
             yield return new TestCaseData(PuzzleFile(DAY), 4769);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }
