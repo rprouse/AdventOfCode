@@ -15,16 +15,10 @@ namespace AdventOfCode2016
             Assert.That(Day01.PartOne(walk), Is.EqualTo(expected));
         }
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day01.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(string walk, int expected)
         {
-            Assert.That(Day01.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day01.PartTwo(walk), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()
@@ -37,8 +31,8 @@ namespace AdventOfCode2016
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData("R8, R4, R4, R8", 4);
+            yield return new TestCaseData(PuzzleFile(DAY).ReadFirstLine(), 110);
         }
     }
 }
