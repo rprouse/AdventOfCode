@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NUnit.Framework;
+
+[assembly: Parallelizable(ParallelScope.Fixtures)]
 
 namespace AdventOfCode2016
 {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-[assembly:Parallelizable(ParallelScope.All)]
+[assembly:Parallelizable(ParallelScope.Fixtures)]
 
 namespace AdventOfCode2017
 {
