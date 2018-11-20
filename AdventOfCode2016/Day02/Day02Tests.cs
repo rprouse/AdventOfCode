@@ -5,38 +5,32 @@ using NUnit.Framework;
 
 namespace AdventOfCode2016
 {
-    public class Day00Tests : TestBase
+    public class Day02Tests : TestBase
     {
-        const int DAY = 00;
-
-        [Test]
-        public void TestPartOne()
-        {
-            Assert.That(Day00.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
+        const int DAY = 02;
 
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day00.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day02.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
         }
 
         [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        public void TestPartOne(string filename, string expected)
         {
-            Assert.That(Day00.PartOne(filename), Is.EqualTo(expected));
+            Assert.That(Day02.PartOne(filename), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
-            Assert.That(Day00.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day02.PartTwo(filename), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), "1985");
+            yield return new TestCaseData(PuzzleFile(DAY), "53255");
         }
 
         public static IEnumerable TestDataTwo()
