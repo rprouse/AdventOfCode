@@ -22,7 +22,20 @@ namespace AdventOfCode2016
         public static int PartTwo(string filename)
         {
             string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            return 0;
+            int valid = 0;
+            for (int i = 0; i < lines.Length - 2; i += 3)
+            {
+                (int a1, int b1, int c1) = ParseTriangle(lines[i]);
+                (int a2, int b2, int c2) = ParseTriangle(lines[i+1]);
+                (int a3, int b3, int c3) = ParseTriangle(lines[i+2]);
+                if (IsValidTriangle(a1, a2, a3))
+                    valid++;
+                if (IsValidTriangle(b1, b2, b3))
+                    valid++;
+                if (IsValidTriangle(c1, c2, c3))
+                    valid++;
+            }
+            return valid;
         }
 
         public static (int, int, int) ParseTriangle(string input)
