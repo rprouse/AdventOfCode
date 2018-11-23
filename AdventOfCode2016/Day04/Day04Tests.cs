@@ -54,7 +54,7 @@ namespace AdventOfCode2016
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day04.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day04.PartTwo(PuzzleFile(DAY)), Is.EqualTo(993));
         }
     }
 }
