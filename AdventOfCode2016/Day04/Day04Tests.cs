@@ -16,7 +16,7 @@ namespace AdventOfCode2016
         public void CanParseRooms(string code, string name, int sector, string checksum)
         {
             var day = new Day04(code);
-            Assert.That(day.Name, Is.EqualTo(name));
+            Assert.That(day.Encrypted, Is.EqualTo(name));
             Assert.That(day.Sector, Is.EqualTo(sector));
             Assert.That(day.Checksum, Is.EqualTo(checksum));
         }
@@ -40,6 +40,12 @@ namespace AdventOfCode2016
         }
 
         [Test]
+        public void CanDecryptName()
+        {
+            Assert.That(Day04.Decrypt("qzmt-zixmtkozy-ivhz", 343), Is.EqualTo("very encrypted name"));
+        }
+
+        [Test]
         public void TestPartOne()
         {
             Assert.That(Day04.PartOne(PuzzleFile(DAY)), Is.EqualTo(158835));
@@ -49,18 +55,6 @@ namespace AdventOfCode2016
         public void TestPartTwo()
         {
             Assert.That(Day04.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day04.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }

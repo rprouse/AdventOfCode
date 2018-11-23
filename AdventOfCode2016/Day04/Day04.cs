@@ -11,18 +11,23 @@ namespace AdventOfCode2016
     {
         public static int PartOne(string filename)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            return lines.Select(l => new Day04(l)).Where(r => r.RealRoom).Sum(r => r.Sector);
+            return RealRooms(filename).Sum(r => r.Sector);
         }
 
         public static int PartTwo(string filename)
         {
+            return RealRooms(filename).Where(r => r.Name.Contains("north")).Select(r => r.Sector).FirstOrDefault();
+        }
+
+        static IEnumerable<Day04> RealRooms(string filename)
+        {
             string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            return 0;
+            return lines.Select(l => new Day04(l)).Where(r => r.RealRoom);
         }
 
         int _sector;
 
+        public string Encrypted { get; }
         public string Name { get; }
         public int Sector => _sector;
         public string Checksum { get; }
@@ -30,12 +35,13 @@ namespace AdventOfCode2016
 
         public Day04(string code)
         {
-            Name = code.Substring(0, code.Length - 11);
+            Encrypted = code.Substring(0, code.Length - 11);
             Checksum = code.Substring(code.Length - 6, 5);
             string sector = code.Substring(code.Length - 10, 3);
             int.TryParse(sector, out _sector);
 
-            RealRoom = Checksum == CalculateChecksum(Name);
+            RealRoom = Checksum == CalculateChecksum(Encrypted);
+            Name = Decrypt(Encrypted, Sector);
         }
 
         internal static string CalculateChecksum(string name)
@@ -67,6 +73,22 @@ namespace AdventOfCode2016
                 counts[maxc] = 0;
             }
             return new string(r);
+        }
+
+        internal static string Decrypt(string encrypted, int sector)
+        {
+            // char 'a' is 97
+            var decrypted = new char[encrypted.Length];
+            for(int i = 0; i < encrypted.Length; i++)
+            {
+                if (encrypted[i] == '-')
+                    decrypted[i] = ' ';
+                else
+                {
+                    decrypted[i] = (char)(((encrypted[i] - 96 + sector) % 26) + 96);
+                }
+            }
+            return new string(decrypted);
         }
     }
 }
