@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -8,13 +9,13 @@ namespace AdventOfCode2018
     {
         public static int PartOne(string filename)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            string[] lines = filename.ReadAllLines();
             return 0;
         }
 
         public static int PartTwo(string filename)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            string[] lines = filename.ReadAllLines();
             return 0;
         }
     }

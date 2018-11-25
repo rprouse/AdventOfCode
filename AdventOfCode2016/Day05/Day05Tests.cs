@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2016
 {
-    [Explicit("These take about a minute to run")]
+    [Ignore("These take about a minute to run")]
     [Parallelizable(ParallelScope.All)]
     public class Day05Tests : TestBase
     {

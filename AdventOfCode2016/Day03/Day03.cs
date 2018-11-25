@@ -8,7 +8,7 @@ namespace AdventOfCode2016
     {
         public static int PartOne(string filename)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            string[] lines = filename.ReadAllLines();
             int valid = 0;
             foreach(var line in lines)
             {
@@ -21,7 +21,7 @@ namespace AdventOfCode2016
 
         public static int PartTwo(string filename)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            string[] lines = filename.ReadAllLines();
             int valid = 0;
             for (int i = 0; i < lines.Length - 2; i += 3)
             {

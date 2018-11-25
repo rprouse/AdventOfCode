@@ -18,7 +18,7 @@ namespace AdventOfCode2016
 
         private static string Solve(string filename, Func<char, int, int> move)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            string[] lines = filename.ReadAllLines();
             var sb = new StringBuilder(lines.Length);
             int key = 5;
 

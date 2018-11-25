@@ -8,20 +8,23 @@ namespace AdventOfCode.Core
     {
         public static int[] SplitInts(this string filename) =>
             SplitStrings(filename)
-            .Select(s => {
-                int.TryParse(s, out int x);
-                return x;
-            }).ToArray();
+                .Select(s => {
+                    int.TryParse(s, out int x);
+                    return x;
+                }).ToArray();
 
         public static string[] SplitStrings(this string filename) =>
-            filename
-            .ReadFirstLine()
-            .Split(',');
+            filename.ReadFirstLine()
+                .Split(',');
 
         public static string ReadFirstLine(this string filename) =>
             File.ReadLines(filename)
-            .First()
-            .Trim();
+                .First()
+                .Trim();
 
+        public static string[] ReadAllLines(this string filename) =>
+            File.ReadAllLines(filename)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToArray();
     }
 }

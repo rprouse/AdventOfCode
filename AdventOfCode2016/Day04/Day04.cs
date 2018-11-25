@@ -21,7 +21,7 @@ namespace AdventOfCode2016
 
         static IEnumerable<Day04> RealRooms(string filename)
         {
-            string[] lines = File.ReadAllLines(filename).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            string[] lines = filename.ReadAllLines();
             return lines.Select(l => new Day04(l)).Where(r => r.RealRoom);
         }
 
