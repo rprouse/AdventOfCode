@@ -16,9 +16,9 @@ namespace AdventOfCode2016
         }
 
         [Test]
-        public void TestPartTwo()
+        public void CanFindLeastCommonChar()
         {
-            Assert.That(Day06.PartTwo(PuzzleFile(DAY)), Is.EqualTo(""));
+            Assert.That(Day06.LeastCommonChar(TestFile(DAY).ReadAllLines(), 0), Is.EqualTo('a'));
         }
 
         [TestCaseSource(nameof(TestDataOne))]
@@ -41,8 +41,8 @@ namespace AdventOfCode2016
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), "");
-            yield return new TestCaseData(PuzzleFile(DAY), "");
+            yield return new TestCaseData(TestFile(DAY), "advent");
+            yield return new TestCaseData(PuzzleFile(DAY), "lragovly");
         }
     }
 }
