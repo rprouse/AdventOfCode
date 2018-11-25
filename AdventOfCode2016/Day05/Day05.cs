@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -30,7 +32,32 @@ namespace AdventOfCode2016
 
         public static string PartTwo(string door)
         {
-            return "";
+            char[] r = new char[8];
+            using (var md5 = MD5.Create())
+            {
+                Longs()
+                    .Select(i => {
+                        byte[] inputBytes = Encoding.ASCII.GetBytes($"{door}{i}");
+                        byte[] hashBytes = md5.ComputeHash(inputBytes);
+                        if (hashBytes[0] == 0 && hashBytes[1] == 0 && hashBytes[2] <= 0x07 && r[hashBytes[2]] == 0x0)
+                        {
+                            // Icky side effects, shield your eyes ;P
+                            r[hashBytes[2]] = hashBytes[3].ToString("x2")[0];
+                            return true;
+                        }
+                        else
+                            return false;
+                    })
+                    .Where(b => b)
+                    .Take(8)
+                    .ToArray();
+            }
+            return new string(r);
+        }
+
+        static IEnumerable<long> Longs()
+        {
+            for (long l = 0; l <= long.MaxValue; l++) yield return l;
         }
 
         static string CreateMD5(string input)

@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.IO;
-using AdventOfCode.Core;
+﻿using AdventOfCode.Core;
 using NUnit.Framework;
 
 namespace AdventOfCode2016
 {
+    [Explicit("These take about a minute to run")]
     [Parallelizable(ParallelScope.All)]
     public class Day05Tests : TestBase
     {
@@ -17,10 +16,11 @@ namespace AdventOfCode2016
             Assert.That(Day05.PartOne(door), Is.EqualTo(password));
         }
 
-        [Test]
-        public void TestPartTwo()
+        [TestCase("abc", "05ace8e3")]
+        [TestCase("wtnhxymk", "437e60fc")]
+        public void TestPartTwo(string door, string password)
         {
-            Assert.That(Day05.PartTwo(""), Is.EqualTo(""));
+            Assert.That(Day05.PartTwo(door), Is.EqualTo(password));
         }
     }
 }
