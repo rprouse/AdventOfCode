@@ -10,13 +10,22 @@ namespace AdventOfCode2016
     {
         public static string PartOne(string door)
         {
-            var chars = Enumerable.Range(0, 1000000000)
-                .Select(i => CreateMD5($"{door}{i}"))
-                .Where(h => h.StartsWith("00000"))
-                .Select(h => h[5])
-                .Take(8)
-                .ToArray();
-            return new string(chars);
+            using (var md5 = MD5.Create())
+            {
+                var chars = Enumerable.Range(0, 1000000000)
+                    .Select(i => {
+                        byte[] inputBytes = Encoding.ASCII.GetBytes($"{door}{i}");
+                        byte[] hashBytes = md5.ComputeHash(inputBytes);
+                        if (hashBytes[0] == 0 && hashBytes[1] == 0 && hashBytes[2] < 0x10)
+                            return hashBytes[2].ToString("x2")[1];
+                        else
+                            return (char)0x0;
+                    })
+                    .Where(b => b != 0x0)
+                    .Take(8)
+                    .ToArray();
+                return new string(chars);
+            }
         }
 
         public static string PartTwo(string door)

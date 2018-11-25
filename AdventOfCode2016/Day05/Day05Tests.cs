@@ -10,7 +10,7 @@ namespace AdventOfCode2016
         const int DAY = 05;
 
         [TestCase("abc", "18f47a30")]
-        [TestCase("wtnhxymk", "")]
+        [TestCase("wtnhxymk", "2414bc77")]
         public void TestPartOne(string door, string password)
         {
             Assert.That(Day05.PartOne(door), Is.EqualTo(password));
