@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace AdventOfCode2016
 {
+    [Parallelizable(ParallelScope.All)]
     public class Day05Tests : TestBase
     {
         const int DAY = 05;

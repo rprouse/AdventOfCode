@@ -21,7 +21,7 @@ namespace AdventOfCode2016
                         else
                             return (char)0x0;
                     })
-                    .Where(b => b != 0x0)
+                    .Where(c => c != 0x0)
                     .Take(8)
                     .ToArray();
                 return new string(chars);
