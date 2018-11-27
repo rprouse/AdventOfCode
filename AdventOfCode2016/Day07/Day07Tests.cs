@@ -18,6 +18,15 @@ namespace AdventOfCode2016
             Assert.That(Day07.SupportsTLS(ipv7), Is.EqualTo(supportsTls));
         }
 
+        [TestCase("aba[bab]xyz", true)]
+        [TestCase("xyx[xyx]xyx", false)]
+        [TestCase("aaa[kek]eke", true)]
+        [TestCase("zazbz[bzb]cdb", true)]
+        public void TestSSLSupport(string ipv7, bool supportsSsl)
+        {
+            Assert.That(Day07.SupportsSSL(ipv7), Is.EqualTo(supportsSsl));
+        }
+
         [TestCase(0, true)]
         [TestCase(1, false)]
         public void TestTLSSupportAtIndex(int index, bool supportsTls)
@@ -38,6 +47,12 @@ namespace AdventOfCode2016
         }
 
         [Test]
+        public void CanConvertAbaToBab()
+        {
+            Assert.That(Day07.ConvertAbaToBab("ded"), Is.EqualTo("ede"));
+        }
+
+        [Test]
         public void TestPartOne()
         {
             Assert.That(Day07.PartOne(PuzzleFile(DAY)), Is.EqualTo(105));
@@ -46,13 +61,7 @@ namespace AdventOfCode2016
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day07.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day07.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day07.PartTwo(PuzzleFile(DAY)), Is.EqualTo(258));
         }
 
         public static IEnumerable TestOutsideBrackets()
@@ -73,12 +82,6 @@ namespace AdventOfCode2016
             yield return new TestCaseData("aaaa[qwer]tyui", new[] { "qwer" });
             yield return new TestCaseData("ioxxoj[asdfgh]zxcvbn", new[] { "asdfgh" });
             yield return new TestCaseData("ioxxoj[asdfgh]zxcvbn[sdfas]sldfjk", new[] { "asdfgh", "sdfas" });
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }
