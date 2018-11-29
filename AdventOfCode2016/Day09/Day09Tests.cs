@@ -21,16 +21,10 @@ namespace AdventOfCode2016
             Assert.That(Day09.Decompress(compressed).Length, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void TestPartTwo()
+        [TestCaseSource(nameof(RecursiveCompressedLengthData))]
+        public void TestRecursiveUncompressedLength(string compressed, long expected)
         {
-            Assert.That(Day09.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day09.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day09.RecursiveDecompress(compressed), Is.EqualTo(expected));
         }
 
         public static IEnumerable DecompressedData()
@@ -54,10 +48,14 @@ namespace AdventOfCode2016
             yield return new TestCaseData(PuzzleFile(DAY).ReadFirstLine(), 152851);
         }
 
-        public static IEnumerable TestDataTwo()
+        public static IEnumerable RecursiveCompressedLengthData()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData("ADVENT", 6);
+            yield return new TestCaseData("(3x3)XYZ", 9);
+            yield return new TestCaseData("X(8x2)(3x3)ABCY", 20);
+            yield return new TestCaseData("(27x12)(20x12)(13x14)(7x10)(1x12)A", 241920);
+            yield return new TestCaseData("(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN", 445);
+            yield return new TestCaseData(PuzzleFile(DAY).ReadFirstLine(), 11797310782);
         }
     }
 }

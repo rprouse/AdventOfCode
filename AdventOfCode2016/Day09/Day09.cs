@@ -36,6 +36,30 @@ namespace AdventOfCode2016
             sb.Append(compressed);
             return sb.ToString();
         }
+        public static long RecursiveDecompress(string compressed)
+        {
+            long len = 0;
+            var match = regex.Match(compressed);
+            while (match.Success)
+            {
+                // Add any text before the match
+                len += match.Index;
+
+                // Get the number of characters (c) and the multiplier (n)
+                int.TryParse(match.Groups[1].Value, out int c);
+                int.TryParse(match.Groups[2].Value, out int n);
+
+                // Multiply it!
+                var str = compressed.Substring(match.Index + match.Length, c);
+                len += RecursiveDecompress(str) * n;
+
+                // Take what's left
+                compressed = compressed.Substring(match.Index + match.Length + c);
+                match = regex.Match(compressed);
+            }
+            len += compressed.Length;
+            return len;
+        }
 
         public static int PartTwo(string filename)
         {
