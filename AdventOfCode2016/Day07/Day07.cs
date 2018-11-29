@@ -108,19 +108,19 @@ namespace AdventOfCode2016
             return sb.ToString();
         }
 
-        public static int PartOne(string filename, int width, int height)
+        public static int PartOne(string filename, int width, int height) =>
+            RunDisplay(filename, width, height).LitPixels;
+
+        public static string PartTwo(string filename, int width, int height) =>
+            RunDisplay(filename, width, height).ToString();
+
+        private static Day07 RunDisplay(string filename, int width, int height)
         {
             var day = new Day07(width, height);
             string[] lines = filename.ReadAllLines();
             foreach (var line in lines)
                 day.ParseLine(line);
-            return day.LitPixels;
-        }
-
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            return day;
         }
     }
 }
