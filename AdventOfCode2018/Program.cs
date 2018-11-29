@@ -6,9 +6,9 @@ using NUnit.Framework;
 
 namespace AdventOfCode2018
 {
-    class Program
+    public static class ProgramEntry
     {
-        static async Task Main(string[] args)
+        public static async Task Main()
         {
             Console.ResetColor();
             Console.ReadLine();

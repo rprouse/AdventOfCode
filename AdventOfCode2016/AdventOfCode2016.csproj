@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>AdventOfCode2016.ProgramEntry</StartupObject>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Day07\Data.txt" />
+    <None Remove="Day07\Test.txt" />
     <None Remove="Day06\Data.txt" />
     <None Remove="Day06\Test.txt" />
     <None Remove="Day04\Data.txt" />
@@ -20,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Day07\Data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day07\Test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Day06\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
