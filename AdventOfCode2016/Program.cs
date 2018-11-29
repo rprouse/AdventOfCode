@@ -11,7 +11,7 @@ namespace AdventOfCode2016
     {
         public static async Task Main()
         {
-            var day = new Day07(50, 6);
+            var day = new Day08(50, 6);
             string[] lines = TestBase.PuzzleFile(07).ReadAllLines();
             foreach (var line in lines)
             {

@@ -9,40 +9,30 @@ namespace AdventOfCode2016
     {
         const int DAY = 08;
 
-        [Test]
-        public void TestPartOne()
+        [TestCaseSource(nameof(TestDataOne))]
+        public void TestPartOne(string filename, int width, int height, int expected)
         {
-            Assert.That(Day08.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day08.PartOne(filename, width, height), Is.EqualTo(expected));
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day08.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
+            string expected = @"####..##...##..###...##..###..#..#.#...#.##...##..
+#....#..#.#..#.#..#.#..#.#..#.#..#.#...##..#.#..#.
+###..#..#.#..#.#..#.#....#..#.####..#.#.#..#.#..#.
+#....#..#.####.###..#.##.###..#..#...#..####.#..#.
+#....#..#.#..#.#.#..#..#.#....#..#...#..#..#.#..#.
+####..##..#..#.#..#..###.#....#..#...#..#..#..##..
+";
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day08.PartOne(filename), Is.EqualTo(expected));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day08.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day08.PartTwo(PuzzleFile(DAY), 50, 6), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 7, 3, 6);
+            yield return new TestCaseData(PuzzleFile(DAY), 50, 6, 128);
         }
     }
 }
