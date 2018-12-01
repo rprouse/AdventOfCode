@@ -60,12 +60,9 @@ namespace AdventOfCode2016
             }
 
             string[] lines = filename.ReadAllLines();
-            while (true)
+            var bots = BotsWithTwoChips();
+            while (bots.Count > 0)
             {
-                var bots = BotsWithTwoChips();
-                if (bots.Count == 0)
-                    break;
-
                 foreach (var bot in bots)
                 {
                     string line = lines.Where(l => l.StartsWith($"bot {bot.Key} gives")).FirstOrDefault();
@@ -75,6 +72,7 @@ namespace AdventOfCode2016
                     var match = _botRegex.Match(line);
                     ParseBot(match);
                 }
+                bots = BotsWithTwoChips();
             }
             return _output[0] * _output[1] * _output[2];
         }
