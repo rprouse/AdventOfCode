@@ -26,5 +26,8 @@ namespace AdventOfCode.Core
             File.ReadAllLines(filename)
                 .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToArray();
+
+        public static string ReadAll(this string filename) =>
+            File.ReadAllText(filename);
     }
 }
