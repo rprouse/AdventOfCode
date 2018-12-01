@@ -15,7 +15,18 @@ namespace AdventOfCode2018
         public static int PartTwo(string filename)
         {
             string[] lines = filename.ReadAllLines();
-            return 0;
+            var found = new List<int>();
+            var freq = 0;
+            while(true)
+            {
+                foreach(int i in lines.Select(l => l.ToInt()))
+                {
+                    freq += i;
+                    if (found.Contains(freq))
+                        return freq;
+                    found.Add(freq);
+                }
+            }
         }
     }
 }
