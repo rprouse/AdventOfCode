@@ -31,10 +31,6 @@ namespace AdventOfCode2016
             while(true)
             {
                 var bots = BotsWithTwoChips();
-                if (bots.Count == 0)
-                    throw new ArgumentException("No bots found with two chips");
-                //if (bots.Count > 1)
-                //    throw new ArgumentException($"{bots.Count} bots found with two chips");
                 foreach (var bot in bots)
                 {
                     string line = lines.Where(l => l.StartsWith($"bot {bot.Key} gives")).FirstOrDefault();
