@@ -45,8 +45,8 @@ namespace AdventOfCode2016
             var match = rectRegx.Match(line);
             if(match.Success)
             {
-                int.TryParse(match.Groups[1].Value, out int w);
-                int.TryParse(match.Groups[2].Value, out int h);
+                int w = match.GetInt(1);
+                int h = match.GetInt(2);
                 for (int x = 0; x < w; x++)
                     for (int y = 0; y < h; y++)
                         this[x, y] = true;
@@ -59,8 +59,8 @@ namespace AdventOfCode2016
             var match = rotcRegx.Match(line);
             if (match.Success)
             {
-                int.TryParse(match.Groups[1].Value, out int x);
-                int.TryParse(match.Groups[2].Value, out int n);
+                int x = match.GetInt(1);
+                int n = match.GetInt(2);
                 for (int i = 0; i < n; i++)
                 {
                     var copy = new bool[_height];
@@ -79,8 +79,8 @@ namespace AdventOfCode2016
             var match = rotrRegx.Match(line);
             if (match.Success)
             {
-                int.TryParse(match.Groups[1].Value, out int y);
-                int.TryParse(match.Groups[2].Value, out int n);
+                int y = match.GetInt(1);
+                int n = match.GetInt(2);
                 for (int i = 0; i < n; i++)
                 {
                     var copy = new bool[_width];

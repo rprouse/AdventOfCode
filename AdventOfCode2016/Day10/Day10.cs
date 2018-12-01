@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdventOfCode.Core;
@@ -17,12 +16,7 @@ namespace AdventOfCode2016
 
         public int ParseFileOne(string filename, int high, int low)
         {
-            string file = filename.ReadAll();
-            var valMatch = _valRegex.Matches(file);
-            foreach(Match match in valMatch)
-            {
-                ParseValue(match);
-            }
+            ReadValues(filename);
             var found = BotWithChips(high, low);
             if (found != -1)
                 return found;
@@ -48,12 +42,7 @@ namespace AdventOfCode2016
 
         public int ParseFileTwo(string filename)
         {
-            string file = filename.ReadAll();
-            var valMatch = _valRegex.Matches(file);
-            foreach (Match match in valMatch)
-            {
-                ParseValue(match);
-            }
+            ReadValues(filename);
 
             string[] lines = filename.ReadAllLines();
             var bots = BotsWithTwoChips();
@@ -73,40 +62,45 @@ namespace AdventOfCode2016
             return _output[0] * _output[1] * _output[2];
         }
 
+        private void ReadValues(string filename)
+        {
+            string file = filename.ReadAll();
+            var valMatch = _valRegex.Matches(file);
+            foreach (Match match in valMatch)
+            {
+                ParseValue(match);
+            }
+        }
+
         IList<KeyValuePair<int, Bot>> BotsWithTwoChips() =>
             _bots.Where(p => p.Value.HasTwoChips).ToList();
 
         void ParseValue(Match match)
         {
-            int.TryParse(match.Groups[1].Value, out int val);
-            int.TryParse(match.Groups[2].Value, out int bot);
+            int val = match.GetInt(1);
+            int bot = match.GetInt(2);
             GetBot(bot).Give(val);
         }
 
         void ParseBot(Match match)
         {
-            int.TryParse(match.Groups[1].Value, out int bot);
+            int bot = match.GetInt(1);
             bool lowToBot = match.Groups[2].Value == "bot";
-            int.TryParse(match.Groups[3].Value, out int lowTo);
+            int lowTo = match.GetInt(3);
             bool highToBot = match.Groups[4].Value == "bot";
-            int.TryParse(match.Groups[5].Value, out int hightTo);
+            int highTo = match.GetInt(5);
+
             Bot from = GetBot(bot);
             (int low, int high) = from.Take();
-            if (low != -1)
-            {
-                if (lowToBot)
-                    GetBot(lowTo).Give(low);
-                else
-                    _output[lowTo] = low;
-            }
+            if (lowToBot)
+                GetBot(lowTo).Give(low);
+            else
+                _output[lowTo] = low;
 
-            if (high != -1)
-            {
-                if (highToBot)
-                    GetBot(hightTo).Give(high);
-                else
-                    _output[hightTo] = high;
-            }
+            if (highToBot)
+                GetBot(highTo).Give(high);
+            else
+                _output[highTo] = high;
         }
 
         Bot GetBot(int n)
@@ -121,7 +115,7 @@ namespace AdventOfCode2016
             foreach(int key in _bots.Keys)
             {
                 Bot bot = _bots[key];
-                if (bot.High == high && bot.Low == low)
+                if (bot.HasChips(high, low))
                     return key;
             }
             return -1;
@@ -144,31 +138,8 @@ namespace AdventOfCode2016
             int? _one;
             int? _two;
 
-            public int? High
-            {
-                get
-                {
-                    if (_one.HasValue && _two.HasValue)
-                        return _one.Value > _two.Value ? _one : _two;
-                    else if (_one.HasValue)
-                        return _one;
-                    else
-                        return _two;
-                }
-            }
-
-            public int? Low
-            {
-                get
-                {
-                    if (_one.HasValue && _two.HasValue)
-                        return _one.Value < _two.Value ? _one : _two;
-                    else if (_one.HasValue)
-                        return _one;
-                    else
-                        return _two;
-                }
-            }
+            public bool HasChips(int high, int low) =>
+                (_one == high && _two == low) || (_one == low && _two == high);
 
             public bool HasTwoChips => _one.HasValue && _two.HasValue;
 
@@ -186,77 +157,26 @@ namespace AdventOfCode2016
             {
                 int low = -1;
                 int high = -1;
-                if (_one.HasValue && _two.HasValue)
+                if (!_one.HasValue && !_two.HasValue)
+                    throw new ArgumentException("Attempting to take from bot without two values");
+
+                if (_one.Value < _two.Value)
                 {
-                    if (_one.Value < _two.Value)
-                    {
-                        low = _one.Value;
-                        high = _two.Value;
-                    }
-                    else
-                    {
-                        high = _one.Value;
-                        low = _two.Value;
-                    }
-                    _one = null;
-                    _two = null;
-                    return (low, high);
+                    low = _one.Value;
+                    high = _two.Value;
                 }
-                throw new ArgumentException("Attempting to take from bot without two values");
+                else
+                {
+                    high = _one.Value;
+                    low = _two.Value;
+                }
+                _one = null;
+                _two = null;
+                return (low, high);
             }
 
-            public int TakeLow()
-            {
-                int ret = -1;
-                if (_one.HasValue && _two.HasValue)
-                {
-                    if (_one.Value > _two.Value)
-                    {
-                        ret = _two.Value;
-                        _two = null;
-                    }
-                    else
-                    {
-                        ret = _one.Value;
-                        _one = null;
-                    }
-                }
-                else if (_one.HasValue)
-                {
-                    ret = _one.Value;
-                    _one = null;
-                }
-                else if (_two.HasValue)
-                {
-                    ret = _two.Value;
-                    _two = null;
-                }
-                return ret;
-            }
-
-            public override string ToString()
-            {
-                return $"({_one},{_two})";
-            }
-
-            public override bool Equals(object obj)
-            {
-                var other = obj as Bot;
-                if (other == null)
-                    return false;
-
-                return _one == other._one && _two == other._two;
-            }
-
-            public override int GetHashCode()
-            {
-                unchecked
-                {
-                    int hashCode = 17;
-                    hashCode = (hashCode * 23) + _one.GetHashCode();
-                    return (hashCode * 23) + _two.GetHashCode();
-                }
-            }
+            public override string ToString() =>
+                $"({_one},{_two})";
         }
     }
 }
