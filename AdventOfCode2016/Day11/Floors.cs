@@ -12,8 +12,9 @@ namespace AdventOfCode2016.DayEleven
         List<Item>[] _floors = new List<Item>[4];
         static List<Floors> _moves = new List<Floors>();
 
-        public Floors()
+        public Floors(int elevator = 0)
         {
+            _elevator = elevator;
             _floors[0] = new List<Item>();
             _floors[1] = new List<Item>();
             _floors[2] = new List<Item>();
@@ -30,17 +31,22 @@ namespace AdventOfCode2016.DayEleven
 
         public int Solve()
         {
+            int min = int.MaxValue;
             IList<Floors> solutions = new List<Floors>();
             foreach(Floors move in ValidMoves())
             {
                 if (move.Solved)
                     solutions.Add(move);
                 else
-                    move.Solve();
+                {
+                    int localMin = move.Solve();
+                    if (localMin < min)
+                        min = localMin;
+                }
             }
             if (solutions.Count == 0)
-                return int.MaxValue;
-            return solutions.Min(f => f._count);
+                return min;
+            return Math.Min(solutions.Min(f => f._count), min);
         }
 
         public IEnumerable<Floors> ValidMoves()
@@ -87,7 +93,7 @@ namespace AdventOfCode2016.DayEleven
                     yield return (item, same);
 
                 // Can move a paired chip and generator together
-                var matches = from.Where(i => i.Matches(item) && CanMoveToFloor(i, to));
+                var matches = from.Where(i => i.Matches(item));
                 foreach (var match in matches)
                     yield return (item, match);
 
@@ -98,8 +104,7 @@ namespace AdventOfCode2016.DayEleven
 
         Floors Move(int dir, Item item1, Item? item2)
         {
-            Floors move = Clone();
-            move._elevator += dir;
+            Floors move = Clone(dir);
             move._floors[_elevator].Remove(item1);
             move._floors[_elevator + dir].Add(item1);
             if (item2.HasValue)
@@ -110,11 +115,11 @@ namespace AdventOfCode2016.DayEleven
             return move;
         }
 
-        Floors Clone()
+        Floors Clone(int dir)
         {
             var clone = new Floors();
             clone._count = _count+1;
-            clone._elevator = _elevator;
+            clone._elevator = _elevator+dir;
             clone._floors[0].AddRange(_floors[0]);
             clone._floors[1].AddRange(_floors[1]);
             clone._floors[2].AddRange(_floors[2]);

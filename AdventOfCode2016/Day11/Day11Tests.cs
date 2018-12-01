@@ -37,6 +37,13 @@ namespace AdventOfCode2016
             test.AddItem(2, new Item('L', true));
             yield return new TestCaseData(test, 11).SetName("Day11Test");
 
+            var test2 = new Floors(2);
+            test2.AddItem(2, new Item('H', false));
+            test2.AddItem(0, new Item('L', false));
+            test2.AddItem(2, new Item('H', true));
+            test2.AddItem(2, new Item('L', true));
+            yield return new TestCaseData(test2, 9).SetName("Day11TestDeeper");
+
             var puz = new Floors();
             puz.AddItem(0, new Item('P', true)); // Polonium
             puz.AddItem(1, new Item('P', false));
