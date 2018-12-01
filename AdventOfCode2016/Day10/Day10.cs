@@ -15,7 +15,7 @@ namespace AdventOfCode2016
         Dictionary<int, int> _output = new Dictionary<int, int>();
         Dictionary<int, Bot> _bots = new Dictionary<int, Bot>();
 
-        public int ParseFile(string filename, int high, int low)
+        public int ParseFileOne(string filename, int high, int low)
         {
             string file = filename.ReadAll();
             var valMatch = _valRegex.Matches(file);
@@ -48,6 +48,35 @@ namespace AdventOfCode2016
                         return found;
                 }
             }
+        }
+
+        public int ParseFileTwo(string filename)
+        {
+            string file = filename.ReadAll();
+            var valMatch = _valRegex.Matches(file);
+            foreach (Match match in valMatch)
+            {
+                ParseValue(match);
+            }
+
+            string[] lines = filename.ReadAllLines();
+            while (true)
+            {
+                var bots = BotsWithTwoChips();
+                if (bots.Count == 0)
+                    break;
+
+                foreach (var bot in bots)
+                {
+                    string line = lines.Where(l => l.StartsWith($"bot {bot.Key} gives")).FirstOrDefault();
+                    if (line == null)
+                        throw new ArgumentException($"Failed to find instructions for bot {bot.Key}");
+
+                    var match = _botRegex.Match(line);
+                    ParseBot(match);
+                }
+            }
+            return _output[0] * _output[1] * _output[2];
         }
 
         IList<KeyValuePair<int, Bot>> BotsWithTwoChips() =>
@@ -107,13 +136,13 @@ namespace AdventOfCode2016
         public static int PartOne(string filename, int high, int low)
         {
             var day10 = new Day10();
-            return day10.ParseFile(filename, high, low);
+            return day10.ParseFileOne(filename, high, low);
         }
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            var day10 = new Day10();
+            return day10.ParseFileTwo(filename);
         }
 
         class Bot
