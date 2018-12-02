@@ -9,10 +9,28 @@ namespace AdventOfCode2018
     {
         const int DAY = 02;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase("abcdef", false)]
+        [TestCase("bababc", true)]
+        [TestCase("abbcde", true)]
+        [TestCase("abcccd", false)]
+        [TestCase("aabcdd", true)]
+        [TestCase("abcdee", true)]
+        [TestCase("ababab", false)]
+        public void CanCountPairs(string line, bool expected)
         {
-            Assert.That(Day02.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day02.ContainsPair(line), Is.EqualTo(expected));
+        }
+
+        [TestCase("abcdef", false)]
+        [TestCase("bababc", true)]
+        [TestCase("abbcde", false)]
+        [TestCase("abcccd", true)]
+        [TestCase("aabcdd", false)]
+        [TestCase("abcdee", false)]
+        [TestCase("ababab", true)]
+        public void CanCountTriples(string line, bool expected)
+        {
+            Assert.That(Day02.ContainsTriple(line), Is.EqualTo(expected));
         }
 
         [Test]
@@ -35,7 +53,7 @@ namespace AdventOfCode2018
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 12);
             yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 
