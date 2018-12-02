@@ -18,7 +18,7 @@ namespace AdventOfCode2018
         [TestCase("ababab", false)]
         public void CanCountPairs(string line, bool expected)
         {
-            Assert.That(Day02.ContainsPair(line), Is.EqualTo(expected));
+            Assert.That(Day02.ContainsNumberOfCharacters(line, 2), Is.EqualTo(expected));
         }
 
         [TestCase("abcdef", false)]
@@ -30,13 +30,7 @@ namespace AdventOfCode2018
         [TestCase("ababab", true)]
         public void CanCountTriples(string line, bool expected)
         {
-            Assert.That(Day02.ContainsTriple(line), Is.EqualTo(expected));
-        }
-
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day02.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day02.ContainsNumberOfCharacters(line, 3), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataOne))]
@@ -46,21 +40,37 @@ namespace AdventOfCode2018
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(string filename, string expected)
         {
             Assert.That(Day02.PartTwo(filename), Is.EqualTo(expected));
         }
 
+        [Test]
+        public void CanFindDifferenceInMatchingPair()
+        {
+            var lines = TestFile(DAY, "Test2.txt").ReadAllLines();
+            string diff = Day02.DifferenceInMatchingPair(lines);
+            Assert.That(diff, Is.EqualTo("fgij"));
+        }
+
+        [TestCase("abcde", "axcye", "ace")]
+        [TestCase("fghij", "fguij", "fgij")]
+        [TestCase("klmno", "pqrst", "")]
+        public void CanFindDifference(string a, string b, string diff)
+        {
+            Assert.That(Day02.Difference(a, b), Is.EqualTo(diff));
+        }
+
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 12);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test1.txt"), 12);
+            yield return new TestCaseData(PuzzleFile(DAY), 4940);
         }
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test2.txt"), "fgij");
+            yield return new TestCaseData(PuzzleFile(DAY), "wrziyfdmlumeqvaatbiosngkc");
         }
     }
 }
