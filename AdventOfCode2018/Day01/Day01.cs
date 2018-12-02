@@ -12,7 +12,7 @@ namespace AdventOfCode2018
         public static int PartTwo(string filename)
         {
             int[] ints = filename.GetInts();
-            var found = new List<int>();
+            var found = new HashSet<int>();
             var freq = 0;
             while(true)
             {
