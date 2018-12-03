@@ -35,7 +35,21 @@ namespace AdventOfCode2018
         public static int PartOne(string filename)
         {
             string[] lines = filename.ReadAllLines();
-            return 0;
+            Claim[] claims = lines.Select(l => new Claim(l)).ToArray();
+            int maxX = claims.Select(c => c.X + c.W).Max();
+            int maxY = claims.Select(c => c.Y + c.H).Max();
+            int[,] fabric = new int[maxX,maxY];
+            foreach(var claim in claims)
+            {
+                foreach(int y in Enumerable.Range(claim.Y, claim.H))
+                {
+                    foreach(int x in Enumerable.Range(claim.X, claim.W))
+                    {
+                        fabric[x,y]++;
+                    }
+                }
+            }
+            return fabric.Cast<int>().Count(f => f > 1);
         }
 
         public static int PartTwo(string filename)
