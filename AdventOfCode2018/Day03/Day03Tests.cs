@@ -9,6 +9,19 @@ namespace AdventOfCode2018
     {
         const int DAY = 03;
 
+        [TestCase("#1 @ 1,3: 4x4", 1, 1, 3, 4, 4)]
+        [TestCase("#2 @ 3,1: 4x4", 2, 3, 1, 4, 4)]
+        [TestCase("#3 @ 5,5: 2x2", 3, 5, 5, 2, 2)]
+        public void CanParseClaim(string claimStr, int number, int x, int y, int w, int h)
+        {
+            var claim = new Day03.Claim(claimStr);
+            Assert.That(claim.Number, Is.EqualTo(number));
+            Assert.That(claim.X, Is.EqualTo(x));
+            Assert.That(claim.Y, Is.EqualTo(y));
+            Assert.That(claim.W, Is.EqualTo(w));
+            Assert.That(claim.H, Is.EqualTo(h));
+        }
+
         [Test]
         public void TestPartOne()
         {
