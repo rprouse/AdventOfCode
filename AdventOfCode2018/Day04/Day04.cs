@@ -11,14 +11,8 @@ namespace AdventOfCode2018
     {        
         public static int PartOne(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            List<Shift> shifts = new List<Shift>();
-            for(int i = 0; i < lines.Length; )
-            {
-                var shift = new Shift();
-                i = shift.Parse(lines, i);
-                shifts.Add(shift);
-            }
+            var shifts = ParstShifts(filename);
+
             // Guard with most time awake
             var guards = shifts.GroupBy(s => s.Guard);
             var hours = guards.Select(g => new { Guard = g.Key, Hours = g.Sum(g1 => g1.MinutesAsleep) });
@@ -26,9 +20,9 @@ namespace AdventOfCode2018
             var guard = hours.Where(h => h.Hours == max).Select(h => h.Guard).First();
 
             int[] m = new int[60];
-            foreach(var s in shifts.Where(s => s.Guard == guard))
+            foreach (var s in shifts.Where(s => s.Guard == guard))
             {
-                for (int i = 0; i < 60; i++ )
+                for (int i = 0; i < 60; i++)
                 {
                     if (s.Asleep[i])
                         m[i]++;
@@ -45,8 +39,55 @@ namespace AdventOfCode2018
 
         public static int PartTwo(string filename)
         {
+            var shifts = ParstShifts(filename);
+            var guards = shifts.GroupBy(s => s.Guard);
+            var minutes = new Dictionary<int, int[]>();
+            foreach(var guard in guards)
+            {
+                if (!minutes.ContainsKey(guard.Key))
+                    minutes.Add(guard.Key, new int[60]);
+
+                foreach (var shift in guard)
+                {
+                    for (int i = 0; i < 60; i++)
+                    {
+                        if (shift.Asleep[i])
+                            minutes[guard.Key][i]++;
+                    }
+                }
+            }
+            int maxKey = -1;
+            int maxValue = 0;
+            foreach(var pair in minutes)
+            {
+                int lMax = pair.Value.Max();
+                if (maxKey == -1 || lMax > maxValue)
+                {
+                    maxKey = pair.Key;
+                    maxValue = lMax;
+                }
+            }
+            int maxI = 0;
+            for (int i = 1; i < 60; i++)
+            {
+                if (minutes[maxKey][i] > minutes[maxKey][maxI])
+                    maxI = i;
+            }
+            return maxKey * maxI;
+        }
+
+        private static List<Shift> ParstShifts(string filename)
+        {
             string[] lines = filename.ReadAllLines();
-            return 0;
+            List<Shift> shifts = new List<Shift>();
+            for (int i = 0; i < lines.Length;)
+            {
+                var shift = new Shift();
+                i = shift.Parse(lines, i);
+                shifts.Add(shift);
+            }
+
+            return shifts;
         }
 
         public class Shift
