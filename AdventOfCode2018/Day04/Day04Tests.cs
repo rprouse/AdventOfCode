@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using AdventOfCode.Core;
 using NUnit.Framework;
@@ -10,15 +11,26 @@ namespace AdventOfCode2018
         const int DAY = 04;
 
         [Test]
-        public void TestPartOne()
+        public void GetDateTime()
         {
-            Assert.That(Day04.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            var line = "[1518-11-03 00:05] Guard #10 begins shift";
+            Assert.That(Day04.Shift.GetDateTime(line), Is.EqualTo(new DateTime(1518, 11, 03, 00, 05, 00)));
         }
 
         [Test]
-        public void TestPartTwo()
+        public void GetGuard()
         {
-            Assert.That(Day04.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            var line = "[1518-11-03 00:05] Guard #10 begins shift";
+            Assert.That(Day04.Shift.GetGuard(line), Is.EqualTo(10));
+        }
+
+        [TestCaseSource(nameof(ShiftData))]
+        public void ParseShift(string[] lines, int i, int guard, int awake)
+        {
+            var shift = new Day04.Shift();
+            shift.Parse(lines, i);
+            Assert.That(shift.Guard, Is.EqualTo(guard));
+            Assert.That(shift.MinutesAsleep, Is.EqualTo(awake));
         }
 
         [TestCaseSource(nameof(TestDataOne))]
@@ -27,16 +39,30 @@ namespace AdventOfCode2018
             Assert.That(Day04.PartOne(filename), Is.EqualTo(expected));
         }
 
+        [Test]
+        public void TestPartTwo()
+        {
+            Assert.That(Day04.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+        }
+
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
             Assert.That(Day04.PartTwo(filename), Is.EqualTo(expected));
         }
 
+        public static IEnumerable ShiftData()
+        {
+            string[] lines = TestFile(DAY).ReadAllLines();
+            yield return new TestCaseData(lines, 0, 10, 45);
+            yield return new TestCaseData(lines, 5, 99, 10);
+            yield return new TestCaseData(lines, 8, 10, 5);
+        }
+
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 240);
+            yield return new TestCaseData(PuzzleFile(DAY), 151754);
         }
 
         public static IEnumerable TestDataTwo()
