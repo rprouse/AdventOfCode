@@ -11,18 +11,25 @@ namespace AdventOfCode2018
         public static int PartOne(string filename)
         {
             string line = filename.ReadFirstLine();
-            return RemovePairs(line).Length;
+            return RemovePairs(line.ToArray());
         }
 
         public static int PartTwo(string filename)
         {
             string line = filename.ReadFirstLine();
-            return 0;
+            int min = int.MaxValue;
+            foreach(char c in line.ToLower().Distinct())
+            {
+                char[] cleaned = line.Where(l => c != char.ToLower(l)).ToArray();
+                int reacted = RemovePairs(cleaned);
+                if (reacted < min)
+                    min = reacted;
+            }
+            return min;
         }
 
-        internal static string RemovePairs(string line)
+        internal static int RemovePairs(char[] polymer)
         {
-            char[] polymer = line.ToArray();
             for (int i = 0; i < polymer.Length - 1; i++)
             {
                 int j = i + 1;
@@ -32,6 +39,10 @@ namespace AdventOfCode2018
                     if (j > polymer.Length - 1)
                         break;
                 }
+
+                if (j > polymer.Length - 1)
+                    break;
+
                 if (IsPair(polymer[i], polymer[j]))
                 {
                     polymer[i] = ' ';
@@ -45,7 +56,7 @@ namespace AdventOfCode2018
                     }
                 }
             }
-            return new string(polymer.Where(c => c != ' ').ToArray());
+            return polymer.Count(c => c != ' ');
         }
 
         internal static bool IsPair(char a, char b) =>

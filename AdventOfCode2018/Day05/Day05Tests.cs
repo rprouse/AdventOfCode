@@ -20,12 +20,6 @@ namespace AdventOfCode2018
             Assert.That(Day05.IsPair(a, b), Is.EqualTo(expected));
         }
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day05.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
@@ -46,8 +40,8 @@ namespace AdventOfCode2018
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 4);
+            yield return new TestCaseData(PuzzleFile(DAY), 5446).Ignore("Very slow"); ;
         }
     }
 }
