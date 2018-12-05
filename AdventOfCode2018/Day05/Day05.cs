@@ -23,24 +23,25 @@ namespace AdventOfCode2018
         internal static string RemovePairs(string line)
         {
             char[] polymer = line.ToArray();
-            bool removed = true;
-            while (removed)
+            for (int i = 0; i < polymer.Length - 1; i++)
             {
-                removed = false;
-                for (int i = 0; i < polymer.Length - 1; i++)
+                int j = i + 1;
+                while(polymer[j] == ' ')
                 {
-                    int j = i + 1;
-                    while(polymer[j] == ' ')
+                    j++;
+                    if (j > polymer.Length - 1)
+                        break;
+                }
+                if (IsPair(polymer[i], polymer[j]))
+                {
+                    polymer[i] = ' ';
+                    polymer[j] = ' ';
+
+                    // Walk back to prevent rescans
+                    while(i > 0)
                     {
-                        j++;
-                        if (j > polymer.Length - 1)
+                        if (polymer[i--] != ' ')
                             break;
-                    }
-                    if (IsPair(polymer[i], polymer[j]))
-                    {
-                        removed = true;
-                        polymer[i] = ' ';
-                        polymer[j] = ' ';
                     }
                 }
             }
