@@ -9,10 +9,15 @@ namespace AdventOfCode2018
     {
         const int DAY = 05;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase('a', 'a', false)]
+        [TestCase('A', 'A', false)]
+        [TestCase('a', 'A', true)]
+        [TestCase('A', 'a', true)]
+        [TestCase('a', 'B', false)]
+        [TestCase('A', 'b', false)]
+        public void CanFindPairs(char a, char b, bool expected)
         {
-            Assert.That(Day05.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day05.IsPair(a, b), Is.EqualTo(expected));
         }
 
         [Test]
@@ -35,8 +40,8 @@ namespace AdventOfCode2018
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 10);
+            yield return new TestCaseData(PuzzleFile(DAY), 11476);
         }
 
         public static IEnumerable TestDataTwo()
