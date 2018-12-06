@@ -50,10 +50,24 @@ namespace AdventOfCode2018
             return distinct.Select(d => ga.Count(i => i == d)).Max();
         }
 
-        public static int PartTwo(string filename)
+        public static int PartTwo(string filename, int lessThan)
         {
             (int, int)[] coords = GetCoordinates(filename);
-            return 0;
+            int maxX = coords.Select(c => c.Item1).Max() + 1;
+            int maxY = coords.Select(c => c.Item2).Max() + 1;
+            int[,] grid = new int[maxX, maxY];
+            for (int y = 0; y < maxY; y++)
+            {
+                for (int x = 0; x < maxX; x++)
+                {
+                    foreach(var coord in coords)
+                        grid[x, y] += Distance(coord.Item1, coord.Item2, x, y);
+                }
+            }
+
+            // Now count the number of each that is left
+            var ga = grid.Cast<int>().ToArray();
+            return ga.Count(i => i < lessThan);
         }
 
         public static (int, int)[] GetCoordinates(string filename) =>

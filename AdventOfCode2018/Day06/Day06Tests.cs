@@ -17,7 +17,7 @@ namespace AdventOfCode2018
             Assert.That(y, Is.EqualTo(253));
         }
 
-        [TestCase(0, 0, 0, TestName = "MyTest")]
+        [TestCase(0, 0, 0)]
         [TestCase(5, 0, -1)]
         [TestCase(5, 2, 4)]
         [TestCase(3, 5, 3)]
@@ -36,16 +36,10 @@ namespace AdventOfCode2018
             Assert.That(Day06.PartOne(filename), Is.EqualTo(expected));
         }
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day06.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(string filename, int lessThan, int expected)
         {
-            Assert.That(Day06.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day06.PartTwo(filename, lessThan), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()
@@ -56,8 +50,8 @@ namespace AdventOfCode2018
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 32, 16);
+            yield return new TestCaseData(PuzzleFile(DAY), 10000, 36216);
         }
     }
 }
