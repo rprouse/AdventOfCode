@@ -9,15 +9,21 @@ namespace AdventOfCode2018
     {
         public class Step
         {
-            public Step(char name)
+            public Step(char name, int baseTime)
             {
                 Name = name;
+                Seconds = (int)(Name - 'A') + 1 + baseTime;
             }
 
             public char Name { get; set; }
 
+            public int Seconds { get; }
+
             public Dictionary<char, Step> Next { get; } = new Dictionary<char, Step>();
             public Dictionary<char, Step> Prev { get; } = new Dictionary<char, Step>();
+
+            public override string ToString() =>
+                $"{Name} takes {Seconds} secs";
         }
 
         public static string PartOne(string filename)
@@ -31,7 +37,7 @@ namespace AdventOfCode2018
             return new string(WalkTree(steps).ToArray());
         }
 
-        private static Dictionary<char, Step> BuildTree(string[] lines)
+        private static Dictionary<char, Step> BuildTree(string[] lines, int baseTime = 0)
         {
             var steps = new Dictionary<char, Step>();
             foreach (string line in lines)
@@ -39,10 +45,10 @@ namespace AdventOfCode2018
                 char s = line[5];   // Step name
                 char n = line[36];  // Next step
                 if (!steps.ContainsKey(s))
-                    steps.Add(s, new Step(s));
+                    steps.Add(s, new Step(s, baseTime));
 
                 if (!steps.ContainsKey(n))
-                    steps.Add(n, new Step(n));
+                    steps.Add(n, new Step(n, baseTime));
 
                 var step = steps[s];
                 var next = steps[n];
@@ -71,12 +77,6 @@ namespace AdventOfCode2018
                 }
                 yield return firstKey;
             }
-        }
-
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
         }
     }
 }
