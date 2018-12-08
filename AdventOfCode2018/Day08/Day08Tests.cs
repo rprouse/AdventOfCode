@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
 using NUnit.Framework;
 
@@ -30,7 +29,7 @@ namespace AdventOfCode2018
         public static IEnumerable TestDataTwo()
         {
             yield return new TestCaseData(TestFile(DAY), 66);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 18568);
         }
     }
 }
