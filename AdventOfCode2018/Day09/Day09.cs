@@ -7,7 +7,7 @@ using AdventOfCode.Core;
 
 namespace AdventOfCode2018
 {
-    public static class Day00
+    public static class Day09
     {
         public static int PartOne(string filename)
         {
