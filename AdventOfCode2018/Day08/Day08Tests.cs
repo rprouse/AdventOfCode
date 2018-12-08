@@ -9,22 +9,16 @@ namespace AdventOfCode2018
     {
         const int DAY = 08;
 
-        [Test]
-        public void TestPartOne()
+        [TestCaseSource(nameof(TestDataOne))]
+        public void TestPartOne(string filename, int expected)
         {
-            Assert.That(Day08.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day08.PartOne(filename), Is.EqualTo(expected));
         }
 
         [Test]
         public void TestPartTwo()
         {
             Assert.That(Day08.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day08.PartOne(filename), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
@@ -35,8 +29,8 @@ namespace AdventOfCode2018
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 138);
+            yield return new TestCaseData(PuzzleFile(DAY), 42951);
         }
 
         public static IEnumerable TestDataTwo()
