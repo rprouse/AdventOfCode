@@ -9,40 +9,17 @@ namespace AdventOfCode2018
     {
         const int DAY = 09;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase(9, 25, 32)]
+        [TestCase(10, 1618, 8317)]
+        [TestCase(13, 7999, 146373)]
+        [TestCase(17, 1104, 2764)]
+        //[TestCase(21, 6111, 54718)]
+        //[TestCase(30, 5807, 37305)]
+        [TestCase(491, 71058, 361466, Ignore = "Slow!")]
+        [TestCase(491, 7105800, 0)]
+        public void TestPartOne(int players, int highMarble, long expectedScore)
         {
-            Assert.That(Day09.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day09.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day09.PartOne(filename), Is.EqualTo(expected));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day09.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Assert.That(Day09.PartOne(players, highMarble), Is.EqualTo(expectedScore));
         }
     }
 }
