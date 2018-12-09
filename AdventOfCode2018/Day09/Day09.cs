@@ -1,9 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Core;
 
 namespace AdventOfCode2018
 {
@@ -11,48 +7,33 @@ namespace AdventOfCode2018
     {
         public static long PartOne(int players, int highMarble)
         {
-            var circle = new List<int>(highMarble + 1) { 0, 16, 8, 17, 4, 18, 9, 19, 2, 20, 10, 21, 5, 22, 11, 1, 12, 6, 13, 3, 14, 7, 15 };
-            var marbles = new List<int>(Enumerable.Range(23, highMarble - 22));
+            var circle = new LinkedList<int>();
             var elves = new long[players];
-            var currentMarble = 13;
+            var current = circle.AddFirst(0);
 
-            while (marbles.Count > 0)
+            for (int marble = 1; marble <= highMarble; marble++)
             {
-                // Take the lowest marble
-                int marble = marbles.Min();
-                marbles.Remove(marble);
-
                 // Play the marble
                 if (marble % 23 == 0)
                 {
-                    var currentElf = circle.Count % players;
-                    elves[currentElf] += marble;
-
                     // Take the marble 7 to the right
-                    if (currentMarble > 7)
-                        currentMarble = currentMarble - 7;
-                    else
-                        currentMarble = circle.Count - 7 + currentMarble;
-                    elves[currentElf] += circle[currentMarble];
-                    circle.RemoveAt(currentMarble);
-                }
-                else if (currentMarble == circle.Count - 2)
-                {
-                    currentMarble = circle.Count;
-                    circle.Add(marble);
+                    foreach(int i in Enumerable.Range(0, 7))
+                        current = current.Previous ?? circle.Last;
+
+                    var currentElf = (marble - 1) % players;
+                    elves[currentElf] += marble + current.Value;
+
+                    var tmp = current;
+                    current = current.Next ?? circle.First;
+                    circle.Remove(tmp);
                 }
                 else
                 {
-                    currentMarble = (currentMarble + 2) % circle.Count;
-                    circle.Insert(currentMarble, marble);
+                    current = current.Next ?? circle.First;
+                    current = circle.AddAfter(current, marble);
                 }
             }
             return elves.Max();
-        }
-
-        public static int PartTwo(string filename)
-        {
-            return 0;
         }
     }
 }
