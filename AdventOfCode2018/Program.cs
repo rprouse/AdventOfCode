@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AdventOfCode.Core;
 using NUnit.Framework;
 
 [assembly:Parallelizable(ParallelScope.Fixtures)]
@@ -10,8 +11,11 @@ namespace AdventOfCode2018
     {
         public static async Task Main()
         {
-            Console.ResetColor();
-            Console.ReadLine();
+            //Day10.PartOne(TestBase.TestFile(10), 0);
+            Day10.PartOne(TestBase.PuzzleFile(10), 10124);
+
+            //Console.ResetColor();
+            //Console.ReadLine();
 
             await Task.FromResult(false);
         }
