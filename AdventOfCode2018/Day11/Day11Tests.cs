@@ -28,9 +28,15 @@ namespace AdventOfCode2018
             Assert.That(y, Is.EqualTo(expectedY));
         }
 
-        [Test]
-        public void TestPartTwo()
+        [TestCase(18, 90, 269, 16)]
+        [TestCase(42, 232, 251, 12)]
+        [TestCase(4842, 237, 281, 10)]
+        public void TestPartTwo(int serial, int expectedX, int expectedY, int expectedSize)
         {
+            (int x, int y, int s) = Day11.PartTwo(serial);
+            Assert.That(x, Is.EqualTo(expectedX));
+            Assert.That(y, Is.EqualTo(expectedY));
+            Assert.That(s, Is.EqualTo(expectedSize));
         }
     }
 }
