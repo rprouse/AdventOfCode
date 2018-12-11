@@ -9,40 +9,28 @@ namespace AdventOfCode2018
     {
         const int DAY = 11;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase(3, 5, 8, 4)]
+        [TestCase(122, 79, 57, -5)]
+        [TestCase(217, 196, 39, 0)]
+        [TestCase(101, 153, 71, 4)]
+        public void CanCalculatePower(int x, int y, int serial, int expected)
         {
-            Assert.That(Day11.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day11.CalculatePower(x, y, serial), Is.EqualTo(expected));
+        }
+
+        [TestCase(18, 33, 45)]
+        [TestCase(42, 21, 61)]
+        [TestCase(4842, 20, 83)]
+        public void TestPartOne(int serial, int expectedX, int expectedY)
+        {
+            (int x, int y) = Day11.PartOne(serial);
+            Assert.That(x, Is.EqualTo(expectedX));
+            Assert.That(y, Is.EqualTo(expectedY));
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day11.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day11.PartOne(filename), Is.EqualTo(expected));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day11.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }
