@@ -12,24 +12,19 @@ namespace AdventOfCode2018
         public static (int x, int y) PartOne(string filename)
         {
             var carts = new List<Cart>();
-            string[] lines = filename.ReadAllLines();
-            char[][] track = new char[lines.Length][];
-            for(int y = 0; y < lines.Length; y++)
-            {
-                track[y] = ParseLine(lines[y], y, carts);
-            }
+            var track = ReadTrack(filename, carts);
 
             // Start moving around the track
-            while(true)
+            while (true)
             {
                 //OutputTrack(track, carts);
                 carts.Sort();
                 var copy = carts.ToArray();
-                for(int i = 0; i < copy.Length; i++)
+                for (int i = 0; i < copy.Length; i++)
                 {
                     copy[i].Move(track);
                     // Check for collisions
-                    for(int j = 0; j < copy.Length; j++)
+                    for (int j = 0; j < copy.Length; j++)
                     {
                         if (j != i && copy[i].Equals(copy[j]))
                             return (copy[i].X, copy[i].Y);
@@ -41,12 +36,7 @@ namespace AdventOfCode2018
         public static (int x, int y) PartTwo(string filename)
         {
             var carts = new List<Cart>();
-            string[] lines = filename.ReadAllLines();
-            char[][] track = new char[lines.Length][];
-            for (int y = 0; y < lines.Length; y++)
-            {
-                track[y] = ParseLine(lines[y], y, carts);
-            }
+            var track = ReadTrack(filename, carts);
 
             // Start moving around the track
             while (true)
@@ -73,6 +63,18 @@ namespace AdventOfCode2018
                 if (carts.Count == 1)
                     return (carts[0].X, carts[0].Y);
             }
+        }
+
+        private static char[][] ReadTrack(string filename, List<Cart> carts)
+        {
+            string[] lines = filename.ReadAllLines();
+            char[][] track = new char[lines.Length][];
+            for (int y = 0; y < lines.Length; y++)
+            {
+                track[y] = ParseLine(lines[y], y, carts);
+            }
+
+            return track;
         }
 
         static void OutputTrack(char[][] track, List<Cart> carts)
