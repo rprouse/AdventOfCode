@@ -38,10 +38,41 @@ namespace AdventOfCode2018
             }
         }
 
-        public static int PartTwo(string filename)
+        public static (int x, int y) PartTwo(string filename)
         {
+            var carts = new List<Cart>();
             string[] lines = filename.ReadAllLines();
-            return 0;
+            char[][] track = new char[lines.Length][];
+            for (int y = 0; y < lines.Length; y++)
+            {
+                track[y] = ParseLine(lines[y], y, carts);
+            }
+
+            // Start moving around the track
+            while (true)
+            {
+                //OutputTrack(track, carts);
+                carts.Sort();
+                var copy = carts.ToArray();
+                for (int i = 0; i < copy.Length; i++)
+                {
+                    copy[i].Move(track);
+                    // Check for collisions
+                    for (int j = 0; j < copy.Length; j++)
+                    {
+                        if (j != i && copy[i].Equals(copy[j]))
+                        {
+                            carts.RemoveAll(c => c == copy[i]);
+                            copy[i].X = -1;
+                            copy[i].Y = -1;
+                            copy[j].X = -1;
+                            copy[j].Y = -1;
+                        }
+                    }
+                }
+                if (carts.Count == 1)
+                    return (carts[0].X, carts[0].Y);
+            }
         }
 
         static void OutputTrack(char[][] track, List<Cart> carts)
@@ -87,8 +118,8 @@ namespace AdventOfCode2018
 
         public class Cart : IComparable<Cart>, IEquatable<Cart>
         {
-            public int X { get; private set; }
-            public int Y { get; private set; }
+            public int X { get; set; }
+            public int Y { get; set; }
 
             int xDir = 0;
             int yDir = 0;
@@ -117,6 +148,7 @@ namespace AdventOfCode2018
 
             public void Move(char[][] track)
             {
+                if (X == -1 || Y == -1) return;
                 char current = track[Y][X];
                 if (current == '\\')
                 {

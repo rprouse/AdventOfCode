@@ -18,9 +18,11 @@ namespace AdventOfCode2018
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(string filename, int expectedX, int expectedY)
         {
-            Assert.That(Day13.PartTwo(filename), Is.EqualTo(expected));
+            (int x, int y) = Day13.PartTwo(filename);
+            Assert.That(x, Is.EqualTo(expectedX));
+            Assert.That(y, Is.EqualTo(expectedY));
         }
 
         public static IEnumerable TestDataOne()
@@ -31,8 +33,8 @@ namespace AdventOfCode2018
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 6, 4);
+            yield return new TestCaseData(PuzzleFile(DAY), 0, 0);
         }
     }
 }
