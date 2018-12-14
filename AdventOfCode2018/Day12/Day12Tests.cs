@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
 using NUnit.Framework;
 
@@ -18,7 +17,8 @@ namespace AdventOfCode2018
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day12.PartOne(PuzzleFile(DAY), ".##..#.#..##..##..##...#####.#.....#..#..##.###.#.####......#.......#..###.#.#.##.#.#.###...##.###.#"), Is.EqualTo(3738));
+            Assert.That(Day12.PartTwo(PuzzleFile(DAY), ".##..#.#..##..##..##...#####.#.....#..#..##.###.#.####......#.......#..###.#.#.##.#.#.###...##.###.#"), Is.EqualTo(3900000002467L));
+
         }
 
         public static IEnumerable TestDataOne()

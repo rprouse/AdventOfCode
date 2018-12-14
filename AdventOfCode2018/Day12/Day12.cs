@@ -1,37 +1,62 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Text;
 using AdventOfCode.Core;
 
 namespace AdventOfCode2018
 {
     public static class Day12
     {
-        public static int PartOne(string filename, string initialState)
+        const string DOTS = "...";
+
+        public static int PartOne(string filename, string initialState) =>
+            RunGenerations(filename, initialState, 20).sum;
+
+
+        public static long PartTwo(string filename, string initialState)
+        {
+            // 110 was derived starting with a larger number and looking at the
+            // test output for each generation for the pattern where the sum
+            // increased a specific amount every time. I then went 10 above that.
+            (int sum, int diff) = RunGenerations(filename, initialState, 110);
+            return (50000000000L - 110) * diff + sum;
+        }
+
+        public static (int sum, int diff) RunGenerations(string filename, string initialState, long generations)
         {
             var rules = ParseRules(filename);
 
-            var sb = new StringBuilder(".....");
+            var sb = new StringBuilder(DOTS);
             sb.Append(initialState);
-            sb.Append(".....");
+            sb.Append(DOTS);
             var pots = sb.ToString();
+            int sum = SumPots(initialState, pots);
+            int diff = 0;
 
-            foreach (int gen in Enumerable.Range(0, 20))
+            for (long gen = 0; gen < generations; gen++)
             {
-                sb = new StringBuilder(".....");
+                sb = new StringBuilder(pots.Length + 6);
                 for (int i = 2; i < pots.Length - 2; i++)
                 {
                     var compare = pots.Substring(i - 2, 5);
                     sb.Append(rules.Any(r => r == compare) ? '#' : '.');
                 }
-                sb.Append(".....");
                 pots = sb.ToString();
+                var nextSum = SumPots(initialState, pots);
+                diff = nextSum - sum;
+                Console.WriteLine($"Gen: {gen} Sum: {nextSum} Diff: {diff}");
+                sum = nextSum;
+                if (!pots.StartsWith(DOTS) || !pots.EndsWith(DOTS))
+                    pots = $"{DOTS}{pots}{DOTS}";
             }
+            return (sum, diff);
+        }
+
+        private static int SumPots(string initialState, string pots)
+        {
             int offset = (pots.Length - initialState.Length) / 2;
             int sum = 0;
-            for(int i = 0; i < pots.Length; i++)
+            for (int i = 0; i < pots.Length; i++)
             {
                 if (pots[i] == '#')
                     sum += i - offset;
@@ -44,18 +69,5 @@ namespace AdventOfCode2018
                 .Where(l => l.EndsWith("#"))
                 .Select(l => l.Substring(0, 5))
                 .ToArray();
-
-        private static char[] EmptyPots()
-        {
-            var pots = new char[150];
-            Enumerable.Range(0, 150).ForEach(i => pots[i] = '.');
-            return pots;
-        }
-
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
-        }
     }
 }
