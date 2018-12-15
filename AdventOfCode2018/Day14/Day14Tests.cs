@@ -24,7 +24,7 @@ namespace AdventOfCode2018
         [TestCase(012451, 5)]
         [TestCase(925107, 18)]
         [TestCase(594142, 2018)]
-        [TestCase(293801, 20280190)]
+        [TestCase(293801, 20280190, Ignore = "Takes 4 sec")]
         public void TestPartTwo(int score, int expected)
         {
             Assert.That(Day14.PartTwo(score), Is.EqualTo(expected));

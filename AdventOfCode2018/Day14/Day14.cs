@@ -40,30 +40,27 @@ namespace AdventOfCode2018
                 if (sum >= 10)
                 {
                     board.Add(1);
+                    if (board.Count >= 7 && board[board.Count-1] % 10 == 1 && EndMatches(board, score)) return board.Count - 6;
+
                     sum -= 10;
+
+                    board.Add(sum);
+                    if (board.Count >= 7 && EndMatches(board, score)) return board.Count - 6;
                 }
-                board.Add(sum);
+                else
+                {
+                    board.Add(sum);
+                    if (board.Count >= 7 && EndMatches(board, score)) return board.Count - 6;
+                }
+
                 e1 = (e1 + 1 + board[e1]) % board.Count;
                 e2 = (e2 + 1 + board[e2]) % board.Count;
-                if(board.Count >= 7)
-                {
-                    if (EndMatches(board, score, 0)) return board.Count - 7;
-                    if (EndMatches(board, score, 1)) return board.Count - 6;
-                }
             }
         }
 
-        public static bool EndMatches(List<int> board, int score, int offset)
-        {
-            for (int i = 1; i <= 6; i++)
-            {
-                if (board[board.Count - 8 + offset + i] != GetDigit(i, score))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public static bool EndMatches(List<int> board, int score) =>
+            Enumerable.Range(1, 6)
+                .All(i => board[board.Count - 7 + i] == GetDigit(i, score));
 
         public static int GetDigit(int d, int i)
         {
