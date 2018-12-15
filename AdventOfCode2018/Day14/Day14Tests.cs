@@ -9,40 +9,20 @@ namespace AdventOfCode2018
     {
         const int DAY = 14;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase(9, "5158916779")]
+        [TestCase(5, "0124515891")]
+        [TestCase(18, "9251071085")]
+        [TestCase(2018, "5941429882")]
+        [TestCase(293801, "3147574107")]
+        public void TestPartOne(int recipes, string expected)
         {
-            Assert.That(Day14.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day14.PartOne(recipes), Is.EqualTo(expected));
         }
 
         [Test]
         public void TestPartTwo()
         {
             Assert.That(Day14.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day14.PartOne(filename), Is.EqualTo(expected));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day14.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }
