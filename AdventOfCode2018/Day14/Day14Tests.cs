@@ -19,10 +19,26 @@ namespace AdventOfCode2018
             Assert.That(Day14.PartOne(recipes), Is.EqualTo(expected));
         }
 
-        [Test]
-        public void TestPartTwo()
+        [TestCase(710101, 1)]
+        [TestCase(515891, 9)]
+        [TestCase(012451, 5)]
+        [TestCase(925107, 18)]
+        [TestCase(594142, 2018)]
+        [TestCase(293801, 20280190)]
+        public void TestPartTwo(int score, int expected)
         {
-            Assert.That(Day14.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day14.PartTwo(score), Is.EqualTo(expected));
+        }
+
+        [TestCase(1, 2)]
+        [TestCase(2, 9)]
+        [TestCase(3, 3)]
+        [TestCase(4, 8)]
+        [TestCase(5, 0)]
+        [TestCase(6, 1)]
+        public void CanGetDigit(int d, int expected)
+        {
+            Assert.That(Day14.GetDigit(d, 293801), Is.EqualTo(expected));
         }
     }
 }
