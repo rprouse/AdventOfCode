@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.IO;
+using System.Linq;
 using AdventOfCode.Core;
 using NUnit.Framework;
 
@@ -9,16 +9,22 @@ namespace AdventOfCode2018
     {
         const int DAY = 15;
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day15.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
             Assert.That(Day15.PartOne(filename), Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void CanFindGoals()
+        {
+            var board = new Day15.Board(TestFile(DAY, "Test1.txt"));
+            var goals = board.Goals(2, 1).ToArray();
+            Assert.That(goals, Has.Length.EqualTo(3));
+            Assert.That(goals[0].x, Is.EqualTo(4));
+            Assert.That(goals[0].y, Is.EqualTo(1));
+            Assert.That(goals[2].x, Is.EqualTo(5));
+            Assert.That(goals[2].y, Is.EqualTo(5));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
