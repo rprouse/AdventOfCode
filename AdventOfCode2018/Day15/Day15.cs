@@ -48,11 +48,11 @@ namespace AdventOfCode2018
                         {
                             if (y > 0 && _board[y-1][x] == '.') // Up
                                 yield return (x, y - 1);
-                            else if (y < Height - 1 && _board[y+1][x] == '.') // Down
+                            if (y < Height - 1 && _board[y+1][x] == '.') // Down
                                 yield return (x, y + 1);
-                            else if (x > 0 && _board[y][x-1] == '.') // Left
+                            if (x > 0 && _board[y][x-1] == '.') // Left
                                 yield return (x - 1, y);
-                            else if (x < Width - 1 && _board[y][x+1] == '.') // Right
+                            if (x < Width - 1 && _board[y][x+1] == '.') // Right
                                 yield return (x + 1, y);
                         }
                     }
