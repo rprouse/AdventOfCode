@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using AdventOfCode.Core;
+﻿using AdventOfCode.Core;
 using NUnit.Framework;
 
 namespace AdventOfCode2018

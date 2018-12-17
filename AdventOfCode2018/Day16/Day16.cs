@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using AdventOfCode.Core;
 using System.Text.RegularExpressions;
+using AdventOfCode.Core;
 using AdventOfCode2018.DaySixteen;
 
 namespace AdventOfCode2018

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode2018.DaySixteen
 {
@@ -10,7 +6,7 @@ namespace AdventOfCode2018.DaySixteen
     {
         public int[] Registers { get; } = new int[4];
 
-        public Func<int, int, int, int[]>[] Opcodes =
+        public Func<int, int, int, int[]>[] Opcodes { get; } =
             new Func<int, int, int, int[]>[16];
 
         public Computer()
