@@ -15,6 +15,8 @@ namespace AdventOfCode2018
 
         public static int PartOne(string filename)
         {
+            int[,] pos = new int[16, 16]; // Opcode matches
+
             string[] lines = filename.ReadAllLines(); // Strips out empty lines
             int count = 0;
             var computer = new Computer();
@@ -25,22 +27,38 @@ namespace AdventOfCode2018
                 (int o, int a, int b, int c) = ParseOperation(lines[i+1]);
                 (int a2, int b2, int c2, int d2) = ParseRegisterState(lines[i+2]);
                 int matches = 0;
-                foreach(var opcode in computer.Opcodes)
+                for(int o1 = 0; o1 < 16; o1++)
                 {
                     computer.SetRegisters(a1, b1, c1, d1);
-                    int[] result = opcode(a, b, c);
+                    int[] result = computer.Opcodes[o1](a, b, c);
                     if(result[0] == a2 && result[1] == b2 && result[2] == c2 && result[3] == d2)
                     {
                         matches++;
-                        if (matches == 3)
-                        {
-                            count++;
-                            break;
-                        }
+                        pos[o, o1]++;
                     }
                 }
+                if (matches >= 3) count++;
             }
+            OutputMatches(pos);
             return count;
+        }
+
+        static void OutputMatches(int[,] pos)
+        {
+            Console.WriteLine("     00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15");
+            Console.WriteLine("----------------------------------------------------");
+            for (int y = 0; y < 16; y++)
+            {
+                Console.Write($"{y:00} | ");
+                for (int x = 0; x < 16; x++)
+                {
+                    if (pos[x, y] == 0)
+                        Console.Write("   ");
+                    else
+                        Console.Write($"{pos[x, y]:00} ");
+                }
+                Console.WriteLine();
+            }
         }
 
         public static (int a, int b, int c, int d) ParseRegisterState(string line)
@@ -63,8 +81,11 @@ namespace AdventOfCode2018
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            var computer = new Computer();
+            filename.ReadAllLines()
+                .Select(l => ParseOperation(l))
+                .ForEach(o => computer.ExecuteOperation(o.o, o.a, o.b, o.c));
+            return computer.Registers[0];
         }
     }
 }

@@ -30,34 +30,22 @@ namespace AdventOfCode2018
             Assert.That(c, Is.EqualTo(2));
         }
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        [Test]
+        public void TestPartOneTest()
         {
-            Assert.That(Day16.PartOne(filename), Is.EqualTo(expected));
+            Assert.That(Day16.PartOne(TestFile(DAY)), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestPartOneSolution()
+        {
+            Assert.That(Day16.PartOne(PuzzleFile(DAY, "Data1.txt")), Is.EqualTo(580));
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day16.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day16.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 1);
-            yield return new TestCaseData(PuzzleFile(DAY, "Data1.txt"), 580);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY, "Data2.txt"), 0);
+            Assert.That(Day16.PartTwo(PuzzleFile(DAY, "Data2.txt")), Is.EqualTo(537));
         }
     }
 }

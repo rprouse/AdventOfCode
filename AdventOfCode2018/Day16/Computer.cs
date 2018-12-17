@@ -15,22 +15,22 @@ namespace AdventOfCode2018.DaySixteen
 
         public Computer()
         {
-            Opcodes[0] = Addr;
-            Opcodes[1] = Addi;
-            Opcodes[2] = Mulr;
-            Opcodes[3] = Muli;
-            Opcodes[4] = Banr;
-            Opcodes[5] = Bani;
-            Opcodes[6] = Borr;
-            Opcodes[7] = Bori;
-            Opcodes[8] = Setr;
+            Opcodes[0] = Bani;
+            Opcodes[1] = Banr;
+            Opcodes[2] = Muli;
+            Opcodes[3] = Setr;
+            Opcodes[4] = Bori;
+            Opcodes[5] = Eqrr;
+            Opcodes[6] = Gtir;
+            Opcodes[7] = Mulr;
+            Opcodes[8] = Gtrr;
             Opcodes[9] = Seti;
-            Opcodes[10] = Gtir;
-            Opcodes[11] = Gtri;
-            Opcodes[12] = Gtrr;
-            Opcodes[13] = Eqir;
-            Opcodes[14] = Eqri;
-            Opcodes[15] = Eqrr;
+            Opcodes[10] = Gtri;
+            Opcodes[11] = Eqri;
+            Opcodes[12] = Addi;
+            Opcodes[13] = Borr;
+            Opcodes[14] = Eqir;
+            Opcodes[15] = Addr;
         }
 
         public Computer(int a, int b, int c, int d) : this()
@@ -44,6 +44,11 @@ namespace AdventOfCode2018.DaySixteen
             Registers[1] = b;
             Registers[2] = c;
             Registers[3] = d;
+        }
+
+        public void ExecuteOperation(int o, int a, int b, int c)
+        {
+            Opcodes[o](a, b, c);
         }
 
         public int[] Addr(int a, int b, int c)
