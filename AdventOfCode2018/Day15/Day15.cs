@@ -24,7 +24,18 @@ namespace AdventOfCode2018
 
         public class Board
         {
+            internal const char WALL = '#';
+            internal const char OPEN = '.';
+            internal const char GOBLIN = 'G';
+            internal const char ELF = 'E';
+
             char[][] _board;
+
+            public char this[int x, int y]
+            {
+                get { return _board[y][x]; }
+                set { _board[y][x] = value; }
+            }
 
             public int Width => _board[0].Length;
 
@@ -37,27 +48,94 @@ namespace AdventOfCode2018
                    .ToArray();
             }
 
-            public IEnumerable<(int x, int y)> Goals(int combatX, int combatY)
+            // Makes one turn for every player on the board
+            public bool Turn()
             {
-                char enemy = _board[combatY][combatX] == 'G' ? 'E' : 'G';
-                for(int y = 0; y < Height; y++)
+                return false;
+            }
+
+            // Makes one turn for the given player
+            internal void Turn(int x, int y)
+            {
+                var players = GetPlayers().ToArray();
+                foreach(var player in players)
                 {
-                    for(int x = 0; x < Width; x++)
+                    char enemy = DetermineEnemy(player.x, player.y);
+                }
+            }
+
+            internal IEnumerable<(char p, int x, int y)> GetPlayers()
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++)
                     {
-                        if(_board[y][x] == enemy)
+                        if (this[x, y] == GOBLIN || this[x,y] == ELF)
                         {
-                            if (y > 0 && _board[y-1][x] == '.') // Up
+                            yield return (this[x, y], x, y);
+                        }
+                    }
+                }
+            }
+
+            internal IEnumerable<(char p, int x, int y)> GetEnemies(int combatX, int combatY)
+            {
+                char enemy = DetermineEnemy(combatX, combatY);
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++)
+                    {
+                        if (this[x, y] == enemy)
+                        {
+                            yield return (this[x, y], x, y);
+                        }
+                    }
+                }
+            }
+
+
+
+            internal IEnumerable<(int x, int y)> Goals(int combatX, int combatY)
+            {
+                var enemy = DetermineEnemy(combatX, combatY);
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++)
+                    {
+                        if (this[x, y] == enemy)
+                        {
+                            if (y > 0 && this[x, y - 1] == OPEN) // Up
                                 yield return (x, y - 1);
-                            if (y < Height - 1 && _board[y+1][x] == '.') // Down
+                            if (y < Height - 1 && this[x, y + 1] == OPEN) // Down
                                 yield return (x, y + 1);
-                            if (x > 0 && _board[y][x-1] == '.') // Left
+                            if (x > 0 && this[x - 1, y] == OPEN) // Left
                                 yield return (x - 1, y);
-                            if (x < Width - 1 && _board[y][x+1] == '.') // Right
+                            if (x < Width - 1 && this[x + 1, y] == OPEN) // Right
                                 yield return (x + 1, y);
                         }
                     }
                 }
             }
+
+            internal char DetermineEnemy(int x, int y) =>
+                this[x, y] == GOBLIN ? ELF : GOBLIN;
+
+            internal bool CanAttack(int x, int y)
+            {
+                var enemy = DetermineEnemy(x, y);
+                if (y > 0 && this[x, y - 1] == enemy) // Up
+                    return true;
+                if (y < Height - 1 && this[x, y + 1] == enemy) // Down
+                    return true;
+                if (x > 0 && this[x - 1, y] == enemy) // Left
+                    return true;
+                if (x < Width - 1 && this[x + 1, y] == enemy) // Right
+                    return true;
+                return false;
+            }
+
+            internal static int Distance(int x1, int y1, int x2, int y2) =>
+                Math.Abs(x1 - x2) + Math.Abs(y1 - y2);
 
             public void Display()
             {
@@ -68,16 +146,16 @@ namespace AdventOfCode2018
                     {
                         switch (p)
                         {
-                            case '#':
+                            case WALL:
                                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                                 break;
-                            case '.':
+                            case OPEN:
                                 Console.ForegroundColor = ConsoleColor.Gray;
                                 break;
-                            case 'E':
+                            case ELF:
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 break;
-                            case 'G':
+                            case GOBLIN:
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 break;
                             default:

@@ -32,7 +32,7 @@ namespace AdventOfCode2018
             int maxY2 = matches.Where(m => m.a == "x").Max(m => m.v3);
             int maxY = Math.Max(maxY1, maxY2);
 
-            char[,] ground = new char[maxX - minX + 1, maxY + 1];
+            char[,] ground = new char[maxX - minX + 2, maxY + 1];
 
             // Draw initial ground
             foreach(var m in matches)
@@ -59,28 +59,33 @@ namespace AdventOfCode2018
 
         static void DripDown(char[,] ground, int x, int y)
         {
-            while (y < ground.GetLength(1) && ground[x, y] != '#')
+            while (y < ground.GetLength(1) && ground[x, y] == '\0')
             {
                 ground[x, y] = '|';
                 y++;
             }
             if (y == ground.GetLength(1)) return;
-            OutputGround(ground);
-            while (Fill(ground, x, --y)) { }
+            //OutputGround(ground);
+            while (Fill(ground, x, --y))
+            {
+            }
         }
 
         static bool Fill(char[,] ground, int x, int y)
         {
-            if (y < 0) return false;
+            //if (y < 0)
+                //return false;
 
             ground[x, y] = '~';
 
             // Fill to the left
             bool dripped = false;
             int l = x - 1;
-            while(l > 0 && ground[l, y] != '#')
+            while(l > 0 && (ground[l, y] == '\0' || ground[l, y] == '|'))
             {
                 ground[l, y] = '~';
+                //if (ground[l, y + 1] == '|')
+                //    break;
                 if(ground[l, y + 1] == '\0')
                 {
                     dripped = true;
@@ -89,13 +94,15 @@ namespace AdventOfCode2018
                 }
                 l--;
             }
-            OutputGround(ground);
+            //OutputGround(ground);
 
             // Fill to the right
             int r = x + 1;
-            while (r < ground.GetLength(0) && ground[r, y] != '#')
+            while (r < ground.GetLength(0) && (ground[r, y] == '\0' || ground[r, y] == '|'))
             {
                 ground[r, y] = '~';
+                //if (ground[r, y + 1] == '|')
+                //    break;
                 if (ground[r, y + 1] == '\0')
                 {
                     dripped = true;
@@ -104,7 +111,7 @@ namespace AdventOfCode2018
                 }
                 r++;
             }
-            OutputGround(ground);
+            //OutputGround(ground);
 
             return !dripped;
         }
@@ -117,23 +124,17 @@ namespace AdventOfCode2018
 
         static void OutputGround(char[,] ground)
         {
-#if false
+#if true
             Console.Clear();
-            for(int y = 0; y < ground.GetLength(1) && y < 40; y++)
+            var sb = new StringBuilder(ground.GetLength(0));
+            for(int y = 0; y < ground.GetLength(1) && y < 60; y++)
             {
+                sb.Clear();
                 for (int x = 0; x < ground.GetLength(0); x++)
                 {
-                    switch (ground[x, y])
-                    {
-                        case '\0':
-                            Console.Write('.');
-                            break;
-                        default:
-                            Console.Write(ground[x, y]);
-                            break;
-                    }
+                    sb.Append(ground[x, y] == '\0' ? '.' : ground[x, y]);
                 }
-                Console.WriteLine();
+                Console.WriteLine(sb.ToString());
             }
             Console.ReadLine();
 #endif

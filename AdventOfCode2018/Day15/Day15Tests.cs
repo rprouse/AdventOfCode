@@ -23,8 +23,30 @@ namespace AdventOfCode2018
             Assert.That(goals, Has.Length.EqualTo(3));
             Assert.That(goals[0].x, Is.EqualTo(4));
             Assert.That(goals[0].y, Is.EqualTo(1));
+            Assert.That(goals[1].x, Is.EqualTo(3));
+            Assert.That(goals[1].y, Is.EqualTo(2));
             Assert.That(goals[2].x, Is.EqualTo(5));
             Assert.That(goals[2].y, Is.EqualTo(5));
+        }
+
+        [TestCase(2, 1, Day15.Board.ELF)]
+        [TestCase(4, 2, Day15.Board.GOBLIN)]
+        public void DeterminesEnemy(int x, int y, char expected)
+        {
+            var board = new Day15.Board(TestFile(DAY, "Test1.txt"));
+            Assert.That(board.DetermineEnemy(x, y), Is.EqualTo(expected));
+        }
+
+        [TestCase(2, 1, false)]
+        [TestCase(4, 2, true)]
+        [TestCase(5, 2, true)]
+        [TestCase(5, 3, true)]
+        [TestCase(5, 4, true)]
+        [TestCase(3, 4, false)]
+        public void CanAttack(int x, int y, bool expected)
+        {
+            var board = new Day15.Board(TestFile(DAY, "Test1.txt"));
+            Assert.That(board.CanAttack(x, y), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]

@@ -30,7 +30,8 @@ namespace AdventOfCode2018
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(TestFile(DAY), 57);
-            yield return new TestCaseData(PuzzleFile(DAY), 481475);
+            yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 74);
+            yield return new TestCaseData(PuzzleFile(DAY), 368175);
         }
 
         public static IEnumerable TestDataTwo()
