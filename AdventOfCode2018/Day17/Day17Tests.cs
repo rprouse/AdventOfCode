@@ -31,7 +31,7 @@ namespace AdventOfCode2018
         {
             yield return new TestCaseData(TestFile(DAY), 57);
             yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 74);
-            yield return new TestCaseData(PuzzleFile(DAY), 368175);
+            yield return new TestCaseData(PuzzleFile(DAY), 29806); // 29802? 4 extra drips?
         }
 
         public static IEnumerable TestDataTwo()

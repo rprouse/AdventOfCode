@@ -10,6 +10,9 @@ namespace AdventOfCode2018
 {
     public static class Day17
     {
+        const bool DISPLAY_FINAL = true;
+        const bool DISPLAY_ALL = false;
+
         public static int PartOne(string filename)
         {
             // Parse the file
@@ -32,7 +35,7 @@ namespace AdventOfCode2018
             int maxY2 = matches.Where(m => m.a == "x").Max(m => m.v3);
             int maxY = Math.Max(maxY1, maxY2);
 
-            char[,] ground = new char[maxX - minX + 2, maxY + 1];
+            char[,] ground = new char[maxX - minX + 2, maxY + 2];
 
             // Draw initial ground
             foreach(var m in matches)
@@ -47,74 +50,94 @@ namespace AdventOfCode2018
             }
 
             // Drip down from the well
-            int x = 500 - minX;
-            int y = 1;
-            DripDown(ground, x, y);
+            DripDown(ground, 500 - minX, 1);
 
-            OutputGround(ground);
-            Console.WriteLine("Finished");
+            if (DISPLAY_FINAL)
+            {
+                OutputGround(ground);
+                Console.WriteLine("Finished");
+            }
 
-            return ground.Cast<char>().Where(c => c == '|' || c == '~').Count();
+            int water = ground.Cast<char>().Where(c => c == '~').Count();
+            int drips = ground.Cast<char>().Where(c => c == '|').Count();
+
+            Console.WriteLine($"Water: {water}, Drips: {drips}, Total: {water + drips}");
+            return water + drips;
         }
 
         static void DripDown(char[,] ground, int x, int y)
         {
-            while (y < ground.GetLength(1) && ground[x, y] == '\0')
+            ground[x, y] = '|';
+
+            while (ground[x, y+1] != '#' && ground[x, y+1] != '~')
             {
-                ground[x, y] = '|';
                 y++;
+                if (y >= ground.GetLength(1) - 1)
+                    return;
+                ground[x, y] = '|';
             }
-            if (y == ground.GetLength(1)) return;
-            //OutputGround(ground);
-            while (Fill(ground, x, --y))
+
+            if (DISPLAY_ALL)
             {
+                OutputGround(ground);
+                Console.ReadLine();
             }
+
+            do
+            {
+                bool dripRight = false;
+                bool dripLeft = false;
+                int minX;
+                for (minX = x; minX >= 0; minX--)
+                {
+                    if(!ground.Occupied(minX, y + 1))
+                    {
+                        dripLeft = true;
+                        break;
+                    }
+                    ground[minX, y] = '|';
+                    if (ground.Occupied(minX - 1, y))
+                        break;
+                }
+
+                int maxX;
+                for (maxX = x; maxX < ground.GetLength(0); maxX++)
+                {
+                    if (!ground.Occupied(maxX, y + 1))
+                    {
+                        dripRight = true;
+                        break;
+                    }
+                    ground[maxX, y] = '|';
+                    if (ground.Occupied(maxX + 1, y))
+                        break;
+                }
+                if (dripRight && ground[maxX, y + 1] != '|')
+                    DripDown(ground, maxX, y);
+
+                if (dripLeft && ground[minX,y+1] != '|')
+                    DripDown(ground, minX, y);
+
+                if (dripLeft || dripRight)
+                    return;
+
+                for (int i = minX; i < maxX + 1; i++)
+                {
+                    ground[i, y] = '~';
+                }
+
+                y--;
+
+                if (DISPLAY_ALL)
+                {
+                    OutputGround(ground);
+                    Console.ReadLine();
+                }
+            } while (true);
         }
 
-        static bool Fill(char[,] ground, int x, int y)
-        {
-            //if (y < 0)
-                //return false;
-
-            ground[x, y] = '~';
-
-            // Fill to the left
-            bool dripped = false;
-            int l = x - 1;
-            while(l > 0 && (ground[l, y] == '\0' || ground[l, y] == '|'))
-            {
-                ground[l, y] = '~';
-                //if (ground[l, y + 1] == '|')
-                //    break;
-                if(ground[l, y + 1] == '\0')
-                {
-                    dripped = true;
-                    DripDown(ground, l, y + 1);
-                    break;
-                }
-                l--;
-            }
-            //OutputGround(ground);
-
-            // Fill to the right
-            int r = x + 1;
-            while (r < ground.GetLength(0) && (ground[r, y] == '\0' || ground[r, y] == '|'))
-            {
-                ground[r, y] = '~';
-                //if (ground[r, y + 1] == '|')
-                //    break;
-                if (ground[r, y + 1] == '\0')
-                {
-                    dripped = true;
-                    DripDown(ground, r, y + 1);
-                    break;
-                }
-                r++;
-            }
-            //OutputGround(ground);
-
-            return !dripped;
-        }
+        static bool Occupied(this char[,] ground, int x, int y) =>
+            x < 0 || x >= ground.GetLength(0) || ground[x, y] == '#' || ground[x, y] == '~';
 
         public static int PartTwo(string filename)
         {
@@ -124,10 +147,9 @@ namespace AdventOfCode2018
 
         static void OutputGround(char[,] ground)
         {
-#if true
             Console.Clear();
             var sb = new StringBuilder(ground.GetLength(0));
-            for(int y = 0; y < ground.GetLength(1) && y < 60; y++)
+            for(int y = 0; y < ground.GetLength(1); y++)
             {
                 sb.Clear();
                 for (int x = 0; x < ground.GetLength(0); x++)
@@ -136,8 +158,6 @@ namespace AdventOfCode2018
                 }
                 Console.WriteLine(sb.ToString());
             }
-            Console.ReadLine();
-#endif
         }
     }
 }
