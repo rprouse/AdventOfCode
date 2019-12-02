@@ -19,6 +19,15 @@ namespace AdventOfCode2019
             Assert.That(actual, Is.EqualTo(expected));
         }
 
+        [TestCase(14, 2)]
+        [TestCase(1969, 966)]
+        [TestCase(100756, 50346)]
+        public void CanCalculateFuelRequiredWithFuelForTheFuel(int mass, int expected)
+        {
+            var actual = Day01.FuelRequiredWithFuel(mass);
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
         [Test]
         public void TestPartOne()
         {
@@ -28,7 +37,7 @@ namespace AdventOfCode2019
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day01.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day01.PartTwo(PuzzleFile(DAY)), Is.EqualTo(4728317));
         }
     }
 }
