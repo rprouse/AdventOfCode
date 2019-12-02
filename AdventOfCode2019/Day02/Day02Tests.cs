@@ -27,12 +27,6 @@ namespace AdventOfCode2019
             Assert.That(Day02.RunIntcodeProgram(codes), Is.EqualTo(expected));
         }
 
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day02.PartTwo(filename), Is.EqualTo(expected));
-        }
-
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(new int[] { 1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50 }, new int[] { 3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50 });
@@ -40,12 +34,6 @@ namespace AdventOfCode2019
             yield return new TestCaseData(new int[] { 2, 3, 0, 3, 99 }, new int[] { 2, 3, 0, 6, 99 });
             yield return new TestCaseData(new int[] { 2, 4, 4, 5, 99, 0 }, new int[] { 2, 4, 4, 5, 99, 9801 });
             yield return new TestCaseData(new int[] { 1, 1, 1, 4, 99, 5, 6, 0, 99 }, new int[] { 30, 1, 1, 4, 2, 5, 6, 0, 99 });
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            //yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }

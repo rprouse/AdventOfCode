@@ -20,7 +20,18 @@ namespace AdventOfCode2019
 
         public static int PartTwo(string filename)
         {
-            int[] codes = filename.SplitInts();
+            for (int noun = 0; noun <= 99; noun++)
+            {
+                for(int verb = 0; verb <= 99; verb++)
+                {
+                    int[] codes = filename.SplitInts();
+                    codes[1] = noun;
+                    codes[2] = verb;
+                    int[] result = RunIntcodeProgram(codes);
+                    if (result[0] == 19690720)
+                        return noun * 100 + verb;
+                }
+            }
             return 0;
         }
 
@@ -48,7 +59,7 @@ namespace AdventOfCode2019
                         codes[ptrC] = codes[ptrA] * codes[ptrB];
                         break;
                     }
-                    case 99: // Exit
+                    case 99: // Halt
                         return codes;
                     default:
                         throw new Exception($"Unknown opcode {opcode} at position {pc}");
