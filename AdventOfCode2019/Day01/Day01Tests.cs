@@ -9,40 +9,26 @@ namespace AdventOfCode2019
     {
         const int DAY = 01;
 
+        [TestCase(12, 2)]
+        [TestCase(14, 2)]
+        [TestCase(1969, 654)]
+        [TestCase(100756, 33583)]
+        public void CanCalculateFuelRequired(int mass, int expected)
+        {
+            var actual = Day01.FuelRequired(mass);
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
         [Test]
         public void TestPartOne()
         {
-            Assert.That(Day01.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day01.PartOne(PuzzleFile(DAY)), Is.EqualTo(3154112));
         }
 
         [Test]
         public void TestPartTwo()
         {
             Assert.That(Day01.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day01.PartOne(filename), Is.EqualTo(expected));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day01.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }

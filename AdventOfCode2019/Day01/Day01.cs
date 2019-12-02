@@ -11,8 +11,8 @@ namespace AdventOfCode2019
     {
         public static int PartOne(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            int[] masses = filename.GetInts();
+            return masses.Select(m => FuelRequired(m)).Sum();
         }
 
         public static int PartTwo(string filename)
@@ -20,5 +20,8 @@ namespace AdventOfCode2019
             string[] lines = filename.ReadAllLines();
             return 0;
         }
+
+        public static int FuelRequired(int mass) =>
+            mass / 3 - 2;
     }
 }
