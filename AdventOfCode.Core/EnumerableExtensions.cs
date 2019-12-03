@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AdventOfCode.Core
 {
     public static class EnumerableExtensions
     {
         public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> source,
-       Action<TSource> action)
+            Action<TSource> action)
         {
             foreach (TSource item in source)
                 action(item);
