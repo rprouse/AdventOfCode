@@ -12,37 +12,30 @@ namespace AdventOfCode2019
         [Test]
         public void TestPartOne()
         {
-            Assert.That(Day04.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day04.PartOne(108457, 562041), Is.EqualTo(2779));
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day04.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            //Assert.That(Day04.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
         }
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        [TestCase(111111, true)]
+        [TestCase(223450, false)]
+        [TestCase(123789, false)]
+        [TestCase(122345, true)]
+        [TestCase(111123, true)]
+        [TestCase(135699, true)]
+        public void CanFindValidPass(int pass, bool expected)
         {
-            Assert.That(Day04.PartOne(filename), Is.EqualTo(expected));
+            Assert.That(Day04.IsValidPassword(pass), Is.EqualTo(expected));
         }
 
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        [Test]
+        public void CanFindDigit([Range(1, 6)] int d)
         {
-            Assert.That(Day04.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Assert.That(Day04.DigitAt(123456, d-1), Is.EqualTo(d));
         }
     }
 }
