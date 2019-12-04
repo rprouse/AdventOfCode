@@ -18,7 +18,7 @@ namespace AdventOfCode2019
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day03.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day03.PartTwo(PuzzleFile(DAY)), Is.EqualTo(91518));
         }
 
         [TestCase("R8,U5,L5,D3,", "U7,R6,D4,L4,", 6)]
@@ -34,8 +34,7 @@ namespace AdventOfCode2019
         [TestCase("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51", "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7", 410)]
         public void TestPartTwo(string wire1, string wire2, int expected)
         {
-            Assert.Fail("TODO");
-            //Assert.That(Day03.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day03.ShortestDistance(wire1, wire2), Is.EqualTo(expected));
         }
     }
 }

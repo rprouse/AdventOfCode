@@ -15,6 +15,12 @@ namespace AdventOfCode2019
             return ClosestJunction(lines[0], lines[1]);
         }
 
+        public static int PartTwo(string filename)
+        {
+            string[] lines = filename.ReadAllLines();
+            return ShortestDistance(lines[0], lines[1]);
+        }
+
         public static int ClosestJunction(string wire1, string wire2)
         {
             Dictionary<string, int> path1 = FollowWire(wire1);
@@ -27,6 +33,24 @@ namespace AdventOfCode2019
                 {
                     string[] split = one.Split(',');
                     int d = Distance(split[0].ToInt(), split[1].ToInt(), 0, 0);
+                    if (d < minDist)
+                        minDist = d;
+                }
+            }
+            return minDist;
+        }
+
+        public static int ShortestDistance(string wire1, string wire2)
+        {
+            Dictionary<string, int> path1 = FollowWire(wire1);
+            Dictionary<string, int> path2 = FollowWire(wire2);
+            int minDist = int.MaxValue;
+
+            foreach (var one in path1.Keys)
+            {
+                if (path2.ContainsKey(one))
+                {
+                    int d = path1[one] + path2[one];
                     if (d < minDist)
                         minDist = d;
                 }
@@ -81,12 +105,6 @@ namespace AdventOfCode2019
             list[$"{x},{y}"] = i++;
             list.Remove("0,0");
             return list;
-        }
-
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
         }
     }
 }
