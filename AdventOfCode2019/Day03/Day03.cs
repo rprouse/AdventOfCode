@@ -9,80 +9,77 @@ namespace AdventOfCode2019
 {
     public static class Day03
     {
-        const int SIZE = 13000;
-
         public static int PartOne(string filename)
         {
             string[] lines = filename.ReadAllLines();
-            return PartOne(lines[0], lines[1]);
+            return ClosestJunction(lines[0], lines[1]);
         }
 
-        public static int PartOne(string wire1, string wire2)
+        public static int ClosestJunction(string wire1, string wire2)
         {
-            bool[,] path1 = FollowWire(wire1);
-            bool[,] path2 = FollowWire(wire2);
+            HashSet<string> path1 = FollowWire(wire1);
+            HashSet<string> path2 = FollowWire(wire2);
             int minDist = int.MaxValue;
 
-            for(int x = 0; x < SIZE * 2; x++)
-            for(int y = 0; y < SIZE * 2; y++)
+            foreach (var one in path1)
             {
-                if(path1[x,y] && path2[x,y])
+                if (path2.Contains(one))
                 {
-                    int d = Distance(x, y);
+                    string[] split = one.Split(',');
+                    int d = Distance(split[0].ToInt(), split[1].ToInt(), 0, 0);
                     if (d < minDist)
                         minDist = d;
                 }
             }
-
             return minDist;
         }
 
-        static int Distance(int x, int y) =>
-            Math.Abs(SIZE - x) + Math.Abs(SIZE - y);
+        static int Distance(int x, int y, int x1, int y1) =>
+            Math.Abs(x - x1) + Math.Abs(y - y1);
 
-        static bool[,] FollowWire(string wire)
+        public static HashSet<string> FollowWire(string wire)
         {
-            bool[,] board = new bool[SIZE * 2, SIZE * 2];
-
-            int x = SIZE;
-            int y = SIZE;
+            var list = new HashSet<string>();
+            int x = 0;
+            int y = 0;
 
             string[] steps = wire.Split(",", StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(string step in steps)
+            foreach (string step in steps)
             {
                 char dir = step[0];
                 int dist = step.Substring(1).ToInt();
-                switch(dir)
+                switch (dir)
                 {
                     case 'U':
-                        for(int c = 0; c < dist; c++)
+                        for (int c = 0; c < dist; c++)
                         {
-                            board[x, --y] = true;
+                            list.Add($"{x},{y++}");
                         }
                         break;
                     case 'D':
                         for (int c = 0; c < dist; c++)
                         {
-                            board[x, ++y] = true;
+                            list.Add($"{x},{y--}");
                         }
                         break;
                     case 'L':
                         for (int c = 0; c < dist; c++)
                         {
-                            board[--x, y] = true;
+                            list.Add($"{x--},{y}");
                         }
                         break;
                     case 'R':
                         for (int c = 0; c < dist; c++)
                         {
-                            board[++x, y] = true;
+                            list.Add($"{x++},{y}");
                         }
                         break;
                 }
             }
-
-            return board;
+            list.Add($"{x},{y}");
+            list.Remove("0,0");
+            return list;
         }
 
         public static int PartTwo(string filename)
