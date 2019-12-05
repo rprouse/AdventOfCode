@@ -18,19 +18,19 @@ namespace AdventOfCode2019
         public static int PartOne(string filename)
         {
             int[] codes = filename.SplitInts();
-            int result = RunIntcodeProgram(codes);
+            int result = RunIntcodeProgram(codes, 1);
             return result;
         }
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            int[] codes = filename.SplitInts();
+            int result = RunIntcodeProgram(codes, 5);
+            return result;
         }
 
-        public static int RunIntcodeProgram(int[] codes)
+        public static int RunIntcodeProgram(int[] codes, int input)
         {
-            int input = 1;
             int output = 0;
             int pc = 0; // Program counter
             while (true)
@@ -69,6 +69,38 @@ namespace AdventOfCode2019
                             int ptrA = codes[pc++];
                             output = GetValue(codes, ptrA, mode1);
                             Console.WriteLine(output);
+                            break;
+                        }
+                    case 5: // Jump if true
+                        {
+                            int ptrA = codes[pc++];
+                            int ptrB = codes[pc++];
+                            if (GetValue(codes, ptrA, mode1) != 0)
+                                pc = GetValue(codes, ptrB, mode2);
+                            break;
+                        }
+                    case 6: // Jump if false
+                        {
+                            int ptrA = codes[pc++];
+                            int ptrB = codes[pc++];
+                            if (GetValue(codes, ptrA, mode1) == 0)
+                                pc = GetValue(codes, ptrB, mode2);
+                            break;
+                        }
+                    case 7: // Less than
+                        {
+                            int ptrA = codes[pc++];
+                            int ptrB = codes[pc++];
+                            int ptrC = codes[pc++];
+                            codes[ptrC] = (GetValue(codes, ptrA, mode1) < GetValue(codes, ptrB, mode2)) ? 1 : 0;
+                            break;
+                        }
+                    case 8: // Equals
+                        {
+                            int ptrA = codes[pc++];
+                            int ptrB = codes[pc++];
+                            int ptrC = codes[pc++];
+                            codes[ptrC] = (GetValue(codes, ptrA, mode1) == GetValue(codes, ptrB, mode2)) ? 1 : 0;
                             break;
                         }
                     case 99: // Halt
