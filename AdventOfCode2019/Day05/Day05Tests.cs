@@ -12,7 +12,7 @@ namespace AdventOfCode2019
         [Test]
         public void TestPartOne()
         {
-            Assert.That(Day05.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day05.PartOne(PuzzleFile(DAY)), Is.EqualTo(15314507));
         }
 
         [Test]
@@ -21,28 +21,37 @@ namespace AdventOfCode2019
             Assert.That(Day05.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
         }
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        [TestCase(1002, 2)]
+        [TestCase(11003, 3)]
+        [TestCase(00099, 99)]
+        public void CanGetOpCode(int ptr, int expected)
         {
-            Assert.That(Day05.PartOne(filename), Is.EqualTo(expected));
+            Assert.That(Day05.GetOpCode(ptr), Is.EqualTo(expected));
         }
 
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        [TestCase(1002, 1, ParameterMode.Position)]
+        [TestCase(1002, 2, ParameterMode.Immediate)]
+        [TestCase(1002, 3, ParameterMode.Position)]
+        [TestCase(11003, 1, ParameterMode.Position)]
+        [TestCase(11003, 2, ParameterMode.Immediate)]
+        [TestCase(11003, 3, ParameterMode.Immediate)]
+        public void CanGetParametermode(int ptr, int param, ParameterMode expected)
         {
-            Assert.That(Day05.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day05.GetParameterMode(ptr, param), Is.EqualTo(expected));
         }
 
-        public static IEnumerable TestDataOne()
+        [Test]
+        public void AddNegativeNumber()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            var result = Day05.RunIntcodeProgram(new int[] { 1101, 100, -1, 4, 0 });
+            Assert.That(result, Is.EqualTo(0));
         }
 
-        public static IEnumerable TestDataTwo()
+        [Test]
+        public void MultiplyNumber()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            var result = Day05.RunIntcodeProgram(new int[] { 1002, 4, 3, 4, 33 });
+            Assert.That(result, Is.EqualTo(0));
         }
     }
 }
