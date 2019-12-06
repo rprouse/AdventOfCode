@@ -23,14 +23,14 @@ namespace AdventOfCode2019
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 42);
+            yield return new TestCaseData(TestFile(DAY, "Test1.txt"), 42);
             yield return new TestCaseData(PuzzleFile(DAY), 158090);
         }
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 4);
+            yield return new TestCaseData(PuzzleFile(DAY), 241);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
 using AdventOfCode.Core;
 
 namespace AdventOfCode2019
@@ -18,7 +14,7 @@ namespace AdventOfCode2019
         public static int PartTwo(string filename)
         {
             var orbits = ReadOrbits(filename.ReadAllLines());
-            return 0;
+            return DistanceToSanta(orbits);
         }
 
         public static Dictionary<string, List<string>> ReadOrbits(string[] lines)
@@ -50,6 +46,55 @@ namespace AdventOfCode2019
             }
 
             return count;
+        }
+
+        public static int DistanceToSanta(Dictionary<string, List<string>> orbits)
+        {
+            int count = 0;
+
+            List<string> myOrbits = WalkToRootBody(orbits, "YOU", new List<string>());
+            List<string> santasOrbits = WalkToRootBody(orbits, "SAN", new List<string>());
+
+            string nearest = string.Empty;
+            foreach(string body in myOrbits)
+            {
+                count++;
+                if(santasOrbits.Contains(body))
+                {
+                    nearest = body;
+                    break;
+                }
+            }
+
+            foreach(string body in santasOrbits)
+            {
+                count++;
+                if (body == nearest)
+                    break;
+            }
+
+            return count - 2;
+        }
+
+        public static string FindBodySateliteIsOrbiting(Dictionary<string, List<string>> orbits, string satellite)
+        {
+            foreach(string body in orbits.Keys)
+            {
+                if (orbits[body].Contains(satellite))
+                    return body;
+            }
+            return string.Empty;
+        }
+
+        public static List<string> WalkToRootBody(Dictionary<string, List<string>> orbits, string satellite, List<string> list)
+        {
+            string body = FindBodySateliteIsOrbiting(orbits, satellite);
+            if(body != "COM")
+            {
+                list.Add(body);
+                WalkToRootBody(orbits, body, list);
+            }
+            return list;
         }
     }
 }
