@@ -20,5 +20,17 @@ namespace AdventOfCode2019
             string[] lines = filename.ReadAllLines();
             return 0;
         }
+
+        public static int RunProgram(int[] program, int[] sequence)
+        {
+            int ret = 0;
+            for(int i = 0; i < 5; i++)
+            {
+                int[] input = new int[] { sequence[i], ret };
+                var computer = new IntcodeComputer(program, input);
+                ret = computer.RunProgram();
+            }
+            return ret;
+        }
     }
 }

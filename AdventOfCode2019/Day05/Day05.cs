@@ -7,12 +7,6 @@ using AdventOfCode.Core;
 
 namespace AdventOfCode2019
 {
-    public enum ParameterMode
-    {
-        Position = 0,
-        Immediate = 1
-    }
-
     public static class Day05
     {
         public static int PartOne(string filename)
