@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.IO;
+using System.Threading.Tasks;
 using AdventOfCode.Core;
 using NUnit.Framework;
 
@@ -10,27 +11,28 @@ namespace AdventOfCode2019
         const int DAY = 07;
 
         [Test]
-        public void TestPartOne()
+        public async Task TestPartOne()
         {
-            Assert.That(Day07.PartOne(PuzzleFile(DAY)), Is.EqualTo(277328));
+            Assert.That(await Day07.PartOne(PuzzleFile(DAY)), Is.EqualTo(277328));
         }
 
         [Test]
+        [Ignore("Slower than I'd like :(")]
         public void TestPartTwo()
         {
-            Assert.That(Day07.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day07.PartTwo(PuzzleFile(DAY)), Is.EqualTo(11304734));
         }
 
         [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(int[] program, int[] sequence, int expected)
+        public async Task TestPartOne(int[] program, int[] sequence, int expected)
         {
-            Assert.That(Day07.RunProgram(program, sequence), Is.EqualTo(expected));
+            Assert.That(await Day07.RunProgram(program, sequence), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(int[] program, int[] sequence, int expected)
         {
-            Assert.That(Day07.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day07.RunProgramInFeedbackLoop(program, sequence), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()
@@ -51,8 +53,17 @@ namespace AdventOfCode2019
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(
+                new int[] { 3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,
+                            27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5 },
+                new int[] { 9, 8, 7, 6, 5 },
+                139629729);
+            yield return new TestCaseData(
+                new int[] { 3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,1001,54,
+                            -5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,55,2,53,55,53,4,
+                            53,1001,56,-1,56,1005,56,6,99,0,0,0,0,10 },
+                new int[] { 9, 7, 8, 5, 6 },
+                18216);
         }
     }
 }

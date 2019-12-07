@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
+using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
     public static class Day07
     {
-        public static int PartOne(string filename)
+        public static async Task<int> PartOne(string filename)
         {
             int[] codes = filename.SplitInts();
             int max = 0;
@@ -25,7 +26,7 @@ namespace AdventOfCode2019
                                     c != d && c != e &&
                                     d != e)
                                 {
-                                    int result = RunProgram(codes, new int[] { a, b, c, d, e });
+                                    int result = await RunProgram(codes, new int[] { a, b, c, d, e });
                                     if (result > max)
                                         max = result;
                                 }
@@ -34,22 +35,78 @@ namespace AdventOfCode2019
             return max;
         }
 
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
-        }
-
-        public static int RunProgram(int[] program, int[] sequence)
+        public static async Task<int> RunProgram(int[] program, int[] sequence)
         {
             int ret = 0;
             for (int i = 0; i < 5; i++)
             {
                 int[] input = new int[] { sequence[i], ret };
                 var computer = new IntcodeComputer(program, input);
-                ret = computer.RunProgram();
+                ret = await computer.RunProgram();
             }
             return ret;
+        }
+
+        public static int PartTwo(string filename)
+        {
+            int[] codes = filename.SplitInts();
+            int max = 0;
+
+            for (int a = 5; a < 10; a++)
+                for (int b = 5; b < 10; b++)
+                    for (int c = 5; c < 10; c++)
+                        for (int d = 5; d < 10; d++)
+                            for (int e = 5; e < 10; e++)
+                            {
+                                if (a != b && a != c && a != d && a != e &&
+                                    b != c && b != d && b != e &&
+                                    c != d && c != e &&
+                                    d != e)
+                                {
+                                    int result = RunProgramInFeedbackLoop(codes, new int[] { a, b, c, d, e });
+                                    if (result > max)
+                                        max = result;
+                                }
+                            }
+
+            return max;
+        }
+
+        public static int RunProgramInFeedbackLoop(int[] program, int[] sequence)
+        {
+            int ret = 0;
+
+            // Create computers
+            IntcodeComputer[] computers = new IntcodeComputer[5];
+
+            // Create computers hooking Input/Output together
+            for (int i = 0; i < 5; i++)
+            {
+                computers[i] = new IntcodeComputer(program);
+                if (i > 0)
+                    computers[i].Input = computers[i - 1].Output;
+            }
+            computers[0].Input = computers[4].Output;
+
+            // Prime the sequence
+            for (int i = 0; i < 5; i++)
+                computers[i].Input.Enqueue(sequence[i]);
+
+            // Prime the first computer
+            computers[0].Input.Enqueue(0);
+
+            // Run the computers
+            List<Task<int>> tasks = new List<Task<int>>();
+            foreach (var computer in computers)
+            {
+                Task<int> result = Task.Run(async () => await computer.RunProgram());
+                tasks.Add(result);
+            }
+
+            // Wait for them to finish
+            Task.WaitAll(tasks.ToArray());
+
+            return computers[4].Output.Dequeue();
         }
     }
 }

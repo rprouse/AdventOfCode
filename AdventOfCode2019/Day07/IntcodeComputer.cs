@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
@@ -13,15 +14,23 @@ namespace AdventOfCode2019
     public class IntcodeComputer
     {
         int[] _codes;
-        Queue<int> _input;
+
+        public IntcodeComputer(int[] codes)
+        {
+            _codes = (int[])codes.Clone();
+        }
 
         public IntcodeComputer(int[] codes, int[] input)
         {
             _codes = (int[])codes.Clone();
-            _input = new Queue<int>(input);
+            foreach (int i in input)
+                Input.Enqueue(i);
         }
 
-        public int RunProgram()
+        public Queue<int> Input { get; set; } = new Queue<int>();
+        public Queue<int> Output { get; set; } = new Queue<int>();
+
+        public async Task<int> RunProgram()
         {
             int output = 0;
             int pc = 0; // Program counter
@@ -53,13 +62,17 @@ namespace AdventOfCode2019
                     case 3: // Input
                         {
                             int ptrA = _codes[pc++];
-                            _codes[ptrA] = _input.Dequeue();
+                            // Wait for input
+                            while (Input.Count == 0)
+                                await Task.Delay(10);
+                            _codes[ptrA] = Input.Dequeue();
                             break;
                         }
                     case 4: // Output
                         {
                             int ptrA = _codes[pc++];
                             output = GetValue(ptrA, mode1);
+                            Output.Enqueue(output);
                             Console.WriteLine(output);
                             break;
                         }
