@@ -49,7 +49,7 @@ namespace AdventOfCode2019
             }
 
             string final = DivideImageIntoRows(new string(image), width, height);
-            Console.WriteLine(final);
+            OutputImage(final);
             return final;
         }
 
@@ -65,6 +65,12 @@ namespace AdventOfCode2019
                 builder.AppendLine(image.Substring(pos, width));
             }
             return builder.ToString();
+        }
+
+        static void OutputImage(string image)
+        {
+            image = image.Replace('0', '░').Replace('1', '█');
+            Console.Write(image);
         }
     }
 }
