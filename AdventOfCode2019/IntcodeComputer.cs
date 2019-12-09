@@ -53,7 +53,7 @@ namespace AdventOfCode2019
                             long ptrA = _memory[_pc++];
                             long ptrB = _memory[_pc++];
                             long ptrC = _memory[_pc++];
-                            _memory[ptrC] = GetValue(ptrA, modeA) + GetValue(ptrB, modeB);
+                            SetValue(ptrC, modeC, GetValue(ptrA, modeA) + GetValue(ptrB, modeB));
                             break;
                         }
                     case 2: // Multiply
@@ -61,7 +61,7 @@ namespace AdventOfCode2019
                             long ptrA = _memory[_pc++];
                             long ptrB = _memory[_pc++];
                             long ptrC = _memory[_pc++];
-                            _memory[ptrC] = GetValue(ptrA, modeA) * GetValue(ptrB, modeB);
+                            SetValue(ptrC, modeC, GetValue(ptrA, modeA) * GetValue(ptrB, modeB));
                             break;
                         }
                     case 3: // Input
@@ -70,7 +70,7 @@ namespace AdventOfCode2019
                             // Wait for input
                             while (Input.Count == 0)
                                 await Task.Delay(10);
-                            _memory[ptrA] = Input.Dequeue();
+                            SetValue(ptrA, modeA, Input.Dequeue());
                             break;
                         }
                     case 4: // Output
@@ -102,7 +102,7 @@ namespace AdventOfCode2019
                             long ptrA = _memory[_pc++];
                             long ptrB = _memory[_pc++];
                             long ptrC = _memory[_pc++];
-                            _memory[ptrC] = (GetValue(ptrA, modeA) < GetValue(ptrB, modeB)) ? 1 : 0;
+                            SetValue(ptrC, modeC, (GetValue(ptrA, modeA) < GetValue(ptrB, modeB)) ? 1 : 0);
                             break;
                         }
                     case 8: // Equals
@@ -110,7 +110,7 @@ namespace AdventOfCode2019
                             long ptrA = _memory[_pc++];
                             long ptrB = _memory[_pc++];
                             long ptrC = _memory[_pc++];
-                            _memory[ptrC] = (GetValue(ptrA, modeA) == GetValue(ptrB, modeB)) ? 1 : 0;
+                            SetValue(ptrC, modeC, (GetValue(ptrA, modeA) == GetValue(ptrB, modeB)) ? 1 : 0);
                             break;
                         }
                     case 9: // Relative Base
@@ -137,6 +137,22 @@ namespace AdventOfCode2019
                     return ptr;
                 case ParameterMode.Relative:
                     return _memory[_relativeBase + ptr];
+                default:
+                    throw new ArgumentException($"Unknown parameter mode {mode}");
+            }
+        }
+
+        public void SetValue(long ptr, ParameterMode mode, long value)
+        {
+            switch (mode)
+            {
+                case ParameterMode.Position:
+                    _memory[ptr] = value;
+                    break;
+                case ParameterMode.Relative:
+                    _memory[_relativeBase + ptr] = value;
+                    break;
+                case ParameterMode.Immediate:
                 default:
                     throw new ArgumentException($"Unknown parameter mode {mode}");
             }

@@ -4,21 +4,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
+using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
     public static class Day09
     {
-        public static int PartOne(string filename)
+        public static async Task<long> PartOne(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            long[] program = filename.SplitLongs();
+            return await RunProgram(program, new long[] { 1 });
         }
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
+            long[] program = filename.SplitLongs();
             return 0;
+        }
+
+        public static async Task<long> RunProgram(long[] program, long[] input)
+        {
+            var computer = new IntcodeComputer(program, input);
+            return await computer.RunProgram();
         }
     }
 }
