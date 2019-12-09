@@ -42,7 +42,7 @@ namespace AdventOfCode2019
             {
                 int[] input = new int[] { sequence[i], ret };
                 var computer = new IntcodeComputer(program, input);
-                ret = await computer.RunProgram();
+                ret = (int)(await computer.RunProgram());
             }
             return ret;
         }
@@ -99,14 +99,14 @@ namespace AdventOfCode2019
             List<Task<int>> tasks = new List<Task<int>>();
             foreach (var computer in computers)
             {
-                Task<int> result = Task.Run(async () => await computer.RunProgram());
+                Task<int> result = Task.Run(async () => (int)(await computer.RunProgram()));
                 tasks.Add(result);
             }
 
             // Wait for them to finish
             Task.WaitAll(tasks.ToArray());
 
-            return computers[4].Output.Dequeue();
+            return (int)computers[4].Output.Dequeue();
         }
     }
 }
