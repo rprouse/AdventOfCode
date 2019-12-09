@@ -12,7 +12,7 @@ namespace AdventOfCode2019
     {
         public static async Task<int> PartOne(string filename)
         {
-            int[] codes = filename.SplitInts();
+            long[] codes = filename.SplitLongs();
             int max = 0;
 
             for (int a = 0; a < 5; a++)
@@ -26,7 +26,7 @@ namespace AdventOfCode2019
                                     c != d && c != e &&
                                     d != e)
                                 {
-                                    int result = await RunProgram(codes, new int[] { a, b, c, d, e });
+                                    int result = await RunProgram(codes, new long[] { a, b, c, d, e });
                                     if (result > max)
                                         max = result;
                                 }
@@ -35,12 +35,12 @@ namespace AdventOfCode2019
             return max;
         }
 
-        public static async Task<int> RunProgram(int[] program, int[] sequence)
+        public static async Task<int> RunProgram(long[] program, long[] sequence)
         {
             int ret = 0;
             for (int i = 0; i < 5; i++)
             {
-                int[] input = new int[] { sequence[i], ret };
+                long[] input = new long[] { sequence[i], ret };
                 var computer = new IntcodeComputer(program, input);
                 ret = (int)(await computer.RunProgram());
             }
@@ -49,7 +49,7 @@ namespace AdventOfCode2019
 
         public static int PartTwo(string filename)
         {
-            int[] codes = filename.SplitInts();
+            long[] codes = filename.SplitLongs();
             int max = 0;
 
             for (int a = 5; a < 10; a++)
@@ -63,7 +63,7 @@ namespace AdventOfCode2019
                                     c != d && c != e &&
                                     d != e)
                                 {
-                                    int result = RunProgramInFeedbackLoop(codes, new int[] { a, b, c, d, e });
+                                    int result = RunProgramInFeedbackLoop(codes, new long[] { a, b, c, d, e });
                                     if (result > max)
                                         max = result;
                                 }
@@ -72,7 +72,7 @@ namespace AdventOfCode2019
             return max;
         }
 
-        public static int RunProgramInFeedbackLoop(int[] program, int[] sequence)
+        public static int RunProgramInFeedbackLoop(long[] program, long[] sequence)
         {
             int ret = 0;
 

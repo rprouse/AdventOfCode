@@ -19,14 +19,14 @@ namespace AdventOfCode2019
         long _relativeBase = 0;
         long _pc = 0; // Program counter
 
-        public IntcodeComputer(int[] program)
+        public IntcodeComputer(long[] program)
         {
             _memory = new long[MEMORY];
             for (int i = 0; i < program.Length; i++)
                 _memory[i] = program[i];
         }
 
-        public IntcodeComputer(int[] program, int[] input) :
+        public IntcodeComputer(long[] program, long[] input) :
             this(program)
         {
             foreach (int i in input)

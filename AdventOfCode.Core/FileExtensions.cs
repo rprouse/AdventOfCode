@@ -16,6 +16,16 @@ namespace AdventOfCode.Core
                 .ToArray();
 
         /// <summary>
+        /// Reads in a file in the format `1, 2, 3, -4` as a series of ints
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static long[] SplitLongs(this string filename) =>
+            filename.SplitStrings()
+                .Select(s => s.ToLong())
+                .ToArray();
+
+        /// <summary>
         /// Reads a file with one int per line
         /// </summary>
         /// <param name="filename"></param>
