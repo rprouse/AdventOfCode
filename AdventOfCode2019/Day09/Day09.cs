@@ -1,10 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using AdventOfCode.Core;
-using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
@@ -16,10 +11,10 @@ namespace AdventOfCode2019
             return await RunProgram(program, new long[] { 1 });
         }
 
-        public static int PartTwo(string filename)
+        public static async Task<long> PartTwo(string filename)
         {
             long[] program = filename.SplitLongs();
-            return 0;
+            return await RunProgram(program, new long[] { 2 });
         }
 
         public static async Task<long> RunProgram(long[] program, long[] input)
