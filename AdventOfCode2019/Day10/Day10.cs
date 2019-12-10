@@ -56,7 +56,7 @@ namespace AdventOfCode2019
             int blasted = 0;
             List<double> sorted = angles.Keys.ToList();
             sorted.Sort();
-            while(true)
+            while(angles.Values.Any(a => a.Count > 0))
             {
                 foreach(double angle in sorted)
                 {
@@ -81,6 +81,7 @@ namespace AdventOfCode2019
                     }
                 }
             }
+            return 0;
         }
 
         static double Distance(int x, int y, Tuple<int, int> t) =>
@@ -133,7 +134,8 @@ namespace AdventOfCode2019
             if (x1 == x2 && y1 == y2)
                 throw new ArgumentException("First point cannot be the same as the second point");
 
-            return Math.Atan2(x1 - x2, y1 - y2);
+            double angle = Math.Atan2(x2 - x1, y1 - y2);
+            return angle < 0 ? angle + 2 * Math.PI : angle;
         }
     }
 }
