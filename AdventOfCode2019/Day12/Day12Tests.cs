@@ -15,11 +15,11 @@ namespace AdventOfCode2019
             Assert.That(Day12.PartOne(moons, steps), Is.EqualTo(expected));
         }
 
-        //[TestCaseSource(nameof(TestDataTwo))]
-        //public void TestPartTwo()
-        //{
-        //    Assert.That(Day12.PartTwo(filename), Is.EqualTo(expected));
-        //}
+        [TestCaseSource(nameof(TestDataTwo))]
+        public void TestPartTwo(Moon[] moons, long expected)
+        {
+            Assert.That(Day12.PartTwo(moons), Is.EqualTo(expected));
+        }
 
         public static IEnumerable TestDataOne()
         {
@@ -47,7 +47,26 @@ namespace AdventOfCode2019
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData();
+            yield return new TestCaseData(new Moon[] {
+                new Moon(-1, 0, 2),
+                new Moon(2, -10, -7),
+                new Moon(4, -8, 8),
+                new Moon(3, 5, -1)
+            }, 2772);
+
+            yield return new TestCaseData(new Moon[] {
+                new Moon(-8, -10, 0),
+                new Moon(5, 5, 10),
+                new Moon(2, -7, 3),
+                new Moon(9, -8, -3)
+            }, 4686774924);
+
+            yield return new TestCaseData(new Moon[] {
+                new Moon(-16, 15, -9),
+                new Moon(-14, 5, 4),
+                new Moon(2, 0, 6),
+                new Moon(-3, 18, 9)
+            }, 303459551979256);
         }
     }
 }
