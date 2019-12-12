@@ -17,6 +17,8 @@ namespace AdventOfCode2019
         long[] _memory;
         long _relativeBase = 0;
         long _pc = 0; // Program counter
+        bool _halted = false;
+        long _output = 0;
 
         public IntcodeComputer(long[] program)
         {
@@ -37,7 +39,8 @@ namespace AdventOfCode2019
 
         public async Task<long> RunProgram()
         {
-            long output = 0;
+            _output = 0;
+            _halted = false;
             while (true)
             {
                 long ptr = _memory[_pc++];
@@ -75,9 +78,9 @@ namespace AdventOfCode2019
                     case 4: // Output
                         {
                             long ptrA = _memory[_pc++];
-                            output = GetValue(ptrA, modeA);
-                            Output.Enqueue(output);
-                            Console.WriteLine(output);
+                            _output = GetValue(ptrA, modeA);
+                            Output.Enqueue(_output);
+                            Console.WriteLine(_output);
                             break;
                         }
                     case 5: // Jump if true
@@ -119,11 +122,24 @@ namespace AdventOfCode2019
                             break;
                         }
                     case 99: // Halt
-                        return output;
+                        _halted = true;
+                        Output.Enqueue(_output); // Put it on again so we don't block in day 11
+                        return _output;
                     default:
                         throw new Exception($"Unknown opcode {opcode} at position {_pc}");
                 }
             }
+        }
+
+        public async Task<long> GetOutput()
+        {
+            long o;
+            while (!Output.TryDequeue(out o))
+            {
+                if (_halted) return 0;
+                await Task.Delay(10);
+            }
+            return _halted ? _output : o;
         }
 
         public long GetValue(long ptr, ParameterMode mode)
