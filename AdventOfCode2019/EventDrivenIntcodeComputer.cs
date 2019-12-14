@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
-    public class IntcodeComputerTwo
+    public class EventDrivenIntcodeComputer
     {
         const int MEMORY = 128 * 1024;  // 128K
         long[] _memory;
@@ -14,25 +14,26 @@ namespace AdventOfCode2019
         long _output = 0;
 
         public event EventHandler<EventArgs> OutputAvailable;
+        public event EventHandler<EventArgs> InputNeeded;
 
-        public IntcodeComputerTwo(long[] program)
+        public Queue<long> Input { get; set; } = new Queue<long>();
+        public Queue<long> Output { get; set; } = new Queue<long>();
+
+        public EventDrivenIntcodeComputer(long[] program)
         {
             _memory = new long[MEMORY];
             for (int i = 0; i < program.Length; i++)
                 _memory[i] = program[i];
         }
 
-        public IntcodeComputerTwo(long[] program, long[] input) :
+        public EventDrivenIntcodeComputer(long[] program, long[] input) :
             this(program)
         {
             foreach (int i in input)
                 Input.Enqueue(i);
         }
 
-        public Queue<long> Input { get; set; } = new Queue<long>();
-        public Queue<long> Output { get; set; } = new Queue<long>();
-
-        public async Task<long> RunProgram()
+        public long RunProgram()
         {
             _output = 0;
             _halted = false;
@@ -65,8 +66,8 @@ namespace AdventOfCode2019
                         {
                             long ptrA = _memory[_pc++];
                             // Wait for input
-                            while (Input.Count == 0)
-                                await Task.Delay(10);
+                            if (Input.Count == 0)
+                                InputNeeded?.Invoke(this, EventArgs.Empty);
                             SetValue(ptrA, modeA, Input.Dequeue());
                             break;
                         }
@@ -125,17 +126,6 @@ namespace AdventOfCode2019
                         throw new Exception($"Unknown opcode {opcode} at position {_pc}");
                 }
             }
-        }
-
-        public async Task<long> GetOutput()
-        {
-            long o;
-            while (!Output.TryDequeue(out o))
-            {
-                if (_halted) return 0;
-                await Task.Delay(10);
-            }
-            return _halted ? _output : o;
         }
 
         public long GetValue(long ptr, ParameterMode mode)

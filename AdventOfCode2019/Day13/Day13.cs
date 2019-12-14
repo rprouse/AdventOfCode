@@ -8,56 +8,21 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
-    enum State
-    {
-        WaitingForY = 1,
-        WaitingForTileId = 2,
-        WaitingForX = 3
-    }
 
     public static class Day13
     {
-        static IntcodeComputerTwo computer;
-        static long[,] game;
-        static State state;
-        static long x;
-        static long y;
-
-        public static async Task<int> PartOne(string filename)
+        public static int PartOne(string filename)
         {
-            state = State.WaitingForX;
-            game = new long[100, 100];
             long[] program = filename.SplitLongs();
-            computer = new IntcodeComputerTwo(program);
-            computer.OutputAvailable += OutputAvailable;
-            await computer.RunProgram();
+            var game = new ArcadeCabinet(program);
+            game.RunProgram();
 
-            int c = 0;
-            foreach(long g in game)
+            int count = 0;
+            foreach(long pixel in game.Screen)
             {
-                if (g == 2) c++;
+                if (pixel == 2) count++;
             }
-            return c;
-        }
-
-        private static void OutputAvailable(object sender, EventArgs e)
-        {
-            switch (state)
-            {
-                case State.WaitingForX:
-                    x = computer.Output.Dequeue();
-                    state = State.WaitingForY;
-                    break;
-                case State.WaitingForY:
-                    y = computer.Output.Dequeue();
-                    state = State.WaitingForTileId;
-                    break;
-                case State.WaitingForTileId:
-                    long tile = computer.Output.Dequeue();
-                    game[x, y] = tile;
-                    state = State.WaitingForX;
-                    break;
-            }
+            return count;
         }
 
         public static int PartTwo(string filename)
