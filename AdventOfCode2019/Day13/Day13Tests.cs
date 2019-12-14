@@ -19,7 +19,7 @@ namespace AdventOfCode2019
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day13.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day13.PartTwo(PuzzleFile(DAY)), Is.EqualTo(19447));
         }
     }
 }

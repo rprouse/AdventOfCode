@@ -14,7 +14,7 @@ namespace AdventOfCode2019
 
     public class ArcadeCabinet : EventDrivenIntcodeComputer
     {
-        const int RESOLUTION = 100;
+        const int RESOLUTION = 40;
         const int EMPTY = 0;
         const int WALL = 1;
         const int BLOCK = 2;
@@ -28,6 +28,38 @@ namespace AdventOfCode2019
         long x;
         long y;
 
+        public override string ToString()
+        {
+            var b = new StringBuilder(RESOLUTION * RESOLUTION);
+            b.AppendLine($"Score: {Score}");
+            for (int y = 0; y < RESOLUTION; y++)
+            {
+                for (int x = 0; x < RESOLUTION; x++)
+                {
+                    switch(Screen[x,y])
+                    {
+                        case EMPTY:
+                            b.Append(' ');
+                            break;
+                        case WALL:
+                            b.Append('█');
+                            break;
+                        case BLOCK:
+                            b.Append('▒');
+                            break;
+                        case PADDLE:
+                            b.Append('=');
+                            break;
+                        case BALL:
+                            b.Append('o');
+                            break;
+                    }
+                }
+                b.AppendLine();
+            }
+            return b.ToString();
+        }
+
         public ArcadeCabinet(long[] program) : base(program)
         {
             state = State.WaitingForX;
@@ -38,11 +70,11 @@ namespace AdventOfCode2019
 
         private void OnInputNeeded(object sender, EventArgs e)
         {
-            int blockX = FindXOf(BLOCK);
-            int paddleX = FindXOf(PADDLE);
-            if (paddleX == blockX)
+            int ball = FindXOf(BALL);
+            int paddle = FindXOf(PADDLE);
+            if (paddle == ball)
                 Input.Enqueue(0);
-            else if (paddleX < blockX)
+            else if (paddle < ball)
                 Input.Enqueue(1);
             else
                 Input.Enqueue(-1);

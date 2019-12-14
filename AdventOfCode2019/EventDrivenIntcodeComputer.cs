@@ -76,7 +76,7 @@ namespace AdventOfCode2019
                             long ptrA = _memory[_pc++];
                             _output = GetValue(ptrA, modeA);
                             Output.Enqueue(_output);
-                            Console.WriteLine(_output);
+                            //Console.WriteLine(_output);
                             OutputAvailable?.Invoke(this, EventArgs.Empty);
                             break;
                         }
