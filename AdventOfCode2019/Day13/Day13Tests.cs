@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.IO;
+using System.Threading.Tasks;
 using AdventOfCode.Core;
 using NUnit.Framework;
 
@@ -10,9 +11,9 @@ namespace AdventOfCode2019
         const int DAY = 13;
 
         [Test]
-        public void TestPartOne()
+        public async Task TestPartOne()
         {
-            Assert.That(Day13.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(await Day13.PartOne(PuzzleFile(DAY)), Is.EqualTo(398));
         }
 
         [Test]
@@ -21,22 +22,10 @@ namespace AdventOfCode2019
             Assert.That(Day13.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
         }
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day13.PartOne(filename), Is.EqualTo(expected));
-        }
-
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
             Assert.That(Day13.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 
         public static IEnumerable TestDataTwo()
