@@ -10,12 +10,6 @@ namespace AdventOfCode2019
         const int DAY = 14;
 
         [Test]
-        public void TestPartOne()
-        {
-            Assert.That(Day14.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [Test]
         public void TestPartTwo()
         {
             Assert.That(Day14.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
@@ -35,13 +29,17 @@ namespace AdventOfCode2019
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test1.txt"), 31);
+            yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 165);
+            yield return new TestCaseData(TestFile(DAY, "Test3.txt"), 13312);
+            yield return new TestCaseData(TestFile(DAY, "Test4.txt"), 180697);
+            yield return new TestCaseData(TestFile(DAY, "Test5.txt"), 2210736);
             yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test1.txt"), 0);
             yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
