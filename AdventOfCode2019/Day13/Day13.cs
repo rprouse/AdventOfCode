@@ -25,10 +25,14 @@ namespace AdventOfCode2019
             return count;
         }
 
-        public static int PartTwo(string filename)
+        public static long PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            long[] program = filename.SplitLongs();
+            program[0] = 2;
+            var game = new ArcadeCabinet(program);
+            game.RunProgram();
+
+            return game.Score;
         }
     }
 }
