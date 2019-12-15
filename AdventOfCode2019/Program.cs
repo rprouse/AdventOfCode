@@ -8,19 +8,24 @@ using NUnit.Framework;
 namespace AdventOfCode2019
 {
     public static class ProgramEntry
-    {        
+    {
         public static async Task Main()
+        {
+            PlayBreakout();
+
+            Console.ResetColor();
+            Console.ReadLine();
+
+            await Task.FromResult(false);
+        }
+
+        private static void PlayBreakout()
         {
             long[] program = TestBase.PuzzleFile(13).SplitLongs();
             program[0] = 2;
             var game = new ArcadeCabinet(program);
             game.OutputAvailable += Game_OutputAvailable;
             game.RunProgram();
-
-            Console.ResetColor();
-            Console.ReadLine();
-
-            await Task.FromResult(false);
         }
 
         private static void Game_OutputAvailable(object sender, EventArgs e)

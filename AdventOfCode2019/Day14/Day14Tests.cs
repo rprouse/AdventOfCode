@@ -34,7 +34,7 @@ namespace AdventOfCode2019
             yield return new TestCaseData(TestFile(DAY, "Test3.txt"), 13312);
             yield return new TestCaseData(TestFile(DAY, "Test4.txt"), 180697);
             yield return new TestCaseData(TestFile(DAY, "Test5.txt"), 2210736);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 337075);
         }
 
         public static IEnumerable TestDataTwo()
