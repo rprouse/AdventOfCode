@@ -11,12 +11,20 @@ namespace AdventOfCode2019
     {
         public static async Task Main()
         {
-            PlayBreakout();
+            //PlayBreakout();
+            WalkDroid();
 
             Console.ResetColor();
             Console.ReadLine();
 
             await Task.FromResult(false);
+        }
+
+        private static void WalkDroid()
+        {
+            long[] program = TestBase.PuzzleFile(15).SplitLongs();
+            var droid = new RepairDroid(program);
+            droid.RunProgram();
         }
 
         private static void PlayBreakout()
