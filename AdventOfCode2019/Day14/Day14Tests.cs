@@ -9,20 +9,14 @@ namespace AdventOfCode2019
     {
         const int DAY = 14;
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day14.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        public void TestPartOne(string filename, long expected)
         {
             Assert.That(Day14.PartOne(filename), Is.EqualTo(expected));
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(string filename, long expected)
         {
             Assert.That(Day14.PartTwo(filename), Is.EqualTo(expected));
         }
@@ -39,8 +33,10 @@ namespace AdventOfCode2019
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY, "Test1.txt"), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test3.txt"), 82892753);
+            yield return new TestCaseData(TestFile(DAY, "Test4.txt"), 5586022);
+            yield return new TestCaseData(TestFile(DAY, "Test5.txt"), 460664);
+            yield return new TestCaseData(PuzzleFile(DAY), 5194174);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace AdventOfCode2019
         }
 
         public String Name { get; set; }
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
 
         public override string ToString() =>
             $"{Amount} {Name}";
@@ -29,7 +29,7 @@ namespace AdventOfCode2019
         {
         }
         public bool Need { get; set; }
-        public int OnHand { get; set; }
+        public decimal OnHand { get; set; }
         public override string ToString() =>
             $"{OnHand}/{Amount} {Name} N:{Need}";
     }
@@ -57,7 +57,7 @@ namespace AdventOfCode2019
     public static class Day14
     {
         static Dictionary<string, Conversion> conversions;
-        
+
         public static int PartOne(string filename)
         {
             string[] lines = filename.ReadAllLines();
@@ -75,7 +75,7 @@ namespace AdventOfCode2019
 
                 foreach (var need in conversions.Values.Where(c => c.Output.Need && c.Inputs.Any(i => i.Name == "ORE")))
                 {
-                    int oreUsed = need.Inputs.Where(c => c.Name == "ORE").Select(c => c.Amount).First();
+                    int oreUsed = (int)need.Inputs.Where(c => c.Name == "ORE").Select(c => c.Amount).First();
                     need.Output.OnHand += need.Output.Amount;
                     need.Output.Need = false;
                     ore += oreUsed;
@@ -102,9 +102,9 @@ namespace AdventOfCode2019
         {
             var conversion = conversions[name];
             conversion.Output.Need = true;
-            foreach(var input in conversion.Inputs)
+            foreach (var input in conversion.Inputs)
             {
-                if(input.Name == "ORE")
+                if (input.Name == "ORE")
                 {
                     conversion.Output.Need = true;
                 }
@@ -115,10 +115,35 @@ namespace AdventOfCode2019
             }
         }
 
-        public static int PartTwo(string filename)
+        public static long PartTwo(string filename)
         {
             string[] lines = filename.ReadAllLines();
-            return 0;
+            conversions = new Dictionary<string, Conversion>();
+            foreach (var conversion in lines.Select(l => new Conversion(l)))
+            {
+                conversions.Add(conversion.Output.Name, conversion);
+            }
+
+            decimal ore = CalculateRequirementsFor("FUEL");
+            return (long)(1000000000000m / ore);
+        }
+
+        static decimal CalculateRequirementsFor(string name)
+        {
+            var conversion = conversions[name];
+            decimal requirements = 0;
+            foreach (var input in conversion.Inputs)
+            {
+                if (input.Name == "ORE")
+                {
+                    return input.Amount / conversion.Output.Amount;
+                }
+                else
+                {
+                    requirements += input.Amount * CalculateRequirementsFor(input.Name);
+                }
+            }
+            return requirements / conversion.Output.Amount;
         }
     }
 }
