@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace AdventOfCode2019
 {
@@ -18,15 +17,15 @@ namespace AdventOfCode2019
 
         const char WALL_CHAR = '█';
         const char OPEN_CHAR = '.';
-        const char DROID_CHAR = 'o';
-        const char OXYGEN_CHAR = '◇';
-        const char START_CHAR = 'S';
+        const char DROID_CHAR = 'D';
+        const char OXYGEN_CHAR = 'O';
         const char SPACE_CHAR = ' ';
 
         const int SIZE = 42;
 
         Stack<Point> walk = new Stack<Point>();
         Point pos = new Point(SIZE / 2, SIZE / 2);
+        Point oxygen;
         int lastDir = North;
 
         char[,] ship = new char[SIZE, SIZE];
@@ -46,7 +45,7 @@ namespace AdventOfCode2019
             Console.CursorTop = SIZE + 2;
             Console.ResetColor();
 
-            ship[pos.X, pos.Y] = START_CHAR;
+            ship[pos.X, pos.Y] = OPEN_CHAR;
             walk.Push(pos);
 
             InputNeeded += RepairDroid_CalculateInput;
@@ -82,57 +81,57 @@ namespace AdventOfCode2019
 
         private void RepairDroid_CalculateInput(object sender, EventArgs e)
         {
-            if(pos.X > 0 && ship[pos.X - 1, pos.Y] == SPACE_CHAR)
+            if (pos.X > 0 && ship[pos.X - 1, pos.Y] == SPACE_CHAR)
             {
                 Input.Enqueue(West);
                 lastDir = West;
             }
-            else if(pos.X < SIZE && ship[pos.X + 1, pos.Y] == SPACE_CHAR)
+            else if (pos.X < SIZE && ship[pos.X + 1, pos.Y] == SPACE_CHAR)
             {
                 Input.Enqueue(East);
                 lastDir = East;
             }
-            else if(pos.Y > 0 && ship[pos.X, pos.Y - 1] == SPACE_CHAR)
+            else if (pos.Y > 0 && ship[pos.X, pos.Y - 1] == SPACE_CHAR)
             {
                 Input.Enqueue(North);
                 lastDir = North;
             }
-            else if(pos.Y < SIZE && ship[pos.X, pos.Y + 1] == SPACE_CHAR)
+            else if (pos.Y < SIZE && ship[pos.X, pos.Y + 1] == SPACE_CHAR)
             {
                 Input.Enqueue(South);
                 lastDir = South;
             }
             else // Pop from the stack and move back
             {
-                if(walk.Count == 0)
+                if (walk.Count == 1)
                 {
                     // Back to start
                     Console.CursorLeft = 0;
                     Console.CursorTop = SIZE + 3;
-                    Console.WriteLine("Back to start, finished");
-                    Environment.Exit(0);
+                    Console.WriteLine("Back to start");
+                    RefillWithOxygen();
                 }
 
                 // Take the current location off the stack
                 // and look at the previous to go back to
                 walk.Pop();
                 Point popped = walk.Peek();
-                if(popped.X < pos.X)
+                if (popped.X < pos.X)
                 {
                     Input.Enqueue(West);
                     lastDir = West;
                 }
-                else if(popped.X > pos.X)
+                else if (popped.X > pos.X)
                 {
                     Input.Enqueue(East);
                     lastDir = East;
                 }
-                else if(popped.Y < pos.Y)
+                else if (popped.Y < pos.Y)
                 {
                     Input.Enqueue(North);
                     lastDir = North;
                 }
-                else if(popped.Y > pos.Y)
+                else if (popped.Y > pos.Y)
                 {
                     Input.Enqueue(South);
                     lastDir = South;
@@ -202,6 +201,7 @@ namespace AdventOfCode2019
                     {
                         walk.Push(newPos);
                         ship[newPos.X, newPos.Y] = OXYGEN_CHAR;
+                        oxygen = newPos;
                     }
                     pos = newPos;
 
@@ -211,6 +211,58 @@ namespace AdventOfCode2019
 
                     break;
             }
+        }
+
+        private void RefillWithOxygen()
+        {
+            walk.Clear();
+            int maxPath = 0;
+            pos = oxygen;
+
+            while (true)
+            {
+                if (ship[pos.X - 1, pos.Y] == OPEN_CHAR)
+                {
+                    RefillWithOxygenAndMoveTo(pos.X - 1, pos.Y);
+                }
+                else if (ship[pos.X + 1, pos.Y] == OPEN_CHAR)
+                {
+                    RefillWithOxygenAndMoveTo(pos.X + 1, pos.Y);
+                }
+                else if (ship[pos.X, pos.Y - 1] == OPEN_CHAR)
+                {
+                    RefillWithOxygenAndMoveTo(pos.X, pos.Y - 1);
+                }
+                else if (ship[pos.X, pos.Y + 1] == OPEN_CHAR)
+                {
+                    RefillWithOxygenAndMoveTo(pos.X, pos.Y + 1);
+                }
+                else if (walk.Count == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    if (walk.Count > maxPath)
+                        maxPath = walk.Count;
+                    pos = walk.Pop();
+                }
+            }
+
+            Console.CursorLeft = 0;
+            Console.CursorTop = SIZE + 4;
+            Console.WriteLine($"Filled with Oxygen in {maxPath} minutes");
+            Environment.Exit(0);
+        }
+
+        private void RefillWithOxygenAndMoveTo(int x, int y)
+        {
+            walk.Push(pos);
+            ship[x, y] = OXYGEN_CHAR;
+            Console.CursorLeft = x;
+            Console.CursorTop = y;
+            Console.Write(OXYGEN_CHAR);
+            pos = new Point(x, y);
         }
     }
 }

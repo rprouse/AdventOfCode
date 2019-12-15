@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
@@ -10,7 +9,6 @@ namespace AdventOfCode2019
         long[] _memory;
         long _relativeBase = 0;
         long _pc = 0; // Program counter
-        bool _halted = false;
         long _output = 0;
 
         public event EventHandler<EventArgs> OutputAvailable;
@@ -36,7 +34,6 @@ namespace AdventOfCode2019
         public long RunProgram()
         {
             _output = 0;
-            _halted = false;
             while (true)
             {
                 long ptr = _memory[_pc++];
@@ -119,7 +116,6 @@ namespace AdventOfCode2019
                             break;
                         }
                     case 99: // Halt
-                        _halted = true;
                         Output.Enqueue(_output); // Put it on again so we don't block in day 11
                         return _output;
                     default:
