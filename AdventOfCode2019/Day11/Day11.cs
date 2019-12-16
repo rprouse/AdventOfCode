@@ -17,6 +17,7 @@ namespace AdventOfCode2019
         public static async Task<int> PartOne(string filename)
         {
             long[] program = filename.SplitLongs();
+            // TODO: Switch to the EventDrivenIntcodeComputer
             var computer = new IntcodeComputer(program);
 
             int x = SIZE / 2;
