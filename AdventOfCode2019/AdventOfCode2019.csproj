@@ -45,6 +45,9 @@
     <None Remove="Day14\Test3.txt" />
     <None Remove="Day14\Test4.txt" />
     <None Remove="Day14\Test5.txt" />
+    <None Remove="Day16\Test5.txt" />
+    <None Remove="Day16\Test6.txt" />
+    <None Remove="Day16\Test7.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +58,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Day16\Test3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day16\Test5.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day16\Test6.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day16\Test7.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Day16\Test4.txt">

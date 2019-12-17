@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.IO;
+using System.Linq;
 using AdventOfCode.Core;
 using NUnit.Framework;
 
@@ -8,12 +9,6 @@ namespace AdventOfCode2019
     public class Day16Tests : TestBase
     {
         const int DAY = 16;
-
-        [Test]
-        public void TestPartTwo()
-        {
-            Assert.That(Day16.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
 
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int phases, int expected)
@@ -28,9 +23,9 @@ namespace AdventOfCode2019
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        public void TestPartTwo(string filename, long multiplier, int expected)
         {
-            Assert.That(Day16.PartTwo(filename), Is.EqualTo(expected));
+            Assert.That(Day16.PartTwo(filename, multiplier), Is.EqualTo(expected));
         }
 
         public static IEnumerable TestDataOne()
@@ -44,8 +39,10 @@ namespace AdventOfCode2019
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY, "Test5.txt"), 10000, 84462026).Ignore("Unsolved with brute force");
+            yield return new TestCaseData(TestFile(DAY, "Test6.txt"), 10000, 78725270).Ignore("Unsolved with brute force");
+            yield return new TestCaseData(TestFile(DAY, "Test7.txt"), 10000, 53553731).Ignore("Unsolved with brute force");
+            yield return new TestCaseData(PuzzleFile(DAY), 10000, 0).Ignore("Unsolved with brute force");
         }
     }
 }
