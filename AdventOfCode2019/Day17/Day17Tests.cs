@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using AdventOfCode.Core;
 using NUnit.Framework;
@@ -12,7 +13,24 @@ namespace AdventOfCode2019
         [Test]
         public void TestPartOne()
         {
-            Assert.That(Day17.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day17.PartOne(PuzzleFile(DAY)), Is.EqualTo(2804));
+        }
+
+        [Test]
+        public void CalculatesAlignmentParameters()
+        {
+            var camera = new List<string>
+            {
+                "..#..........",
+                "..#..........",
+                "#######...###",
+                "#.#...#...#.#",
+                "#############",
+                "..#...#...#..",
+                "..#####...^..",
+                ""
+            };
+            Assert.That(Day17.CalculateAlignmentParameters(camera), Is.EqualTo(76));
         }
 
         [Test]
@@ -21,22 +39,10 @@ namespace AdventOfCode2019
             Assert.That(Day17.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
         }
 
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Assert.That(Day17.PartOne(filename), Is.EqualTo(expected));
-        }
-
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
             Assert.That(Day17.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 
         public static IEnumerable TestDataTwo()
