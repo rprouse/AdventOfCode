@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using System.Threading.Tasks;
-using AdventOfCode.Core;
+﻿using AdventOfCode.Core;
 using NUnit.Framework;
 
 namespace AdventOfCode2019
@@ -11,9 +8,16 @@ namespace AdventOfCode2019
         const int DAY = 11;
 
         [Test]
-        public async Task TestPartOne()
+        public void TestPartOne()
         {
-            Assert.That(await Day11.PartOne(PuzzleFile(DAY)), Is.EqualTo(248));
+            Assert.That(Day11.PartOne(PuzzleFile(DAY)), Is.EqualTo(2016));
+        }
+
+        [Test]
+        public void TestPartTwo()
+        {
+            // The real answer is in the output image, RAPRCBPH
+            Assert.That(Day11.PartTwo(PuzzleFile(DAY)), Is.EqualTo(249));
         }
     }
 }
