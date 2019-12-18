@@ -54,17 +54,17 @@ namespace AdventOfCode2019
 
         public static int PartTwo(string filename, long multiplier)
         {
-            int[] ints = filename.ReadAll().Select(c => (int)(c - 48)).ToArray();
-            int[] big = new int[ints.Length * multiplier];
+            short[] vals = filename.ReadAll().Select(c => (short)(c - 48)).ToArray();
+            short[] big = new short[vals.Length * multiplier];
             for (long m = 0; m < multiplier; m++)
             {
-                ints.CopyTo(big, m * ints.Length);
+                vals.CopyTo(big, m * vals.Length);
             }
 
             int offset = 0;
             for (int i = 6; i >= 0; i--)
             {
-                offset += ints[6 - i] * (int)Math.Pow(10, i);
+                offset += vals[6 - i] * (int)Math.Pow(10, i);
             }
 
             var result = CalculateEFT2(big, 100, offset);
@@ -77,14 +77,15 @@ namespace AdventOfCode2019
             return firstEight;
         }
 
-        private static int[] CalculateEFT2(int[] input, int phases, int offset)
+        private static short[] CalculateEFT2(short[] input, int phases, int offset)
         {
-            int[] a1 = new int[input.Length - offset];
-            int[] a2 = new int[a1.Length];
-            int[] swap;
+            short[] a1 = new short[input.Length - offset];
+            short[] a2 = new short[a1.Length];
+            short[] swap;
             Array.Copy(input, offset, a1, 0, input.Length - offset);
             a1.CopyTo(a2, 0);
-            int[] basePattern = new int[] { 1, 0, -1, 0 };
+            long newValue;
+            int i;
 
             for (int phase = 0; phase < phases; phase++)
             {
@@ -94,20 +95,14 @@ namespace AdventOfCode2019
                 int max = a1.Length + offset;
                 for (int n = offset; n < max; n++)
                 {
-                    int i = n;
-                    long newValue = 0;
+                    i = n;
+                    newValue = 0;
                     while (i < max)
                     {
-                        for (int j = 0; j < basePattern.Length && i < max; j++)
-                        {
-                            for (int k = 0; k <= n && i < max; k++)
-                            {
-                                newValue += a2[i - offset] * basePattern[j];
-                                i++;
-                            }
-                        }
+                        newValue += a2[i - offset];
+                        i++;
                     }
-                    a1[n - offset] = LastDigit((int)newValue);
+                    a1[n - offset] = (short)(newValue % 10);
                 }
             }
             return a1;
