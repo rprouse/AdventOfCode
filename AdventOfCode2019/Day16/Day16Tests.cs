@@ -39,9 +39,9 @@ namespace AdventOfCode2019
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY, "Test5.txt"), 10000, 84462026).Ignore("Unsolved with brute force");
-            yield return new TestCaseData(TestFile(DAY, "Test6.txt"), 10000, 78725270).Ignore("Unsolved with brute force");
-            yield return new TestCaseData(TestFile(DAY, "Test7.txt"), 10000, 53553731).Ignore("Unsolved with brute force");
+            yield return new TestCaseData(TestFile(DAY, "Test5.txt"), 10000, 84462026).Ignore("Slow");
+            yield return new TestCaseData(TestFile(DAY, "Test6.txt"), 10000, 78725270).Ignore("Slow");
+            yield return new TestCaseData(TestFile(DAY, "Test7.txt"), 10000, 53553731).Ignore("Slow");
             yield return new TestCaseData(PuzzleFile(DAY), 10000, 0).Ignore("Unsolved with brute force");
         }
     }
