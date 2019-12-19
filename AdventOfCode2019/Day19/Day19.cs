@@ -24,22 +24,68 @@ namespace AdventOfCode2019
             }
             return count;
         }
-
-        public static int PartTwo(string filename)
+        public static void VisualizeTractorBeam()
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            long[] program = Day19Tests.PuzzleFile(19).SplitLongs();
+            for (int y = 690; y < 804; y++)
+            {
+                for (int x = 1400; x < 1512; x++)
+                {
+                    var drone = new TractorDrone(program, x, y);
+                    char f = '#';
+                    if (x >= 1404 && x < 1504 && y >= 699 && y < 799)
+                        f = ';';
+                    Console.Write(drone.RunProgram() == 1 ? f : '.');
+                }
+                Console.WriteLine($" {y}");
+            }
         }
-    }
 
-    public class TractorDrone : EventDrivenIntcodeComputer
-    {
-        public static int Count { get; set; } = 0;
-
-        public TractorDrone(long[] program, int x, int y) : base(program)
+        public static long PartTwo(string filename)
         {
-            Input.Enqueue(x);
-            Input.Enqueue(y);
+            long[] program = filename.SplitLongs();
+            long y = 690;
+            long x = 1400;
+            long firstX = 0;
+            bool foundX = false;
+            while (true)
+            {
+                var drone = new TractorDrone(program, x, y);
+                if (drone.RunProgram() == 1)
+                {
+                    if (!foundX)
+                    {
+                        firstX = x;
+                        foundX = true;
+                    }
+                    var testX = new TractorDrone(program, x + 99, y);
+                    if (testX.RunProgram() == 1)
+                    {
+                        var testY = new TractorDrone(program, x, y + 99);
+                        if (testY.RunProgram() == 1)
+                        {
+                            return x * 10000L + y;
+                        }
+                    }
+                    else
+                    {
+                        y++;
+                        x = firstX - 1;
+                        foundX = false;
+                    }
+                    x++;
+                }
+                else if (foundX)
+                {
+                    y++;
+                    x = firstX;
+                    foundX = false;
+                }
+                else
+                {
+                    x++;
+                }
+            }
         }
     }
 }
