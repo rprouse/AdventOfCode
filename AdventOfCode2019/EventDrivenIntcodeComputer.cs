@@ -20,8 +20,9 @@ namespace AdventOfCode2019
         public EventDrivenIntcodeComputer(long[] program)
         {
             _memory = new long[MEMORY];
-            for (int i = 0; i < program.Length; i++)
-                _memory[i] = program[i];
+            program.CopyTo(_memory, 0);
+            //for (int i = 0; i < program.Length; i++)
+            //    _memory[i] = program[i];
         }
 
         public EventDrivenIntcodeComputer(long[] program, long[] input) :
