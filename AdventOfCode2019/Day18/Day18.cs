@@ -11,13 +11,13 @@ namespace AdventOfCode2019
     {
         public static int PartOne(string filename)
         {
-            string[] lines = filename.ReadAllLines();
+            string[] maze = filename.ReadAllLines();
             return 0;
         }
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
+            string[] maze = filename.ReadAllLines();
             return 0;
         }
     }
