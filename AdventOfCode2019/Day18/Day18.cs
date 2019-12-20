@@ -78,16 +78,6 @@ namespace AdventOfCode2019
             }
         }
 
-        private void FindKeys()
-        {
-
-        }
-
-        private void FindDoors()
-        {
-
-        }
-
         public override string ToString()
         {
             var sb = new StringBuilder(_vault.Length);
