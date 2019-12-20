@@ -12,8 +12,8 @@ namespace AdventOfCode2019
         public static async Task Main()
         {
             //PlayBreakout();
-            //WalkDroid();
-            Day19.VisualizeTractorBeam();
+            WalkDroid();
+            //Day19.VisualizeTractorBeam();
 
             Console.ResetColor();
             Console.ReadLine();
