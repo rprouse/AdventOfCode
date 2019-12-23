@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 using System.Drawing;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AdventOfCode2019
 {
@@ -14,9 +15,8 @@ namespace AdventOfCode2019
         {
             string[] lines = filename.ReadAllLines();
             var maze = new PlutoMaze(lines);
-
             Console.WriteLine(maze.ToString());
-            return 0;
+            return maze.ShortestDistance();
         }
 
         public static int PartTwo(string filename)
@@ -34,18 +34,42 @@ namespace AdventOfCode2019
             public Point Port2 { get; set; }
         }
 
+        public class Vertex : IEquatable<Vertex>
+        {
+            public string Start { get; set; }
+            public string End { get; set; }
+            public int Cost { get; set; }
+
+            public override bool Equals(object obj) =>
+                Equals(obj as Vertex);
+
+            public bool Equals([AllowNull] Vertex other) =>
+                other != null &&
+                Start == other.Start &&
+                End == other.End;
+
+            public override int GetHashCode() => HashCode.Combine(Start, End);
+        }
+
         char[,] _maze;
         Dictionary<string, Portal> _nodes = new Dictionary<string, Portal>();
         Point _start;
         Point _end;
+        List<Vertex> _graph = new List<Vertex>();
         int[] _xEdges = new int[4];
         int[] _yEdges = new int[4];
 
         public PlutoMaze(string[] maze)
         {
             LoadMaze(maze);
-            FindEdges();
+            FindEdgesOfDonut();
             FindNodes();
+            BuildGraph();
+        }
+
+        public int ShortestDistance()
+        {
+            return 0;
         }
 
         private void LoadMaze(string[] maze)
@@ -60,7 +84,7 @@ namespace AdventOfCode2019
             }
         }
 
-        private void FindEdges()
+        private void FindEdgesOfDonut()
         {
             _xEdges[0] = 2;
             _xEdges[3] = _maze.GetLength(0) - 3;
@@ -187,6 +211,16 @@ namespace AdventOfCode2019
                 _nodes[node].Port2 = point;
             else
                 _nodes[node] = new Portal { Port1 = point };
+        }
+
+        private void BuildGraph()
+        {
+
+        }
+
+        private void FindVertexesFrom(string node)
+        {
+
         }
 
         public override string ToString()
