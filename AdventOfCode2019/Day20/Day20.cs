@@ -30,8 +30,10 @@ namespace AdventOfCode2019
     {
         public class Portal
         {
+            public string Name { get; set; }
             public Point Port1 { get; set; }
             public Point Port2 { get; set; }
+            public bool Visited { get; set; }
         }
 
         public class Vertex : IEquatable<Vertex>
@@ -39,6 +41,9 @@ namespace AdventOfCode2019
             public string Start { get; set; }
             public string End { get; set; }
             public int Cost { get; set; }
+
+            public override string ToString() =>
+                $"{Start} => {End} = {Cost}";
 
             public override bool Equals(object obj) =>
                 Equals(obj as Vertex);
@@ -53,8 +58,6 @@ namespace AdventOfCode2019
 
         char[,] _maze;
         Dictionary<string, Portal> _nodes = new Dictionary<string, Portal>();
-        Point _start;
-        Point _end;
         List<Vertex> _graph = new List<Vertex>();
         int[] _xEdges = new int[4];
         int[] _yEdges = new int[4];
@@ -203,24 +206,77 @@ namespace AdventOfCode2019
         private void AddNode(string node, int x, int y)
         {
             var point = new Point(x, y);
-            if (node == "AA")
-                _start = point;
-            else if (node == "ZZ")
-                _end = point;
-            else if (_nodes.ContainsKey(node))
+            if (_nodes.ContainsKey(node))
                 _nodes[node].Port2 = point;
             else
-                _nodes[node] = new Portal { Port1 = point };
+                _nodes[node] = new Portal { Name = node, Port1 = point, Visited = node == "AA" || node == "ZZ" };
         }
 
         private void BuildGraph()
         {
-
+            FindVertexesFrom(_nodes["AA"], _nodes["AA"].Port1);
         }
 
-        private void FindVertexesFrom(string node)
+        private void FindVertexesFrom(Portal portal, Point point)
         {
+            if (point.X == 0 && point.Y == 0)
+                return;
 
+            portal.Visited = true;
+
+            Stack<Point> walk = new Stack<Point>();
+            walk.Push(point);
+            char[,] maze = (char[,])_maze.Clone();
+            maze[point.X, point.Y] = 'x';
+
+            Point next = new Point(point.X, point.Y);
+            while (true)
+            {
+                if (maze[next.X, next.Y - 1] == '.')
+                {
+                    next.Offset(0, -1);
+                    maze[next.X, next.Y] = 'x';
+                    walk.Push(next);
+                }
+                else if (maze[next.X, next.Y + 1] == '.')
+                {
+                    next.Offset(0, 1);
+                    maze[next.X, next.Y] = 'x';
+                    walk.Push(next);
+                }
+                else if (maze[next.X - 1, next.Y] == '.')
+                {
+                    next.Offset(-1, 0);
+                    maze[next.X, next.Y] = 'x';
+                    walk.Push(next);
+                }
+                else if (maze[next.X + 1, next.Y] == '.')
+                {
+                    next.Offset(1, 0);
+                    maze[next.X, next.Y] = 'x';
+                    walk.Push(next);
+                }
+                else if (walk.Count == 1)
+                {
+                    break;
+                }
+                else
+                {
+                    next = walk.Pop();
+                }
+
+                var p = _nodes.Values.Where(p => p.Port1 == next || p.Port2 == next).FirstOrDefault();
+                if(p != null)
+                {
+                    // Add to the graph, recurse then start going deep, but not if ZZ
+                    _graph.Add(new Vertex { Start = portal.Name, End = p.Name, Cost = walk.Count });
+                    if(!p.Visited)
+                    {                        
+                        FindVertexesFrom(p, p.Port1 == next ? p.Port2 : p.Port1);
+                    }
+                    next = walk.Pop();
+                }
+            }
         }
 
         public override string ToString()
@@ -238,9 +294,9 @@ namespace AdventOfCode2019
             sb.AppendLine($"X Edges: {_xEdges[0]}, {_xEdges[1]}, {_xEdges[2]}, {_xEdges[3]}");
             sb.AppendLine($"Y Edges: {_yEdges[0]}, {_yEdges[1]}, {_yEdges[2]}, {_yEdges[3]}");
             sb.AppendLine();
-            sb.AppendLine($"AA: {_start.X},{_start.Y}");
-            sb.AppendLine($"ZZ: {_end.X},{_end.Y}");
-            foreach(var pair in _nodes)
+            sb.AppendLine($"AA: {_nodes["AA"].Port1.X},{_nodes["AA"].Port1.Y}");
+            sb.AppendLine($"ZZ: {_nodes["ZZ"].Port1.X},{_nodes["ZZ"].Port1.Y}");
+            foreach (var pair in _nodes)
                 sb.AppendLine($"{pair.Key}: {pair.Value.Port1.X},{pair.Value.Port1.Y} => {pair.Value.Port2.X},{pair.Value.Port2.Y}");
 
             return sb.ToString();
