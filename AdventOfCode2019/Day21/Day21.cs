@@ -11,14 +11,31 @@ namespace AdventOfCode2019
     {
         public static int PartOne(string filename)
         {
-            string[] lines = filename.ReadAllLines();
+            long[] program = filename.SplitLongs();
+            var droid = new SpringDroid(program);
             return 0;
         }
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
+            long[] program = filename.SplitLongs();
             return 0;
+        }
+    }
+
+    public class SpringDroid : EventDrivenIntcodeComputer
+    {
+        bool T { get; set; }
+        bool J { get; set; }
+
+        bool A { get; set; }
+        bool B { get; set; }
+        bool C { get; set; }
+        bool D { get; set; }
+
+        public SpringDroid(long[] program) : base(program)
+        {
+
         }
     }
 }
