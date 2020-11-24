@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
@@ -33,8 +33,7 @@ namespace AdventOfCode2019
         Dictionary<char, Point> _doors = new Dictionary<char, Point>();
         Stack<Point> _walk = new Stack<Point>();
         List<Stack<Point>> _options = new List<Stack<Point>>();
-        int _moves = 0;
-
+        
         public UndergroundVault(string[] maze)
         {
             LoadMaze(maze);

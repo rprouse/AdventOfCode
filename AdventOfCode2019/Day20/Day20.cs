@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,6 @@ using System.Linq;
 using AdventOfCode.Core;
 using System.Drawing;
 using System.Diagnostics.CodeAnalysis;
-using ConcurrentPriorityQueue;
 
 namespace AdventOfCode2019
 {

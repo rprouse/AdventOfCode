@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
@@ -74,8 +74,6 @@ namespace AdventOfCode2019
 
         public static int RunProgramInFeedbackLoop(long[] program, long[] sequence)
         {
-            int ret = 0;
-
             // Create computers
             IntcodeComputer[] computers = new IntcodeComputer[5];
 
