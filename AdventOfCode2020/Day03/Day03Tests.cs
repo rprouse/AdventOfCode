@@ -7,6 +7,7 @@ using FluentAssertions;
 
 namespace AdventOfCode2020
 {
+    [Parallelizable(ParallelScope.All)]
     public class Day03Tests : TestBase
     {
         const int DAY = 03;
