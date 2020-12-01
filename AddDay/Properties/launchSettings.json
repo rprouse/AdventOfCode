@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AddDay": {
+      "commandName": "Project",
+      "commandLineArgs": "2020"
+    }
+  }
+}

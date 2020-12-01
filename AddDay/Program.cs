@@ -20,10 +20,10 @@ namespace AddDay
                 return;
             }
 
-            int newDay = Directory.GetDirectories(dir, "Day*")
-                                  .Select(s => int.TryParse(s.Substring(3), out int day) ? day : 0)
-                                  .OrderByDescending(i => i)
-                                  .First() + 1;
+            var days = Directory.GetDirectories(dir, "Day*")
+                                .Select(s => int.TryParse(s.Substring(s.Length - 2), out int day) ? day : 0)
+                                .OrderByDescending(i => i);
+            int newDay = days.First() + 1;
 
             string newDir = Path.Combine(dir, $"Day{newDay:00}");
             string newSource = Path.Combine(newDir, $"Day{newDay:00}.cs");
