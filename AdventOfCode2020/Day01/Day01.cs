@@ -15,20 +15,36 @@ namespace AdventOfCode2020
             return TwoThatSum(lines);
         }
 
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
-        }
-
         public static int TwoThatSum(int[] values)
         {
-            for(int i = 0; i < values.Length -1; i++)
+            for (int i = 0; i < values.Length - 1; i++)
             {
-                for(int j = i + 1; j < values.Length; j++)
+                for (int j = i + 1; j < values.Length; j++)
                 {
                     if (values[i] + values[j] == 2020)
                         return values[i] * values[j];
+                }
+            }
+            return 0;
+        }
+
+        public static int PartTwo(string filename)
+        {
+            int[] lines = filename.ReadAllLines().Select(s => s.ToInt()).ToArray();
+            return ThreeThatSum(lines);
+        }
+
+        public static int ThreeThatSum(int[] values)
+        {
+            for(int i = 0; i < values.Length - 2; i++)
+            {
+                for(int j = i + 1; j < values.Length - 1; j++)
+                {
+                    for (int k = j + 1; k < values.Length; k++)
+                    {
+                        if (values[i] + values[j] + values[k] == 2020)
+                            return values[i] * values[j] * values[k];
+                    }
                 }
             }
             return 0;
