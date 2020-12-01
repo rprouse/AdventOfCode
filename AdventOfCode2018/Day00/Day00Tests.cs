@@ -1,7 +1,9 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.IO;
 using AdventOfCode.Core;
 using NUnit.Framework;
+using Shouldly;
 
 namespace AdventOfCode2018
 {
@@ -12,25 +14,25 @@ namespace AdventOfCode2018
         [Test]
         public void TestPartOne()
         {
-            Assert.That(Day00.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Day00.PartOne(PuzzleFile(DAY)).ShouldBe(0);
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day00.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
+            Day00.PartTwo(PuzzleFile(DAY)).ShouldBe(0);
         }
 
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
-            Assert.That(Day00.PartOne(filename), Is.EqualTo(expected));
+            Day00.PartOne(filename).ShouldBe(expected);
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
-            Assert.That(Day00.PartTwo(filename), Is.EqualTo(expected));
+            Day00.PartTwo(filename).ShouldBe(expected);
         }
 
         public static IEnumerable TestDataOne()
