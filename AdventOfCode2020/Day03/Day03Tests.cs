@@ -14,25 +14,25 @@ namespace AdventOfCode2020
         [Test]
         public void TestPartOne()
         {
-            Day00.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day03.PartOne(PuzzleFile(DAY)).Should().Be(0);
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Day00.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+            Day03.PartTwo(PuzzleFile(DAY)).Should().Be(0);
         }
 
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
-            Day00.PartOne(filename).Should().Be(expected);
+            Day03.PartOne(filename).Should().Be(expected);
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(string filename, int expected)
         {
-            Day00.PartTwo(filename).Should().Be(expected);
+            Day03.PartTwo(filename).Should().Be(expected);
         }
 
         public static IEnumerable TestDataOne()
