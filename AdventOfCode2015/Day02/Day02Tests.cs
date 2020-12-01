@@ -50,7 +50,7 @@ namespace AdventOfCode2015
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day02.PartTwo(PuzzleFile(DAY)), Is.EqualTo(3854530));
+            Assert.That(Day02.PartTwo(PuzzleFile(DAY)), Is.EqualTo(3842356));
         }
     }
 }
