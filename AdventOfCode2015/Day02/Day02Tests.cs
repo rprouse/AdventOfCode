@@ -28,25 +28,29 @@ namespace AdventOfCode2015
         [Test]
         public void TestPartOne()
         {
-            Assert.That(Day02.PartOne(PuzzleFile(DAY)), Is.EqualTo(0));
+            Assert.That(Day02.PartOne(PuzzleFile(DAY)), Is.EqualTo(1606483));
+        }
+
+        [TestCase(2, 3, 4, 34)]
+        [TestCase(1, 1, 10, 14)]
+        public void CanCalculateRibbonNeeded(int l, int w, int h, int expected)
+        {
+            int r = Day02.CalculateRibbonNeeded(l, w, h);
+            Assert.That(r, Is.EqualTo(expected));
+        }
+
+        [TestCase("2x3x4", 34)]
+        [TestCase("1x1x10", 14)]
+        public void CanCalculateRibbonNeeded(string str, int expected)
+        {
+            int r = Day02.CalculateRibbonNeeded(str);
+            Assert.That(r, Is.EqualTo(expected));
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Assert.That(Day02.PartTwo(PuzzleFile(DAY)), Is.EqualTo(0));
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Assert.That(Day02.PartTwo(filename), Is.EqualTo(expected));
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Assert.That(Day02.PartTwo(PuzzleFile(DAY)), Is.EqualTo(3854530));
         }
     }
 }
