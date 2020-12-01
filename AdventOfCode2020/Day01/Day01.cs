@@ -11,13 +11,26 @@ namespace AdventOfCode2020
     {
         public static int PartOne(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            int[] lines = filename.ReadAllLines().Select(s => s.ToInt()).ToArray();
+            return TwoThatSum(lines);
         }
 
         public static int PartTwo(string filename)
         {
             string[] lines = filename.ReadAllLines();
+            return 0;
+        }
+
+        public static int TwoThatSum(int[] values)
+        {
+            for(int i = 0; i < values.Length -1; i++)
+            {
+                for(int j = i + 1; j < values.Length; j++)
+                {
+                    if (values[i] + values[j] == 2020)
+                        return values[i] * values[j];
+                }
+            }
             return 0;
         }
     }
