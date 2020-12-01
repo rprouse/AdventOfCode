@@ -15,6 +15,7 @@ namespace AdventOfCode2020
         {
             for (int i = 0; i < values.Length - 1; i++)
             {
+                if (values[i] > 2020) continue;
                 for (int j = i + 1; j < values.Length; j++)
                 {
                     if (values[i] + values[j] == 2020)
@@ -34,8 +35,10 @@ namespace AdventOfCode2020
         {
             for(int i = 0; i < values.Length - 2; i++)
             {
-                for(int j = i + 1; j < values.Length - 1; j++)
+                if (values[i] > 2020) continue;
+                for (int j = i + 1; j < values.Length - 1; j++)
                 {
+                    if (values[i] + values[j] > 2020) continue;
                     for (int k = j + 1; k < values.Length; k++)
                     {
                         if (values[i] + values[j] + values[k] == 2020)
