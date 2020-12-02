@@ -28,7 +28,7 @@ namespace AdventOfCode2020
         public void CanTestPasswordPolicy(string line, bool expected)
         {
             var password = new PasswordPolicy(line);
-            password.IsValid().Should().Be(expected);
+            password.IsSledPolicyValid().Should().Be(expected);
         }
 
         [Test]

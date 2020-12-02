@@ -25,7 +25,13 @@ namespace AdventOfCode2020
         public char Char { get; set; }
         public string Password { get; set; }
 
-        public bool IsValid()
+        public bool IsSledPolicyValid()
+        {
+            int count = Password.Where(c => c == Char).Count();
+            return count >= Min && count <= Max;
+        }
+
+        public bool IsTobogganPolicyValid()
         {
             int count = Password.Where(c => c == Char).Count();
             return count >= Min && count <= Max;
@@ -37,13 +43,13 @@ namespace AdventOfCode2020
         public static int PartOne(string filename) =>
             filename.ReadAllLines()
                     .Select(l => new PasswordPolicy(l))
-                    .Where(p => p.IsValid())
+                    .Where(p => p.IsSledPolicyValid())
                     .Count();
 
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
-        }
+        public static int PartTwo(string filename) =>
+            filename.ReadAllLines()
+                    .Select(l => new PasswordPolicy(l))
+                    .Where(p => p.IsTobogganPolicyValid())
+                    .Count();
     }
 }
