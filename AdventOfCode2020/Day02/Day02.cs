@@ -33,8 +33,7 @@ namespace AdventOfCode2020
 
         public bool IsTobogganPolicyValid()
         {
-            int count = Password.Where(c => c == Char).Count();
-            return count >= Min && count <= Max;
+            return Password[Min-1] == Char ^ Password[Max-1] == Char;
         }
     }
 

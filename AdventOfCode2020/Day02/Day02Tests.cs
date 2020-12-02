@@ -25,10 +25,19 @@ namespace AdventOfCode2020
         [TestCase("1-3 a: abcde", true)]
         [TestCase("1-3 b: cdefg", false)]
         [TestCase("2-9 c: ccccccccc", true)]
-        public void CanTestPasswordPolicy(string line, bool expected)
+        public void CanTestSledPasswordPolicy(string line, bool expected)
         {
             var password = new PasswordPolicy(line);
             password.IsSledPolicyValid().Should().Be(expected);
+        }
+
+        [TestCase("1-3 a: abcde", true)]
+        [TestCase("1-3 b: cdefg", false)]
+        [TestCase("2-9 c: ccccccccc", false)]
+        public void CanTestTobogganPasswordPolicy(string line, bool expected)
+        {
+            var password = new PasswordPolicy(line);
+            password.IsTobogganPolicyValid().Should().Be(expected);
         }
 
         [Test]
@@ -40,19 +49,7 @@ namespace AdventOfCode2020
         [Test]
         public void TestPartTwo()
         {
-            Day02.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Day02.PartTwo(filename).Should().Be(expected);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Day02.PartTwo(PuzzleFile(DAY)).Should().Be(388);
         }
     }
 }
