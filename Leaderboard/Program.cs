@@ -33,7 +33,7 @@ namespace Leaderboard
             var leaders = JsonSerializer.Deserialize<Leaderboard>(response.Content);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"=== CodeCamp Leaderboard {year} ===");
+            Console.WriteLine($"=== CoderCamp Leaderboard {year} ===");
             Console.WriteLine();
 
             int place = 1;
