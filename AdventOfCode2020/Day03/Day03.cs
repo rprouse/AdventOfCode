@@ -9,9 +9,14 @@ namespace AdventOfCode2020
 {
     public static class Day03
     {
-        public static int PartOne(string filename)
+        public static int PartOne(string filename, int right, int down)
         {
             string[] lines = filename.ReadAllLines();
+            int trees = 0;
+            for(int x = right - 1, y = down - 1; y < lines.Length; x += right, y += down)
+            {
+                
+            }
             return 0;
         }
 

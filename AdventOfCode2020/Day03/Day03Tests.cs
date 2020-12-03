@@ -15,7 +15,7 @@ namespace AdventOfCode2020
         [Test]
         public void TestPartOne()
         {
-            Day03.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day03.PartOne(PuzzleFile(DAY), 3, 1).Should().Be(0);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace AdventOfCode2020
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
-            Day03.PartOne(filename).Should().Be(expected);
+            Day03.PartOne(filename, 3, 1).Should().Be(expected);
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
@@ -38,7 +38,7 @@ namespace AdventOfCode2020
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 7);
             yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 
