@@ -13,11 +13,12 @@ namespace AdventOfCode2020
         {
             string[] lines = filename.ReadAllLines();
             int trees = 0;
-            for(int x = right - 1, y = down - 1; y < lines.Length; x += right, y += down)
+            for(int x = right, y = down; y < lines.Length; x += right, y += down)
             {
-                
+                if (lines[y][x % lines[0].Length] == '#')
+                    trees++;
             }
-            return 0;
+            return trees;
         }
 
         public static int PartTwo(string filename)
