@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2020
 {
@@ -11,18 +9,6 @@ namespace AdventOfCode2020
     public class Day03Tests : TestBase
     {
         const int DAY = 03;
-
-        [Test]
-        public void TestPartOne()
-        {
-            Day03.PartOne(PuzzleFile(DAY), 3, 1).Should().Be(0);
-        }
-
-        [Test]
-        public void TestPartTwo()
-        {
-            Day03.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
 
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
@@ -39,13 +25,13 @@ namespace AdventOfCode2020
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(TestFile(DAY), 7);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 257);
         }
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 336);
+            yield return new TestCaseData(PuzzleFile(DAY), 1744787392);
         }
     }
 }
