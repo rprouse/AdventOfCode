@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 
 namespace AdventOfCode.Core
@@ -62,6 +62,15 @@ namespace AdventOfCode.Core
         public static string[] ReadAllLines(this string filename) =>
             File.ReadAllLines(filename)
                 .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToArray();
+
+        /// <summary>
+        /// Reads all lines in a file including blank lines and returns them as an array of lines
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string[] ReadAllLinesIncludingBlank(this string filename) =>
+            File.ReadAllLines(filename)
                 .ToArray();
 
         /// <summary>
