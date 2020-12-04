@@ -23,48 +23,14 @@ namespace AdventOfCode2020
             return passports.Count(p => IsPassportValid(p));
         }
 
-        static bool DoesPassportHaveRequiredFields(IDictionary<string, string> pass)
-        {
-            bool byr = false;   // (Birth Year)
-            bool iyr = false;   // (Issue Year)
-            bool eyr = false;   // (Expiration Year)
-            bool hgt = false;   // (Height)
-            bool hcl = false;   // (Hair Color)
-            bool ecl = false;   // (Eye Color)
-            bool pid = false;   // (Passport ID)
-            bool cid = false;   // (Country ID)
-            foreach(string key in pass.Keys)
-            {
-                switch(key)
-                {
-                    case "byr":
-                        byr = true;
-                        break;
-                    case "iyr":
-                        iyr = true;
-                        break;
-                    case "eyr":
-                        eyr = true;
-                        break;
-                    case "hgt":
-                        hgt = true;
-                        break;
-                    case "hcl":
-                        hcl = true;
-                        break;
-                    case "ecl":
-                        ecl = true;
-                        break;
-                    case "pid":
-                        pid = true;
-                        break;
-                    case "cid":
-                        cid = true;
-                        break;
-                }
-            }
-            return byr && iyr && eyr && hgt && hcl && ecl && pid;
-        }
+        static bool DoesPassportHaveRequiredFields(IDictionary<string, string> pass) =>
+            pass.ContainsKey("byr") &&
+            pass.ContainsKey("iyr") &&
+            pass.ContainsKey("eyr") &&
+            pass.ContainsKey("hgt") &&
+            pass.ContainsKey("hcl") &&
+            pass.ContainsKey("ecl") &&
+            pass.ContainsKey("pid");
 
         // byr(Birth Year) - four digits; at least 1920 and at most 2002.
         // iyr(Issue Year) - four digits; at least 2010 and at most 2020.
