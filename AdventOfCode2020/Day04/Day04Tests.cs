@@ -12,22 +12,10 @@ namespace AdventOfCode2020
     {
         const int DAY = 04;
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Day04.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
             Day04.PartOne(filename).Should().Be(expected);
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Day04.PartTwo(filename).Should().Be(expected);
         }
 
         public static IEnumerable TestDataOne()
@@ -36,10 +24,22 @@ namespace AdventOfCode2020
             yield return new TestCaseData(PuzzleFile(DAY), 260);
         }
 
-        public static IEnumerable TestDataTwo()
+        [Test]
+        public void TestPartTwoInvalid()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Day04.PartTwo(PuzzleFile(DAY, "invalid.txt")).Should().Be(0);
+        }
+
+        [Test]
+        public void TestPartTwoValid()
+        {
+            Day04.PartTwo(PuzzleFile(DAY, "valid.txt")).Should().Be(4);
+        }
+
+        [Test]
+        public void TestPartTwo()
+        {
+            Day04.PartTwo(PuzzleFile(DAY)).Should().Be(153);
         }
     }
 }
