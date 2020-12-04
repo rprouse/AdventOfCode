@@ -1,7 +1,4 @@
-using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -32,98 +29,94 @@ namespace AdventOfCode2020
             pass.ContainsKey("ecl") &&
             pass.ContainsKey("pid");
 
+        static bool IsPassportValid(IDictionary<string, string> pass) =>
+            IsByrValid(pass) && 
+            IsIyrValid(pass) && 
+            IsEyrValid(pass) && 
+            IsHgtValid(pass) && 
+            IsHclValid(pass) && 
+            IsEclValid(pass) && 
+            IsPidValid(pass);
+        
         // byr(Birth Year) - four digits; at least 1920 and at most 2002.
+        static internal bool IsByrValid(IDictionary<string, string> pass) =>
+            pass.ContainsKey("byr") && IsValidYear(pass["byr"], 1920, 2002);
+        
         // iyr(Issue Year) - four digits; at least 2010 and at most 2020.
+        static internal bool IsIyrValid(IDictionary<string, string> pass) =>
+            pass.ContainsKey("iyr") && IsValidYear(pass["iyr"], 2010, 2020);
+
         // eyr(Expiration Year) - four digits; at least 2020 and at most 2030.
+        static internal bool IsEyrValid(IDictionary<string, string> pass) =>
+            pass.ContainsKey("eyr") && IsValidYear(pass["eyr"], 2020, 2030);
+
         // hgt(Height) - a number followed by either cm or in:
         //   If cm, the number must be at least 150 and at most 193.
         //   If in, the number must be at least 59 and at most 76.
-        // hcl(Hair Color) - a # followed by exactly six characters 0-9 or a-f.
-        // ecl(Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
-        // pid(Passport ID) - a nine-digit number, including leading zeroes.
-        // cid(Country ID) - ignored, missing or not.
-        static bool IsPassportValid(IDictionary<string, string> pass)
+        static internal bool IsHgtValid(IDictionary<string, string> pass)
         {
-            bool byr = false;   // (Birth Year)
-            bool iyr = false;   // (Issue Year)
-            bool eyr = false;   // (Expiration Year)
-            bool hgt = false;   // (Height)
-            bool hcl = false;   // (Hair Color)
-            bool ecl = false;   // (Eye Color)
-            bool pid = false;   // (Passport ID)
-            bool cid = false;   // (Country ID)
-            foreach (var pair in pass)
+            if (!pass.ContainsKey("hgt")) return false;
+
+            string hgt = pass["hgt"];
+            if (hgt.EndsWith("in"))
             {
-                switch (pair.Key)
-                {
-                    case "byr":
-                    {
-                        int year = pair.Value.ToInt();
-                        byr = year >= 1920 && year <= 2002;
-                        break;
-                    }
-                    case "iyr":
-                    {
-                        int year = pair.Value.ToInt();
-                        iyr = year >= 2010 && year <= 2020;
-                        break;
-                    }
-                    case "eyr":
-                    {
-                        int year = pair.Value.ToInt();
-                        eyr = year >= 2020 && year <= 2030;
-                        break;
-                    }
-                    case "hgt":
-                    {
-                        if(pair.Value.EndsWith("in"))
-                        {
-                            int h = pair.Value.Substring(0, pair.Value.Length - 2).ToInt();
-                                hgt = h >= 59 && h <= 76;
-                            }
-                        else if(pair.Value.EndsWith("cm"))
-                        {
-                            int h = pair.Value.Substring(0, pair.Value.Length - 2).ToInt();
-                                hgt = h >= 150 && h <= 193;
-                        }
-                        break;
-                    }
-                    case "hcl":
-                    {
-                        var val = pair.Value;
-                        hcl = val.StartsWith("#") && val.Length == 7 && val.All(c => c == '#' || (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'));
-                        break;
-                    }
-                    case "ecl":
-                    {
-                        var val = pair.Value;
-                        ecl = val == "amb" || val == "blu" || val == "brn" || val == "gry" || val == "grn" || val == "hzl" || val == "oth";
-                        break;
-                    }
-                    case "pid":
-                        pid = pair.Value.Length == 9 && pair.Value.All(c => c >= '0' && c <= '9');
-                        break;
-                    case "cid":
-                        cid = true;
-                        break;
-                }
+                int h = hgt.Substring(0, hgt.Length - 2).ToInt();
+                return h >= 59 && h <= 76;
             }
-            return byr && iyr && eyr && hgt && hcl && ecl && pid;
+            else if (hgt.EndsWith("cm"))
+            {
+                int h = hgt.Substring(0, hgt.Length - 2).ToInt();
+                return h >= 150 && h <= 193;
+            }
+            return false;
+        }
+
+        // hcl(Hair Color) - a # followed by exactly six characters 0-9 or a-f.
+        static internal bool IsHclValid(IDictionary<string, string> pass)
+        {
+            if (!pass.ContainsKey("hcl")) return false;
+
+            var hcl = pass["hcl"];
+            return hcl.StartsWith("#") && hcl.Length == 7 && hcl.All(c => c == '#' || (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'));
+        }
+
+        // ecl(Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+        static internal bool IsEclValid(IDictionary<string, string> pass)
+        {
+            if (!pass.ContainsKey("ecl")) return false;
+
+            var val = pass["ecl"];
+            return val == "amb" || val == "blu" || val == "brn" || val == "gry" || val == "grn" || val == "hzl" || val == "oth";            
+        }
+
+        // pid(Passport ID) - a nine-digit number, including leading zeroes.
+        static internal bool IsPidValid(IDictionary<string, string> pass)
+        {
+            if (!pass.ContainsKey("pid")) return false;
+
+            var pid = pass["pid"];
+            return pid.Length == 9 && pid.All(c => c >= '0' && c <= '9');
+        }
+
+        static internal bool IsValidYear(string value, int min, int max)
+        {
+            int year = value.ToInt();
+            return year >= min && year <= max;
         }
 
         static IEnumerable<IDictionary<string, string>> ParseFile(string[] lines)
         {
             var dict = new Dictionary<string, string>();
-            foreach(var line in lines)
+            foreach (var line in lines)
             {
-                if(string.IsNullOrEmpty(line))
+                if (string.IsNullOrEmpty(line))
                 {
                     yield return dict;
                     dict = new Dictionary<string, string>();
                     continue;
                 }
                 string[] pairs = line.Split(' ');
-                foreach(var pair in pairs)
+                foreach (var pair in pairs)
                 {
                     string[] parts = pair.Split(':', 2);
                     dict.Add(parts[0], parts[1]);
