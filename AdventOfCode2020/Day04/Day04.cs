@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -6,19 +7,13 @@ namespace AdventOfCode2020
 {
     public static class Day04
     {
-        public static int PartOne(string filename)
-        {
-            string[] lines = filename.ReadAllLinesIncludingBlank();
-            var passports = ParseFile(lines);
-            return passports.Count(p => DoesPassportHaveRequiredFields(p));
-        }
+        public static int PartOne(string filename) =>
+            ParseFile(filename.ReadAllLinesIncludingBlank())
+                .Count(p => DoesPassportHaveRequiredFields(p));
 
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLinesIncludingBlank();
-            var passports = ParseFile(lines);
-            return passports.Count(p => IsPassportValid(p));
-        }
+        public static int PartTwo(string filename) =>
+            ParseFile(filename.ReadAllLinesIncludingBlank())
+                .Count(p => IsPassportValid(p));
 
         static bool DoesPassportHaveRequiredFields(IDictionary<string, string> pass) =>
             pass.ContainsKey("byr") &&
@@ -77,7 +72,9 @@ namespace AdventOfCode2020
             if (!pass.ContainsKey("hcl")) return false;
 
             var hcl = pass["hcl"];
-            return hcl.StartsWith("#") && hcl.Length == 7 && hcl.All(c => c == '#' || (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'));
+            return hcl.StartsWith("#") && 
+                   hcl.Length == 7 && 
+                   int.TryParse(hcl.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int _);
         }
 
         // ecl(Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
