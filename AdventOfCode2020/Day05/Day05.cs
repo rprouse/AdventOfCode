@@ -18,7 +18,6 @@ namespace AdventOfCode2020
             var seats = filename
                 .ReadAllLines()
                 .Select(l => GetSeatId(l))
-                .OrderBy(i => i)
                 .ToList();
 
             return Enumerable.Range(1, 1022)
