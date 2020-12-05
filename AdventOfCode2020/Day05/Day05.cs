@@ -31,19 +31,15 @@ namespace AdventOfCode2020
             return seat.row * 8 + seat.col;
         }
 
-        static internal (int row, int col) GetSeat(string pass)
+        static internal (int row, int col) GetSeat(string pass) =>
+            (RunBisection(pass, ROWS, 0, 7, 'B'), RunBisection(pass, COLS, 7, 10, 'R'));
+
+        static internal int RunBisection(string pass, int max, int startI, int endI, char highChar)
         {
-            int row = ROWS;
-            int low = 0;
-            for(int i = 0; i < 7; i++)
-                (low, row) = Bisect(pass[i] == 'B', low, row);
-            
-            int col = COLS;
-            low = 0;
-            for (int i = 7; i < 10; i++)
-                (low, col) = Bisect(pass[i] == 'R', low, col);
-            
-            return (row, col);
+            int min = 0;
+            for (int i = startI; i < endI; i++)
+                (min, max) = Bisect(pass[i] == highChar, min, max);
+            return max;
         }
 
         static internal (int min, int max) Bisect(bool high, int min, int max) =>
