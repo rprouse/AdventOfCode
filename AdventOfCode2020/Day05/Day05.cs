@@ -12,15 +12,24 @@ namespace AdventOfCode2020
         const int ROWS = 127;
         const int COLS = 7;
 
-        public static int PartOne(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return lines.Select(l => GetSeatId(l)).Max();
-        }
+        public static int PartOne(string filename) =>
+            filename.ReadAllLines()
+                    .Select(l => GetSeatId(l))
+                    .Max();
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
+            var seats = filename
+                .ReadAllLines()
+                .Select(l => GetSeatId(l))
+                .OrderBy(i => i)
+                .ToList();
+
+            for(int id = 1; id < 828; id++)
+            {
+                if (!seats.Contains(id) && seats.Contains(id - 1) && seats.Contains(id + 1))
+                    return id;
+            }
             return 0;
         }
 
