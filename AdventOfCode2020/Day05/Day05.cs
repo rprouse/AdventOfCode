@@ -1,7 +1,3 @@
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -25,12 +21,8 @@ namespace AdventOfCode2020
                 .OrderBy(i => i)
                 .ToList();
 
-            for(int id = 1; id < 828; id++)
-            {
-                if (!seats.Contains(id) && seats.Contains(id - 1) && seats.Contains(id + 1))
-                    return id;
-            }
-            return 0;
+            return Enumerable.Range(1, 1022)
+                .First(id => !seats.Contains(id) && seats.Contains(id - 1) && seats.Contains(id + 1));
         }
 
         static internal int GetSeatId(string pass)
@@ -44,22 +36,18 @@ namespace AdventOfCode2020
             int row = ROWS;
             int low = 0;
             for(int i = 0; i < 7; i++)
-            {
-                if (pass[i] == 'F')
-                    row -= (row - low) / 2 + 1;
-                else
-                    low += (row - low) / 2 + 1;
-            }
+                (low, row) = Bisect(pass[i] == 'B', low, row);
+            
             int col = COLS;
             low = 0;
             for (int i = 7; i < 10; i++)
-            {
-                if (pass[i] == 'L')
-                    col -= (col - low) / 2 + 1;
-                else
-                    low += (col - low) / 2 + 1;
-            }
+                (low, col) = Bisect(pass[i] == 'R', low, col);
+            
             return (row, col);
         }
+
+        static internal (int min, int max) Bisect(bool high, int min, int max) =>
+            high ? (min + (max - min) / 2 + 1, max) :
+                   (min, max - ((max - min) / 2) - 1);
     }
 }
