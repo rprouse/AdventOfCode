@@ -14,32 +14,32 @@ namespace AdventOfCode2020
 
         static IEnumerable<int> ParseFileOne(string[] lines)
         {
-            var one = new List<char>(lines[0]);
+            IEnumerable<char> one = lines[0];
             for (int i = 1; i < lines.Length; i++)
             {
                 if (string.IsNullOrEmpty(lines[i]))
                 {
                     yield return one.Count();
-                    one = new List<char>();
+                    one = string.Empty;
                     continue;
                 }
-                one = one.Union(new List<char>(lines[i])).ToList();
+                one = one.Union(lines[i]);
             }
             yield return one.Count();
         }
 
         static IEnumerable<int> ParseFileTwo(string[] lines)
         {
-            var one = new List<char>(lines[0]);
+            IEnumerable<char> one = lines[0];
             for (int i = 1; i < lines.Length; i++)
             {
                 if (string.IsNullOrEmpty(lines[i]))
                 {
                     yield return one.Count();
-                    one = new List<char>("abcdefghijklmnopqrstuvwxyz");
+                    one = "abcdefghijklmnopqrstuvwxyz";
                     continue;
                 }
-                one = one.Intersect(new List<char>(lines[i])).ToList();
+                one = one.Intersect(lines[i]);
             }
             yield return one.Count();
         }
