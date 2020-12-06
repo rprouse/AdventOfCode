@@ -13,12 +13,8 @@ namespace AdventOfCode2020
             return answers.Sum(g => g.Count(a => a));
         }
 
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLinesIncludingBlank();
-            var answers = ParseFileTwo(lines);
-            return answers.Sum();
-        }
+        public static int PartTwo(string filename) =>
+            ParseFileTwo(filename.ReadAllLinesIncludingBlank()).Sum();
 
         static IList<bool[]> ParseFileOne(string[] lines)
         {
@@ -44,7 +40,6 @@ namespace AdventOfCode2020
         static IEnumerable<int> ParseFileTwo(string[] lines)
         {
             var one = new List<char>(lines[0]);
-
             for (int i = 1; i < lines.Length; i++)
             {
                 if (string.IsNullOrEmpty(lines[i]))
