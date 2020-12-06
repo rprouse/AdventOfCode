@@ -6,35 +6,26 @@ namespace AdventOfCode2020
 {
     public static class Day06
     {
-        public static int PartOne(string filename)
-        {
-            string[] lines = filename.ReadAllLinesIncludingBlank();
-            var answers = ParseFileOne(lines);
-            return answers.Sum(g => g.Count(a => a));
-        }
+        public static int PartOne(string filename) =>
+            ParseFileOne(filename.ReadAllLinesIncludingBlank()).Sum();
 
         public static int PartTwo(string filename) =>
             ParseFileTwo(filename.ReadAllLinesIncludingBlank()).Sum();
 
-        static IList<bool[]> ParseFileOne(string[] lines)
+        static IEnumerable<int> ParseFileOne(string[] lines)
         {
-            IList<bool[]> ret = new List<bool[]>();
-            bool[] answers = new bool[26];
-            ret.Add(answers);
-            foreach(string line in lines)
+            var one = new List<char>(lines[0]);
+            for (int i = 1; i < lines.Length; i++)
             {
-                if(string.IsNullOrEmpty(line))
+                if (string.IsNullOrEmpty(lines[i]))
                 {
-                    answers = new bool[26];
-                    ret.Add(answers);
+                    yield return one.Count();
+                    one = new List<char>();
                     continue;
                 }
-                foreach(char c in line)
-                {
-                    answers[c - 'a'] = true;
-                }
+                one = one.Union(new List<char>(lines[i])).ToList();
             }
-            return ret;
+            yield return one.Count();
         }
 
         static IEnumerable<int> ParseFileTwo(string[] lines)
