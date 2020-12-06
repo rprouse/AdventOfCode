@@ -1,7 +1,4 @@
-using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -12,17 +9,18 @@ namespace AdventOfCode2020
         public static int PartOne(string filename)
         {
             string[] lines = filename.ReadAllLinesIncludingBlank();
-            var answers = ParseFile(lines);
+            var answers = ParseFileOne(lines);
             return answers.Sum(g => g.Count(a => a));
         }
 
         public static int PartTwo(string filename)
         {
             string[] lines = filename.ReadAllLinesIncludingBlank();
-            return 0;
+            var answers = ParseFileTwo(lines);
+            return answers.Sum();
         }
 
-        static IList<bool[]> ParseFile(string[] lines)
+        static IList<bool[]> ParseFileOne(string[] lines)
         {
             IList<bool[]> ret = new List<bool[]>();
             bool[] answers = new bool[26];
@@ -41,6 +39,23 @@ namespace AdventOfCode2020
                 }
             }
             return ret;
+        }
+
+        static IEnumerable<int> ParseFileTwo(string[] lines)
+        {
+            var one = new List<char>(lines[0]);
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                if (string.IsNullOrEmpty(lines[i]))
+                {
+                    yield return one.Count();
+                    one = new List<char>("abcdefghijklmnopqrstuvwxyz");
+                    continue;
+                }
+                one = one.Intersect(new List<char>(lines[i])).ToList();
+            }
+            yield return one.Count();
         }
     }
 }
