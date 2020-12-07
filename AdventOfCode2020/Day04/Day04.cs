@@ -53,17 +53,13 @@ namespace AdventOfCode2020
             if (!pass.ContainsKey("hgt")) return false;
 
             string hgt = pass["hgt"];
-            if (hgt.EndsWith("in"))
+            int h = hgt[..^2].ToInt();
+            return hgt[^2..] switch
             {
-                int h = hgt.Substring(0, hgt.Length - 2).ToInt();
-                return h is >= 59 && h <= 76;
-            }
-            else if (hgt.EndsWith("cm"))
-            {
-                int h = hgt.Substring(0, hgt.Length - 2).ToInt();
-                return h >= 150 && h <= 193;
-            }
-            return false;
+                "in" => h is >= 59 and <= 76,
+                "cm" => h is >= 150 and <= 193,
+                _    => false 
+            };
         }
 
         // hcl(Hair Color) - a # followed by exactly six characters 0-9 or a-f.
@@ -74,7 +70,7 @@ namespace AdventOfCode2020
             var hcl = pass["hcl"];
             return hcl.StartsWith("#") && 
                    hcl.Length == 7 && 
-                   int.TryParse(hcl.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int _);
+                   int.TryParse(hcl[1..], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int _);
         }
 
         // ecl(Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
@@ -92,7 +88,7 @@ namespace AdventOfCode2020
             if (!pass.ContainsKey("pid")) return false;
 
             var pid = pass["pid"];
-            return pid.Length == 9 && pid.All(c => c >= '0' && c <= '9');
+            return pid.Length == 9 && pid.All(c => char.IsDigit(c));
         }
 
         static internal bool IsValidYear(string value, int min, int max)
