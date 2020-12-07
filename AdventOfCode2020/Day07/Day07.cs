@@ -13,7 +13,30 @@ namespace AdventOfCode2020
         {
             string[] lines = filename.ReadAllLines();
             var rules = ParseRules(lines);
-            return 0;
+            bool found = true;
+            List<string> holds = new List<string>();
+            List<string> lookingFor = rules.Where(r => r.Value.Keys.Contains("shiny gold")).Select(r => r.Key).ToList();
+            foreach (string color in lookingFor)
+                rules.Remove(color);
+            holds.AddRange(lookingFor);
+            while(found)
+            {
+                found = false;
+                List<string> newLooking = new List<string>();
+                foreach (string color in lookingFor)
+                {
+                    newLooking.AddRange(rules.Where(r => r.Value.Keys.Contains(color)).Select(r => r.Key));
+                }
+                if (newLooking.Any())
+                {
+                    lookingFor = newLooking.Distinct().ToList();
+                    foreach (string color in lookingFor)
+                        rules.Remove(color);
+                    holds.AddRange(newLooking);
+                    found = true;
+                }
+            }
+            return holds.Distinct().Count();
         }
 
         public static int PartTwo(string filename)
