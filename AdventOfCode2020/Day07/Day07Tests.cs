@@ -32,7 +32,7 @@ namespace AdventOfCode2020
         {
             yield return new TestCaseData(TestFile(DAY), 32);
             yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 126);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 6260);
         }
     }
 }

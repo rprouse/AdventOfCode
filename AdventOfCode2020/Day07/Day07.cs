@@ -16,8 +16,6 @@ namespace AdventOfCode2020
             bool found = true;
             List<string> holds = new List<string>();
             List<string> lookingFor = rules.Where(r => r.Value.Keys.Contains("shiny gold")).Select(r => r.Key).ToList();
-            foreach (string color in lookingFor)
-                rules.Remove(color);
             holds.AddRange(lookingFor);
             while(found)
             {
@@ -30,8 +28,6 @@ namespace AdventOfCode2020
                 if (newLooking.Any())
                 {
                     lookingFor = newLooking.Distinct().ToList();
-                    foreach (string color in lookingFor)
-                        rules.Remove(color);
                     holds.AddRange(newLooking);
                     found = true;
                 }
