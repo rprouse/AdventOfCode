@@ -12,6 +12,7 @@ namespace AdventOfCode2020
         public static int PartOne(string filename)
         {
             string[] lines = filename.ReadAllLines();
+            var rules = ParseRules(lines);
             return 0;
         }
 
@@ -19,6 +20,33 @@ namespace AdventOfCode2020
         {
             string[] lines = filename.ReadAllLines();
             return 0;
+        }
+
+        static Dictionary<string, Dictionary<string, int>> ParseRules(string[] lines)
+        {
+            var ret = new Dictionary<string, Dictionary<string, int>>(lines.Length);
+            foreach(var line in lines)
+            {
+                var rule = new Dictionary<string, int>();
+                string[] parts = line.Split(' ');
+                string bag = $"{parts[0]} {parts[1]}";
+
+                int c = line.IndexOf("contain ");
+                string children = line.Substring(c + 8);
+                if (!children.StartsWith("no other"))
+                {
+                    string[] childBags = children.Split(", ");
+                    foreach(var childBag in childBags)
+                    {
+                        string[] subparts = childBag.Split(' ');
+                        int n = subparts[0].ToInt();
+                        string color = $"{subparts[1]} {subparts[2]}";
+                        rule.Add(color, n);
+                    }
+                }
+                ret.Add(bag, rule);
+            }
+            return ret;
         }
     }
 }
