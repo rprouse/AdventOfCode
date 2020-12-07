@@ -28,15 +28,16 @@ namespace AdventOfCode2020
             yield return one.Count();
         }
 
+        const string ALPHA = "abcdefghijklmnopqrstuvwxyz";
         static IEnumerable<int> ParseFileTwo(string[] lines)
         {
-            IEnumerable<char> one = "abcdefghijklmnopqrstuvwxyz";
+            IEnumerable<char> one = ALPHA;
             foreach (var line in lines)
             {
                 if (string.IsNullOrEmpty(line))
                 {
                     yield return one.Count();
-                    one = "abcdefghijklmnopqrstuvwxyz";
+                    one = ALPHA;
                     continue;
                 }
                 one = one.Intersect(line);
