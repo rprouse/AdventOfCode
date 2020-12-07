@@ -42,7 +42,22 @@ namespace AdventOfCode2020
         public static int PartTwo(string filename)
         {
             string[] lines = filename.ReadAllLines();
-            return 0;
+            var rules = ParseRules(lines);
+            return BagsForColor(rules, "shiny gold");
+        }
+
+        static int BagsForColor(Dictionary<string, Dictionary<string, int>> rules, string color)
+        {
+            if (!rules.ContainsKey(color) || !rules[color].Any())
+                return 0;
+
+            int count = 0;
+            foreach(var child in rules[color])
+            {
+                count += child.Value;
+                count += BagsForColor(rules, child.Key) * child.Value;
+            }
+            return count;
         }
 
         static Dictionary<string, Dictionary<string, int>> ParseRules(string[] lines)
