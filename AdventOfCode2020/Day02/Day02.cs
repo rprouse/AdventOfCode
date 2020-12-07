@@ -1,7 +1,3 @@
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -31,10 +27,8 @@ namespace AdventOfCode2020
             return count >= Min && count <= Max;
         }
 
-        public bool IsTobogganPolicyValid()
-        {
-            return Password[Min-1] == Char ^ Password[Max-1] == Char;
-        }
+        public bool IsTobogganPolicyValid() =>
+            Password[Min-1] == Char ^ Password[Max-1] == Char;
     }
 
     public static class Day02

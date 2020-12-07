@@ -56,7 +56,7 @@ namespace AdventOfCode2020
             if (hgt.EndsWith("in"))
             {
                 int h = hgt.Substring(0, hgt.Length - 2).ToInt();
-                return h >= 59 && h <= 76;
+                return h is >= 59 && h <= 76;
             }
             else if (hgt.EndsWith("cm"))
             {

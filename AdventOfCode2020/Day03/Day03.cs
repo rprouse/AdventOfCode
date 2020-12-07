@@ -4,11 +4,8 @@ namespace AdventOfCode2020
 {
     public static class Day03
     {
-        public static int PartOne(string filename, int right, int down)
-        {
-            string[] lines = filename.ReadAllLines();
-            return CountTreesOnSlope(right, down, lines);
-        }
+        public static int PartOne(string filename, int right, int down) =>
+            CountTreesOnSlope(right, down, filename.ReadAllLines());
 
         public static int PartTwo(string filename)
         {
