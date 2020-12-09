@@ -56,18 +56,23 @@ namespace AdventOfCode2020
                     sum += numbers[j];
                     if (sum == mismatch)
                     {
-                        long min = long.MaxValue;
-                        long max = long.MinValue;
-                        for(int k = i; k <= j; k++)
-                        {
-                            if (numbers[k] < min) min = numbers[k];
-                            if (numbers[k] > max) max = numbers[k];
-                        }
-                        return min + max;
+                        return SumMinMaxOfRange(numbers, i, j);
                     }
                 }
             }
             return 0;
+        }
+
+        private static long SumMinMaxOfRange(long[] numbers, int i, int j)
+        {
+            long min = long.MaxValue;
+            long max = long.MinValue;
+            for (int k = i; k <= j; k++)
+            {
+                if (numbers[k] < min) min = numbers[k];
+                if (numbers[k] > max) max = numbers[k];
+            }
+            return min + max;
         }
     }
 }
