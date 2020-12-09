@@ -36,6 +36,16 @@ namespace AdventOfCode.Core
                 .ToArray();
 
         /// <summary>
+        /// Reads a file with one long per line
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static long[] GetLongs(this string filename) =>
+            filename.ReadAllLines()
+                .Select(l => l.ToLong())
+                .ToArray();
+
+        /// <summary>
         /// Reads a file in the format `a, b, cee, dee` as a series of string
         /// </summary>
         /// <param name="filename"></param>
