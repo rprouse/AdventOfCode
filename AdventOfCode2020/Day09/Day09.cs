@@ -15,7 +15,7 @@ namespace AdventOfCode2020
             return FirstNotMatchingRule(lines, preamble);
         }
 
-        public static int PartTwo(string filename)
+        public static long PartTwo(string filename)
         {
             long[] lines = filename.GetLongs();
             return 0;
