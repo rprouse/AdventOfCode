@@ -15,13 +15,13 @@ namespace AdventOfCode2020
             return FirstNotMatchingRule(lines, preamble);
         }
 
-        public static long PartTwo(string filename)
+        public static long PartTwo(string filename, long mismatch)
         {
             long[] lines = filename.GetLongs();
-            return 0;
+            return FindContigiousSetForMismatch(lines, mismatch);
         }
 
-        public static long FirstNotMatchingRule(long[] numbers, int preamble)
+        static long FirstNotMatchingRule(long[] numbers, int preamble)
         {
             for (int i = preamble; i < numbers.Length; i++)
             {
@@ -31,7 +31,7 @@ namespace AdventOfCode2020
             return 0;
         }
 
-        private static bool SearchPreviousForSummingPair(long[] numbers, int preamble, int i)
+        static bool SearchPreviousForSummingPair(long[] numbers, int preamble, int i)
         {
             for (int s = i - preamble; s < i - 1; s++)
             {
@@ -44,6 +44,30 @@ namespace AdventOfCode2020
                 }
             }
             return false;
+        }
+
+        static long FindContigiousSetForMismatch(long[] numbers, long mismatch)
+        {
+            for(int i = 0; i < numbers.Length; i++)
+            {
+                long sum = 0;
+                for(int j = i; j < numbers.Length; j++)
+                {
+                    sum += numbers[j];
+                    if (sum == mismatch)
+                    {
+                        long min = long.MaxValue;
+                        long max = long.MinValue;
+                        for(int k = i; k <= j; k++)
+                        {
+                            if (numbers[k] < min) min = numbers[k];
+                            if (numbers[k] > max) max = numbers[k];
+                        }
+                        return min + max;
+                    }
+                }
+            }
+            return 0;
         }
     }
 }
