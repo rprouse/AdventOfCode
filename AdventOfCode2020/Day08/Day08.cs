@@ -11,11 +11,8 @@ namespace AdventOfCode2020
     {
         public static int PartOne(string filename)
         {
-            Instruction[] program = filename.ReadAllLines()
-                .Select(l => new Instruction(l))
-                .ToArray();
-            var emulator = new ConsoleEmulator();
-            _ = emulator.Run(program);
+            var emulator = new ConsoleEmulator(filename);
+            _ = emulator.Run();
             return emulator.Accumulator;
         }
 
@@ -35,7 +32,8 @@ namespace AdventOfCode2020
                 newProgram[i].Operation = program[i].Operation == "nop" ? "jmp" : "nop";
 
                 var emulator = new ConsoleEmulator();
-                var result = emulator.Run(newProgram);
+                emulator.Load(newProgram);
+                var result = emulator.Run();
                 if(result)
                     return emulator.Accumulator;
             }
@@ -55,9 +53,23 @@ namespace AdventOfCode2020
         {
         }
 
-        public bool Run(Instruction[] program)
+        public ConsoleEmulator(string filename)
+        {
+            Load(Parse(filename));
+        }
+
+        public static Instruction[] Parse(string filename) =>
+            filename.ReadAllLines()
+                .Select(l => new Instruction(l))
+                .ToArray();
+
+        public void Load(Instruction[] program)
         {
             _program = program;
+        }
+
+        public bool Run()
+        {
             List<int> seen = new List<int>();
             while(true)
             {
