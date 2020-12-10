@@ -1,7 +1,5 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -35,10 +33,44 @@ namespace AdventOfCode2020
             return one * thr;
         }
 
-        public static int PartTwo(string filename)
+        public static long PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            List<int> adp = filename.GetInts().ToList();
+            adp.Add(0);
+            adp.Sort();
+            adp.Add(adp.Last() + 3);
+
+            long routes = 1;
+            List<int> subList = new List<int>();
+            int last = 0;
+            foreach(var i in adp)
+            {
+                if (i < last + 3)
+                {
+                    subList.Add(i);
+                }
+                else
+                {
+                    routes *= RoutesToEnd(subList.ToArray(), 0);
+                    subList.Clear();
+                    subList.Add(i);
+                }
+                last = i;
+            }
+            return routes;
+        }
+
+        static long RoutesToEnd(int[] adp, int idx)
+        {
+            if (idx == adp.Length - 1) return 1;
+            long routes = 0;
+            for (int i = idx + 1; i <= idx + 3 && i < adp.Length; i++)
+            {
+                int diff = adp[i] - adp[idx];
+                if (diff <= 3)
+                    routes += RoutesToEnd(adp, i);
+            }
+            return routes;
         }
     }
 }
