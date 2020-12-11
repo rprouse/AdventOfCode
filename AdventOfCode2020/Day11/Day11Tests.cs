@@ -12,12 +12,6 @@ namespace AdventOfCode2020
     {
         const int DAY = 11;
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Day11.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, int expected)
         {
@@ -30,6 +24,13 @@ namespace AdventOfCode2020
             Day11.PartTwo(filename).Should().Be(expected);
         }
 
+        [TestCaseSource(nameof(TestVisibleSeats))]
+        public void TestPartTwoVisibleSeats(string filename, int x, int y, int expected)
+        {
+            var area = new WaitingAreaTwo(filename);
+            area.VisibleSeats(x, y).Should().Be(expected);
+        }
+
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(TestFile(DAY), 37);
@@ -38,8 +39,16 @@ namespace AdventOfCode2020
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 26);
+            yield return new TestCaseData(PuzzleFile(DAY), 2066);
+        }
+
+        public static IEnumerable TestVisibleSeats()
+        {
+            yield return new TestCaseData(TestFile(DAY, "Test2a.txt"), 1, 1, 0);
+            yield return new TestCaseData(TestFile(DAY, "Test2b.txt"), 3, 3, 0);
+            yield return new TestCaseData(TestFile(DAY, "Test2c.txt"), 3, 4, 8);
+            yield return new TestCaseData(TestFile(DAY, "Test2d.txt"), 3, 0, 0);
         }
     }
 }
