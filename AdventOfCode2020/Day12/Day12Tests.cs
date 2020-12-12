@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
-using System.Drawing;
+using NUnit.Framework;
 
 namespace AdventOfCode2020
 {
@@ -16,8 +13,8 @@ namespace AdventOfCode2020
         [Test]
         public void TestPartTwoTurnRight()
         {
-            Point point = new Point(10, -4);
-            point = Day12.TurnRight(point, 90);
+            var point = new Waypoint(10, -4);
+            point.TurnRight(90);
             point.X.Should().Be(4);
             point.Y.Should().Be(10);
         }

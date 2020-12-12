@@ -1,13 +1,13 @@
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using AdventOfCode.Core;
 using System.Drawing;
+using AdventOfCode.Core;
 
 namespace AdventOfCode2020
 {
+    /// <summary>
+    /// Note to self, I use screen coordinates for this problem
+    /// with X increasing right (East) and Y increasing down (South)
+    /// </summary>
     public static class Day12
     {
         public static int PartOne(string filename)
@@ -52,7 +52,7 @@ namespace AdventOfCode2020
         public static int PartTwo(string filename)
         {
             var ship = new Point(0, 0);
-            var wp = new Point(10, -1);
+            var wp = new Waypoint(10, -1);
             string[] lines = filename.ReadAllLines();
             foreach (var line in filename.ReadAllLines())
             {
@@ -73,10 +73,10 @@ namespace AdventOfCode2020
                         wp.Offset(-value, 0);
                         break;
                     case 'L':
-                        wp = TurnLeft(wp, value);
+                        wp.TurnLeft(value);
                         break;
                     case 'R':
-                        wp = TurnRight(wp, value);
+                        wp.TurnRight(value);
                         break;
                     case 'F':
                         ship.Offset(wp.X * value, wp.Y * value);
@@ -85,32 +85,5 @@ namespace AdventOfCode2020
             }
             return Math.Abs(ship.X) + Math.Abs(ship.Y);
         }
-
-        public static Point TurnLeft(Point waypoint, int degrees) =>
-            degrees switch
-            {
-                90 => TurnLeft(waypoint),
-                180 => TurnAround(waypoint),
-                270 => TurnRight(waypoint),
-                _ => waypoint
-            };
-
-        public static Point TurnRight(Point waypoint, int degrees) =>
-            degrees switch
-            {
-                90 => TurnRight(waypoint),
-                180 => TurnAround(waypoint),
-                270 => TurnLeft(waypoint),
-                _ => waypoint
-            };
-
-        public static Point TurnLeft(Point waypoint) =>
-            new Point(waypoint.Y, -waypoint.X);
-
-        public static Point TurnRight(Point waypoint) =>
-            new Point(-waypoint.Y, waypoint.X);
-
-        public static Point TurnAround(Point waypoint) =>
-            new Point(-waypoint.X, -waypoint.Y);
     }
 }
