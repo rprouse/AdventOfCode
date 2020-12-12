@@ -4,6 +4,7 @@ using System.IO;
 using AdventOfCode.Core;
 using NUnit.Framework;
 using FluentAssertions;
+using System.Drawing;
 
 namespace AdventOfCode2020
 {
@@ -13,9 +14,12 @@ namespace AdventOfCode2020
         const int DAY = 12;
 
         [Test]
-        public void TestPartTwo()
+        public void TestPartTwoTurnRight()
         {
-            Day12.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+            Point point = new Point(10, -4);
+            point = Day12.TurnRight(point, 90);
+            point.X.Should().Be(4);
+            point.Y.Should().Be(10);
         }
 
         [TestCaseSource(nameof(TestDataOne))]
@@ -33,13 +37,13 @@ namespace AdventOfCode2020
         public static IEnumerable TestDataOne()
         {
             yield return new TestCaseData(TestFile(DAY), 25);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 1294);
         }
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 286);
+            yield return new TestCaseData(PuzzleFile(DAY), 20592);
         }
     }
 }
