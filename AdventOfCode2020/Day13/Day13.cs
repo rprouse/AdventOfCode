@@ -12,7 +12,15 @@ namespace AdventOfCode2020
         public static int PartOne(string filename)
         {
             string[] lines = filename.ReadAllLines();
-            return 0;
+            int time = lines[0].ToInt();
+            var busses = lines[1].Split(',').Where(s => s != "x").Select(s => s.ToInt()).ToArray();
+            for(int i = time; ; i++)
+            {
+                foreach(var bus in busses)
+                {
+                    if(i % bus == 0) return (i - time) * bus;
+                }
+            }
         }
 
         public static int PartTwo(string filename)
