@@ -12,12 +12,6 @@ namespace AdventOfCode2020
     {
         const int DAY = 14;
 
-        [Test]
-        public void TestPartTwo()
-        {
-            Day14.PartTwo(PuzzleFile(DAY)).Should().Be(0L);
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, long expected)
         {
@@ -38,8 +32,29 @@ namespace AdventOfCode2020
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0L);
-            yield return new TestCaseData(PuzzleFile(DAY), 0L);
+            yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 208L);
+            yield return new TestCaseData(PuzzleFile(DAY), 2737766154126L);
+        }
+
+        [TestCase("000000000000000000000000000000X1001X", 42, "000000000000000000000000000000X1101X")]
+        [TestCase("00000000000000000000000000000000X0XX", 26, "00000000000000000000000000000001X0XX")]
+        public void CanCalculateAddressMask(string mask, long ptr, string expected)
+        {
+            Day14.GetAddressMask(mask, ptr).Should().Be(expected);
+        }
+
+        [TestCaseSource(nameof(AddressesFromMask))]
+        public void GetsAddressesFromMask(string mask, long[] expected)
+        {
+            var addresses = Day14.AddressesFromMask(mask);
+            addresses.Should().HaveCount(expected.Length);
+            addresses.Should().BeEquivalentTo(expected);
+        }
+
+        public static IEnumerable AddressesFromMask()
+        {
+            yield return new TestCaseData("000000000000000000000000000000X1101X", new long[] { 26, 27, 58, 59 });
+            yield return new TestCaseData("00000000000000000000000000000001X0XX", new long[] { 16, 17, 18, 19, 24, 25, 26, 27 });
         }
     }
 }
