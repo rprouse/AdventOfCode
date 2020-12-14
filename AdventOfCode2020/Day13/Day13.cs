@@ -32,22 +32,24 @@ namespace AdventOfCode2020
         internal static long FirstCommonTime(string line)
         {
             var busses = line.Split(',').Select(s => s.ToInt()).ToArray();
-            int max = busses.Max();
-            int maxPos = Enumerable.Range(0, busses.Length).Where(i => busses[i] == max).First();
 
-            for (long i = max - maxPos; ; i += max)
+            long inc = busses[0];
+            int common = 1;
+            for (long i = inc; ; i += inc)
             {
-                bool invalid = false;
-                for (int j = 0; j < busses.Length; j++)
+                while (common < busses.Length && busses[common] == 0)
+                    common++;
+
+                if ((i + common) % busses[common] == 0)
                 {
-                    if (busses[j] == 0) continue;
-                    if ((i + j) % busses[j] != 0)
-                    {
-                        invalid = true;
-                        break;
-                    }
+                    common++;
+                    var lcmArgs = busses.Take(common).Where(b => b != 0).ToArray();
+                    inc = lcmArgs[0];
+                    foreach (var arg in lcmArgs[1..])
+                        inc *= arg;
                 }
-                if (!invalid)
+
+                if (common == busses.Length)
                     return i;
             }
         }

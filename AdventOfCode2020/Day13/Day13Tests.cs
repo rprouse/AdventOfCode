@@ -20,6 +20,7 @@ namespace AdventOfCode2020
 
         [TestCase("17,x,13,19", 3417L)]
         [TestCase("67,7,59,61", 754018L)]
+        [TestCase("7,13,x,x,59,x,31,19", 1068781L)]
         [TestCase("67,x,7,59,61", 779210L)]
         [TestCase("67,7,x,59,61", 1261476L)]
         [TestCase("1789,37,47,1889", 1202161486L)]
@@ -43,7 +44,7 @@ namespace AdventOfCode2020
         public static IEnumerable TestDataTwo()
         {
             yield return new TestCaseData(TestFile(DAY), 1068781);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 538703333547789L);
         }
     }
 }
