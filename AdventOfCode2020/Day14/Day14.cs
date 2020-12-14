@@ -1,7 +1,5 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -104,16 +102,12 @@ namespace AdventOfCode2020
             int nextXPos = Array.IndexOf(zero, 'X');
             if(nextXPos == -1)
             {
-                yield return zero;
-                yield return one;
+                return new[] { zero, one };
             }
-            else
-            {
-                foreach (var submask in ReplaceXInMask(zero, nextXPos))
-                    yield return submask;
-                foreach (var submask in ReplaceXInMask(one, nextXPos))
-                    yield return submask;
-            }
+
+            var masks = new List<char[]>(ReplaceXInMask(zero, nextXPos));
+            masks.AddRange(ReplaceXInMask(one, nextXPos));
+            return masks;
         }
 
         internal static string GetAddressMask(string mask, long ptr)
