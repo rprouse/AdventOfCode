@@ -23,30 +23,24 @@ namespace AdventOfCode2020
             }
         }
 
-        public static long PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return FirstCommonTime(lines[1]);
-        }
+        public static long PartTwo(string filename) =>
+            FirstCommonTime(filename.ReadAllLines()[1]);
 
         internal static long FirstCommonTime(string line)
         {
-            var busses = line.Split(',').Select(s => s.ToInt()).ToArray();
+            var busses = line.Split(',').Select(s => s.ToLong()).ToArray();
 
             long inc = busses[0];
             int common = 1;
             for (long i = inc; ; i += inc)
             {
-                while (common < busses.Length && busses[common] == 0)
+                while (busses[common] == 0) // never ends in an x
                     common++;
 
                 if ((i + common) % busses[common] == 0)
                 {
                     common++;
-                    var lcmArgs = busses.Take(common).Where(b => b != 0).ToArray();
-                    inc = lcmArgs[0];
-                    foreach (var arg in lcmArgs[1..])
-                        inc *= arg;
+                    inc = busses.Take(common).Where(b => b != 0).Aggregate(1L, (a, b) => a * b);
                 }
 
                 if (common == busses.Length)
