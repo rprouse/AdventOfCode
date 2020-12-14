@@ -16,19 +16,17 @@ namespace AdventOfCode2020
             var busses = lines[1].Split(',').Where(s => s != "x").Select(s => s.ToInt()).ToArray();
             for (int i = time; ; i++)
             {
-                foreach (var bus in busses)
-                {
-                    if (i % bus == 0) return (i - time) * bus;
-                }
+                int bus = busses.FirstOrDefault(bus => i % bus == 0);
+                if (bus != 0) return (i - time) * bus;
             }
         }
 
         public static long PartTwo(string filename) =>
             FirstCommonTime(filename.ReadAllLines()[1]);
 
-        internal static long FirstCommonTime(string line)
+        internal static long FirstCommonTime(string bussesStr)
         {
-            var busses = line.Split(',').Select(s => s.ToLong()).ToArray();
+            var busses = bussesStr.Split(',').Select(s => s.ToLong()).ToArray();
 
             long inc = busses[0];
             int common = 1;
