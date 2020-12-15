@@ -13,21 +13,15 @@ namespace AdventOfCode2020
         const int DAY = 15;
 
         [Test]
-        public void TestPartOne()
-        {
-            Day15.PartOne(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [Test]
         public void TestPartTwo()
         {
             Day15.PartTwo(PuzzleFile(DAY)).Should().Be(0);
         }
 
         [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
+        public void TestPartOne(int[] numbers, int expected)
         {
-            Day15.PartOne(filename).Should().Be(expected);
+            Day15.PartOne(numbers).Should().Be(expected);
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
@@ -38,8 +32,14 @@ namespace AdventOfCode2020
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(new[] { 0, 3, 6 }, 436);
+            yield return new TestCaseData(new[] { 1, 3, 2 }, 1);
+            yield return new TestCaseData(new[] { 2, 1, 3 }, 10);
+            yield return new TestCaseData(new[] { 1, 2, 3 }, 27);
+            yield return new TestCaseData(new[] { 2, 3, 1 }, 78);
+            yield return new TestCaseData(new[] { 3, 2, 1 }, 438);
+            yield return new TestCaseData(new[] { 3, 1, 2 }, 1836);
+            yield return new TestCaseData(new[] { 1, 17, 0, 10, 18, 11, 6 }, 595);
         }
 
         public static IEnumerable TestDataTwo()
