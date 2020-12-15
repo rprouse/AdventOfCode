@@ -1,43 +1,31 @@
-using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using AdventOfCode.Core;
 
 namespace AdventOfCode2020
 {
     public static class Day15
     {
-        public static int PartOne(int[] numbers)
+        public static int LastSpoken(int[] numbers, int stop)
         {
-            int[] spoken = new int[2020];
-            Array.Copy(numbers, spoken, numbers.Length);
+            Dictionary<int, int> spoken = new Dictionary<int, int>();
+            for (int i = 0; i < numbers.Length - 1; i++)
+                spoken[numbers[i]] = i + 1;
+            int lastSpoken = numbers[^1];
 
-            for(int i = numbers.Length; i < 2019; i++)
+            for (int i = numbers.Length; i < stop; i++)
             {
-                int lastSpoken = WasSpoken(spoken, i);
-                if(lastSpoken != -1)
-                {
-                    spoken[i + 1] = i - lastSpoken;
-                }
+                int previous = WasSpoken(spoken, lastSpoken);
+                spoken[lastSpoken] = i;
+                lastSpoken = (previous != -1) ? i - previous : 0;
             }
-            return spoken[2019];    // zero based
+            return lastSpoken;
         }
 
         // Returns the index where the number at index was last spoken or -1 if it wasn't spoken
-        static int WasSpoken(int[] spoken, int index)
+        static int WasSpoken(Dictionary<int, int> spoken, int lastSpoken)
         {
-            for (int i = index - 1; i >= 0; i--)
-                if (spoken[i] == spoken[index])
-                    return i;
+            if (spoken.TryGetValue(lastSpoken, out int previous))
+                return previous;
             return -1;
-        }
-
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
         }
     }
 }
