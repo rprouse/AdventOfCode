@@ -15,7 +15,7 @@ namespace AdventOfCode2020
             Day15.LastSpoken(numbers, 2020).Should().Be(expected);
         }
 
-        [Explicit("About 3.4 sec each")]
+        [Explicit("About 1.5 sec each")]
         [TestCaseSource(nameof(TestDataTwo))]
         public void TestPartTwo(int[] numbers, int expected)
         {
