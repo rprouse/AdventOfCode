@@ -11,11 +11,11 @@ namespace AdventOfCode2020
                 spoken[numbers[i]] = i + 1;
             int lastSpoken = numbers[^1];
 
-            for (int i = numbers.Length; i < stop; i++)
+            for (int turn = numbers.Length; turn < stop; turn++)
             {
                 int previous = WasSpoken(spoken, lastSpoken);
-                spoken[lastSpoken] = i;
-                lastSpoken = (previous != -1) ? i - previous : 0;
+                spoken[lastSpoken] = turn;
+                lastSpoken = (previous != -1) ? turn - previous : 0;
             }
             return lastSpoken;
         }
