@@ -20,7 +20,7 @@ namespace AdventOfCode2020
             return lastSpoken;
         }
 
-        // Returns the index where the number at index was last spoken or -1 if it wasn't spoken
+        // Returns the turn where the number was last spoken or -1 if it wasn't spoken
         static int WasSpoken(Dictionary<int, int> spoken, int lastSpoken)
         {
             if (spoken.TryGetValue(lastSpoken, out int previous))
