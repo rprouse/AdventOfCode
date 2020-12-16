@@ -13,12 +13,6 @@ namespace AdventOfCode2020
         const int DAY = 16;
 
         [Test]
-        public void TestPartOne()
-        {
-            Day16.PartOne(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [Test]
         public void TestPartTwo()
         {
             Day16.PartTwo(PuzzleFile(DAY)).Should().Be(0);
@@ -38,8 +32,8 @@ namespace AdventOfCode2020
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 71);
+            yield return new TestCaseData(PuzzleFile(DAY), 26869);
         }
 
         public static IEnumerable TestDataTwo()
