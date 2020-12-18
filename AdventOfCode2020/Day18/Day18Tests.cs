@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2020
 {
@@ -21,7 +18,7 @@ namespace AdventOfCode2020
         [Test]
         public void TestPartTwo()
         {
-            Day18.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+            Day18.PartTwo(PuzzleFile(DAY)).Should().Be(169899524778212L);
         }
 
         [TestCase("1 + 2 * 3 + 4 * 5 + 6", 71)]
@@ -30,9 +27,9 @@ namespace AdventOfCode2020
         [TestCase("5 + (8 * 3 + 9 + 3 * 4 * 3)", 437)]
         [TestCase("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))", 12240)]
         [TestCase("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", 13632)]
-        public void CanEvaluateLine(string equation, long expected)
+        public void CanEvaluateLinePartOne(string equation, long expected)
         {
-            Day18.Evaluate(equation).Should().Be(expected);
+            Day18.EvaluatePartOne(equation).Should().Be(expected);
         }
 
         [TestCase("1 + (2 * 3) + (4 * (5 + 6))", 4, 10)]
@@ -78,16 +75,26 @@ namespace AdventOfCode2020
             Day18.SubsituteInnerWithResult(equation, result, start, end).Should().Be(expected);
         }
 
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
+        [TestCase("2 * 3", 6)]
+        [TestCase("4 * 5", 20)]
+        [TestCase("8 * 3 + 9 + 3 * 4 * 3", 1440)]
+        [TestCase("8 + 6 * 4", 56)]
+        [TestCase("2 + 4 * 9", 54)]
+        [TestCase("1 + 2 * 3 + 4 * 5 + 6", 231)]
+        public void CanEvaluateWithoutParensAndPrecedence(string equation, long expected)
         {
-            Day18.PartTwo(filename).Should().Be(expected);
+            Day18.EvaluateWithoutParensAndPrecedence(equation).Should().Be(expected);
         }
 
-        public static IEnumerable TestDataTwo()
+        [TestCase("1 + 2 * 3 + 4 * 5 + 6", 231)]
+        [TestCase("1 + (2 * 3) + (4 * (5 + 6))", 51)]
+        [TestCase("2 * 3 + (4 * 5)", 46)]
+        [TestCase("5 + (8 * 3 + 9 + 3 * 4 * 3)", 1445)]
+        [TestCase("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))", 669060)]
+        [TestCase("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", 23340)]
+        public void CanEvaluateLinePartTwo(string equation, long expected)
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Day18.EvaluatePartTwo(equation).Should().Be(expected);
         }
     }
 }

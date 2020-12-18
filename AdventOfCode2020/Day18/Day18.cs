@@ -1,7 +1,5 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -11,16 +9,15 @@ namespace AdventOfCode2020
     {
         public static long PartOne(string filename) =>
             filename.ReadAllLines()
-                    .Select(l => Evaluate(l))
+                    .Select(l => EvaluatePartOne(l))
                     .Sum();
 
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
-        }
+        public static long PartTwo(string filename) =>
+            filename.ReadAllLines()
+                    .Select(l => EvaluatePartTwo(l))
+                    .Sum();
 
-        public static long Evaluate(string equation)
+        public static long EvaluatePartOne(string equation)
         {
             while(ContainsParens(equation))
             {
@@ -30,6 +27,18 @@ namespace AdventOfCode2020
                 equation = SubsituteInnerWithResult(equation, result, start, end);
             }
             return EvaluateWithoutParens(equation);
+        }
+
+        public static long EvaluatePartTwo(string equation)
+        {
+            while (ContainsParens(equation))
+            {
+                (int start, int end) = FindInnermostParens(equation);
+                string inner = GetInnerEquation(equation, start, end);
+                long result = EvaluateWithoutParensAndPrecedence(inner);
+                equation = SubsituteInnerWithResult(equation, result, start, end);
+            }
+            return EvaluateWithoutParensAndPrecedence(equation);
         }
 
         public static (int start, int end) FindInnermostParens(string equation)
@@ -68,5 +77,26 @@ namespace AdventOfCode2020
 
         public static string SubsituteInnerWithResult(string equation, long result, int start, int end) =>
             equation[0..start] + result.ToString() + equation[(end+1)..];
+
+        public static long EvaluateWithoutParensAndPrecedence(string equation)
+        {
+            var parts = equation.Split(' ');
+            long last = parts[0].ToLong();
+            List<long> multiplication = new List<long>();
+            for(int i = 1; i < parts.Length; i += 2)
+            {
+                if (parts[i] == "*")
+                {
+                    multiplication.Add(last);
+                    last = parts[i + 1].ToLong();
+                }
+                else if (parts[i] == "+")
+                {
+                    last += parts[i + 1].ToLong();
+                }
+            }
+            multiplication.Add(last);
+            return multiplication.Aggregate(1L, (x, y) => x * y);
+        }
     }
 }
