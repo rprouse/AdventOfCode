@@ -47,16 +47,30 @@ namespace AdventOfCode2020
                 }
                 return false;
             });
-            corner.RotateTopLeftCornerToMatch(one, two);
+            corner.FlipAndRotateTopLeftCornerToMatch(one, two);
 
             int size = (int)Math.Sqrt(tiles.Count);
             Tile[,] ocean = new Tile[size, size];
             ocean[0, 0] = corner;
-            for(int y = 0; y < size; y++)
+
+            // Place the top row
+            for (int x = 1; x < size; x++)
+            {
+                Tile left = ocean[x-1, 0];
+                Tile right = tiles.First(t => t.MatchesToTheLeft(left));
+                right.FlipAndRotateToMatchLeft(left);
+                ocean[x, 0] = right;
+            }
+
+            // Place subsequent rows
+            for (int y = 1; y < size; y++)
             {
                 for(int x = 0; x < size; x++)
                 {
-
+                    Tile top = ocean[x, y - 1];
+                    Tile bottom = tiles.First(t => t.MatchesToTheTop(top));
+                    bottom.FlipAndRotateToMatchTop(top);
+                    ocean[x, y] = bottom;
                 }
             }
 
@@ -132,9 +146,38 @@ namespace AdventOfCode2020
                    _sides.Any(s => s == other._fLeft);
         }
 
-        public void RotateTopLeftCornerToMatch(Tile one, Tile two)
+        public bool MatchesToTheLeft(Tile left)
         {
-            if (RequiresFlipToMatch(one))
+            if (left.Id == Id)
+                return false;
+            return _sides.Any(s => s == left._right);
+        }
+
+        public bool MatchesToTheTop(Tile Top)
+        {
+            if (Top.Id == Id)
+                return false;
+            return _sides.Any(s => s == Top._bottom);
+        }
+
+        public void FlipAndRotateTopLeftCornerToMatch(Tile one, Tile two)
+        {
+            if (one._top == _fTop ||
+                one._top == _fRight ||
+                one._top == _fBottom ||
+                one._top == _fLeft ||
+                one._right == _fTop ||
+                one._right == _fRight ||
+                one._right == _fBottom ||
+                one._right == _fLeft ||
+                one._bottom == _fTop ||
+                one._bottom == _fRight ||
+                one._bottom == _fBottom ||
+                one._bottom == _fLeft ||
+                one._left == _fTop ||
+                one._left == _fRight ||
+                one._left == _fBottom ||
+                one._left == _fLeft)
                 FlipVertical();
 
             if(one._sides.Any(s => s == _top))
@@ -175,23 +218,45 @@ namespace AdventOfCode2020
             }
         }
 
-        bool RequiresFlipToMatch(Tile tile) =>
-            tile._top == _fTop ||
-            tile._top == _fRight ||
-            tile._top == _fBottom ||
-            tile._top == _fRight ||
-            tile._right == _fTop ||
-            tile._right == _fRight ||
-            tile._right == _fBottom ||
-            tile._right == _fRight ||
-            tile._bottom == _fTop ||
-            tile._bottom == _fRight ||
-            tile._bottom == _fBottom ||
-            tile._bottom == _fRight ||
-            tile._left == _fTop ||
-            tile._left == _fRight ||
-            tile._left == _fBottom ||
-            tile._left == _fRight;
+        public void FlipAndRotateToMatchLeft(Tile left)
+        {
+            if (left._right == _top ||
+                left._right == _right ||
+                left._right == _bottom ||
+                left._right == _left)
+                FlipVertical();
+
+            if (left._right == _fLeft)
+                NoRotation();
+            else if (left._right == _fTop)
+                Rotate270();
+            else if (left._right == _fRight)
+                Rotate180();
+            else if (left._right == _fBottom)
+                Rotate90();
+            else
+                throw new Exception();
+        }
+
+        public void FlipAndRotateToMatchTop(Tile top)
+        {
+            if (top._bottom == _top ||
+                top._bottom == _right ||
+                top._bottom == _bottom ||
+                top._bottom == _left)
+                FlipVertical();
+
+            if (top._bottom == _fTop)
+                NoRotation();
+            else if (top._bottom == _fRight)
+                Rotate270();
+            else if (top._bottom == _fBottom)
+                Rotate180();
+            else if (top._bottom == _fLeft)
+                Rotate90();
+            else
+                throw new Exception();
+        }
 
         void NoRotation() { }
 
