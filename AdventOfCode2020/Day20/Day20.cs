@@ -50,16 +50,18 @@ namespace AdventOfCode2020
             corner.FlipAndRotateTopLeftCornerToMatch(one, two);
 
             int size = (int)Math.Sqrt(tiles.Count);
-            Tile[,] ocean = new Tile[size, size];
-            ocean[0, 0] = corner;
+            Tile[,] arrangedTiles = new Tile[size, size];
+            arrangedTiles[0, 0] = corner;
+            tiles.Remove(corner);
 
             // Place the top row
             for (int x = 1; x < size; x++)
             {
-                Tile left = ocean[x-1, 0];
+                Tile left = arrangedTiles[x-1, 0];
                 Tile right = tiles.First(t => t.MatchesToTheLeft(left));
+                tiles.Remove(right);
                 right.FlipAndRotateToMatchLeft(left);
-                ocean[x, 0] = right;
+                arrangedTiles[x, 0] = right;
             }
 
             // Place subsequent rows
@@ -67,15 +69,105 @@ namespace AdventOfCode2020
             {
                 for(int x = 0; x < size; x++)
                 {
-                    Tile top = ocean[x, y - 1];
+                    Tile top = arrangedTiles[x, y - 1];
                     Tile bottom = tiles.First(t => t.MatchesToTheTop(top));
+                    tiles.Remove(bottom);
                     bottom.FlipAndRotateToMatchTop(top);
-                    ocean[x, y] = bottom;
+                    arrangedTiles[x, y] = bottom;
                 }
             }
 
-            return 273;
+            int hashes = 0;
+            string[] ocean = new string[size * 8];
+            for(int y = 0; y < size * 8; y++)
+            {
+                var row = new StringBuilder(size * 8);
+                for(int x = 0; x < size * 8; x++)
+                {
+                    Tile tile = arrangedTiles[x/8, y/8];
+                    char c = tile[x % 8 + 1, y % 8 + 1];
+                    if (c == '#') hashes++;
+                    row.Append(c);
+                }
+                ocean[y] = row.ToString();
+            }
+
+            int monsters = CountSeaMonsters(ocean);
+            if(monsters > 0)
+                return hashes - (monsters * 15);
+
+            string[] rotated = ocean;
+            for (int i = 0; i < 4; i++)
+            {
+                rotated = RotateOcean(rotated);
+                monsters = CountSeaMonsters(rotated);
+                if (monsters > 0)
+                    return hashes - (monsters * 15);
+            }
+
+            rotated = FlipOcean(ocean);
+            for (int i = 0; i < 4; i++)
+            {
+                rotated = RotateOcean(rotated);
+                monsters = CountSeaMonsters(rotated);
+                if (monsters > 0)
+                    return hashes - (monsters * 15);
+            }
+
+            return 0;
         }
+
+        static string[] RotateOcean(string[] ocean)
+        {
+            string[] rotated = new string[ocean.Length];
+            char[] row = new char[ocean.Length];
+            for (int x = 0; x < ocean.Length; x++)
+            {
+                for (int y = 0; y < ocean.Length; y++)
+                {
+                    row[y] = ocean[ocean.Length - y - 1][x];
+                }
+                rotated[x] = new string(row);
+            }
+            return rotated;
+        }
+
+        static string[] FlipOcean(string[] ocean)
+        {
+            string[] flipped = new string[ocean.Length];
+
+            for (int i = 0; i < ocean.Length; i++)
+                flipped[i] = ocean[ocean.Length - i - 1];
+
+            return flipped;
+        }
+
+        static int CountSeaMonsters(string[] ocean)
+        {
+            int count = 0;
+            for (int y = 1; y < ocean.Length - 1; y++)
+                for (int x = 0; x < ocean.Length - 19; x++)
+                    if(IsSeaMonster(ocean, x, y)) 
+                        count++;
+            return count;
+        }
+
+        static bool IsSeaMonster(string[] ocean, int x, int y) =>
+            ocean[y][x] == '#' &&
+            ocean[y + 1][x + 1] == '#' &&
+            ocean[y + 1][x + 4] == '#' &&
+            ocean[y][x + 5] == '#' &&
+            ocean[y][x + 6] == '#' &&
+            ocean[y + 1][x + 7] == '#' &&
+            ocean[y + 1][x + 10] == '#' &&
+            ocean[y][x + 11] == '#' &&
+            ocean[y][x + 12] == '#' &&
+            ocean[y + 1][x + 13] == '#' &&
+            ocean[y + 1][x + 16] == '#' &&
+            ocean[y][x + 17] == '#' &&
+            ocean[y][x + 18] == '#' &&
+            ocean[y - 1][x + 18] == '#' &&
+            ocean[y][x + 19] == '#';
     }
 
     public class Tile
@@ -92,6 +184,8 @@ namespace AdventOfCode2020
         public string _fBottom;
         public string _fLeft;
         public string[] _sides = new string[8];
+
+        public char this[int x, int y] => _tile[y][x];
 
         public Tile(string[] lines)
         {
@@ -262,6 +356,12 @@ namespace AdventOfCode2020
 
         void Rotate90()
         {
+            Rotate90Internal();
+            UpdateFromTile();
+        }
+
+        private void Rotate90Internal()
+        {
             string[] rotated = new string[10];
             char[] row = new char[10];
             for (int x = 0; x < 10; x++)
@@ -273,38 +373,20 @@ namespace AdventOfCode2020
                 rotated[x] = new string(row);
             }
             _tile = rotated;
-            UpdateFromTile();
         }
 
         void Rotate180()
         {
-            string[] rotated = new string[10];
-            char[] row = new char[10];
-            for (int x = 0; x < 10; x++)
-            {
-                for (int y = 0; y < 10; y++)
-                {
-                    row[y] = _tile[y][9 - x];
-                }
-                rotated[x] = new string(row);
-            }
-            _tile = rotated;
+            Rotate90Internal();
+            Rotate90Internal();
             UpdateFromTile();
         }
 
         void Rotate270()
         {
-            string[] rotated = new string[10];
-            char[] row = new char[10];
-            for (int x = 0; x < 10; x++)
-            {
-                for (int y = 0; y < 10; y++)
-                {
-                    row[y] = _tile[9 - x][9 - y];
-                }
-                rotated[x] = new string(row);
-            }
-            _tile = rotated;
+            Rotate90Internal();
+            Rotate90Internal();
+            Rotate90Internal();
             UpdateFromTile();
         }
 
@@ -333,5 +415,9 @@ namespace AdventOfCode2020
         }
 
         public override string ToString() => Id.ToString();
+
+        public override bool Equals(object obj) => obj.GetHashCode() == GetHashCode();
+
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }
