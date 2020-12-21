@@ -26,10 +26,14 @@ namespace AdventOfCode2020
             return cornerProduct;
         }
 
-        public static long PartTwo(string filename)
+        public static int PartTwo(string filename)
         {
             string[] lines = filename.ReadAllLines();
-            return 0;
+            List<Tile> tiles = new List<Tile>();
+            for (int i = 0; i < lines.Length; i += 11)
+                tiles.Add(new Tile(lines[i..(i + 11)]));
+
+            return 273;
         }
     }
 
