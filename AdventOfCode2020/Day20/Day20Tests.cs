@@ -12,18 +12,6 @@ namespace AdventOfCode2020
     {
         const int DAY = 20;
 
-        [Test]
-        public void TestPartOne()
-        {
-            Day20.PartOne(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [Test]
-        public void TestPartTwo()
-        {
-            Day20.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
         [TestCaseSource(nameof(TestDataOne))]
         public void TestPartOne(string filename, long expected)
         {
@@ -31,7 +19,7 @@ namespace AdventOfCode2020
         }
 
         [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, long expected)
+        public void TestPartTwo(string filename, int expected)
         {
             Day20.PartTwo(filename).Should().Be(expected);
         }

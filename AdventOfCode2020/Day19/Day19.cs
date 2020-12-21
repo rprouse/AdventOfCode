@@ -11,6 +11,18 @@ namespace AdventOfCode2020
     {
         public static int PartOne(string filename)
         {
+            (var rules, var messages) = Parse(filename);
+            int m = 0;
+            foreach(string message in messages)
+            {
+                if (rules[0].Matches(message))
+                    m++;
+            }
+            return m;
+        }
+
+        private static (Dictionary<int, Day19Rule> rules, List<string> messages) Parse(string filename)
+        {
             string[] lines = filename.ReadAllLines();
 
             Dictionary<int, Day19Rule> rules = new Dictionary<int, Day19Rule>();
@@ -25,23 +37,23 @@ namespace AdventOfCode2020
                     rules.Add(rule.Number, rule);
                 }
             }
-            foreach(var rule in rules.Values)
+            foreach (var rule in rules.Values)
             {
                 rule.Attach(rules);
             }
-            int m = 0;
-            foreach(string message in messages)
-            {
-                if (rules[0].Matches(message))
-                    m++;
-            }
-            return m;
+            return (rules, messages);
         }
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            (var rules, var messages) = Parse(filename);
+            int m = 0;
+            foreach (string message in messages)
+            {
+                if (rules[0].MatchesLooping(message))
+                    m++;
+            }
+            return m;
         }
     }
 
@@ -92,8 +104,79 @@ namespace AdventOfCode2020
             return matches && stripped.Length == 0;
         }
 
+        public bool MatchesLooping(string message)
+        {
+            // Rule A for the entry rule 0 is 8: 42 and 11: 42 31, so grab them from 11
+            var rule42 = _rulesA[1]._rulesA[0];
+            var rule31 = _rulesA[1]._rulesA[1];
+
+            string stripped8 = message;
+            string stripped11;
+            bool matched8;
+            bool matched11 = false;
+
+            (matched8, stripped8) = rule42.MatchesRules(stripped8);
+            while(matched8)
+            {
+                List<Day19Rule> rules = new List<Day19Rule> { rule42, rule31 };
+                while (true)
+                {
+                    stripped11 = stripped8;
+                    foreach (var rule in rules)
+                    {
+                        (matched11, stripped11) = rule.MatchesRules(stripped11);
+                        if (!matched11) break;
+                    }
+                    if (matched11 && stripped11.Length == 0) return true;
+                    rules.Prepend(rule42);
+                    rules.Add(rule31);
+                    if (rules.Count >= message.Length) break;
+                }
+                string stripped8B;
+                bool matched8B;
+                (matched8B, stripped8B) = rule42.MatchesRules(stripped8);
+                (matched8, stripped8) = (matched8B, stripped8B);
+            }
+            return false;
+
+            //if (Number == 8)
+            //{
+            //    (matched1, stripped1) = _rulesA[0].MatchesRules(stripped1);
+            //    while (matched1)
+            //    {
+            //        (matched2, stripped2) = _rulesA[0].MatchesRules(stripped1);
+            //        if (!matched2)
+            //            return (matched1, stripped1);
+            //        (matched1, stripped1) = (matched2, stripped2);
+            //    }
+            //    return (matched1, stripped1);
+            //}
+            //else
+            //{
+            //    List<Day19Rule> rules = new List<Day19Rule>(_rulesA);
+
+            //    while (true)
+            //    {
+            //        stripped2 = message;
+            //        foreach (var rule in rules)
+            //        {
+            //            (matched2, stripped2) = rule.MatchesRules(stripped2);
+            //            if (!matched2) break;
+            //        }
+            //        if (matched2) return (matched2, stripped2);
+            //        rules.Prepend(_rulesA[0]);
+            //        rules.Add(_rulesA[1]);
+            //        if (rules.Count >= message.Length) return (false, message);
+            //        //(matched1, stripped1) = (matched2, stripped2);
+            //    }
+            //}
+        }
+
         internal (bool, string) MatchesRules(string message)
         {
+            if (message.Length == 0) 
+                return (false, message);
+
             if (_char != ' ')
             {
                 if (message[0] == _char)
@@ -111,6 +194,7 @@ namespace AdventOfCode2020
         internal (bool, string) MatchesRulesA(string message)
         {
             string stripped = message;
+
             foreach (var rule in _rulesA)
             {
                 bool matches;
@@ -132,6 +216,45 @@ namespace AdventOfCode2020
                 if (!matches) return (false, message);
             }
             return (true, stripped);
+        }
+
+        internal (bool, string) LoopingMatch(string message)
+        {
+            string stripped1 = message;
+            string stripped2 = message;
+            bool matched1 = false;
+            bool matched2 = false;
+            if (Number == 8)
+            {
+                (matched1, stripped1) = _rulesA[0].MatchesRules(stripped1);
+                while(matched1)
+                {
+                    (matched2, stripped2) = _rulesA[0].MatchesRules(stripped1);
+                    if (!matched2)
+                        return (matched1, stripped1);
+                    (matched1, stripped1) = (matched2, stripped2);
+                }
+                return (matched1, stripped1);
+            }
+            else
+            {
+                List<Day19Rule> rules = new List<Day19Rule>(_rulesA);
+
+                while(true)
+                {
+                    stripped2 = message;
+                    foreach (var rule in rules)
+                    {
+                        (matched2, stripped2) = rule.MatchesRules(stripped2);
+                        if (!matched2) break;
+                    }
+                    if (matched2) return (matched2, stripped2);
+                    rules.Prepend(_rulesA[0]);
+                    rules.Add(_rulesA[1]);
+                    if (rules.Count >= message.Length) return (false, message);
+                    //(matched1, stripped1) = (matched2, stripped2);
+                }
+            }
         }
 
         public override string ToString() => _rule;
