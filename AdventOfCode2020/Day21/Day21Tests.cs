@@ -38,7 +38,7 @@ namespace AdventOfCode2020
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 5);
             yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 
