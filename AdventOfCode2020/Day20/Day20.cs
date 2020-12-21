@@ -301,7 +301,7 @@ namespace AdventOfCode2020
                 else
                     throw new Exception();
             }
-            else if(one._sides.All(s => s == _left))
+            else if(one._sides.Any(s => s == _left))
             {
                 if (two._sides.Any(s => s == _bottom))
                     Rotate270();
