@@ -37,12 +37,6 @@ namespace AdventOfCode2020
             }
             return m;
         }
-
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
-        }
     }
 
     public class Day19Rule
@@ -94,6 +88,9 @@ namespace AdventOfCode2020
 
         internal (bool, string) MatchesRules(string message)
         {
+            if (message.Length == 0) 
+                return (false, message);
+
             if (_char != ' ')
             {
                 if (message[0] == _char)
@@ -111,6 +108,10 @@ namespace AdventOfCode2020
         internal (bool, string) MatchesRulesA(string message)
         {
             string stripped = message;
+
+            if (Number == 8 || Number == 11)
+                return LoopingMatch(message);
+
             foreach (var rule in _rulesA)
             {
                 bool matches;
@@ -132,6 +133,45 @@ namespace AdventOfCode2020
                 if (!matches) return (false, message);
             }
             return (true, stripped);
+        }
+
+        internal (bool, string) LoopingMatch(string message)
+        {
+            string stripped1 = message;
+            string stripped2 = message;
+            bool matched1 = false;
+            bool matched2 = false;
+            if (Number == 8)
+            {
+                (matched1, stripped1) = _rulesA[0].MatchesRules(stripped1);
+                while(matched1)
+                {
+                    (matched2, stripped2) = _rulesA[0].MatchesRules(stripped1);
+                    if (!matched2)
+                        return (matched1, stripped1);
+                    (matched1, stripped1) = (matched2, stripped2);
+                }
+                return (matched1, stripped1);
+            }
+            else
+            {
+                List<Day19Rule> rules = new List<Day19Rule>(_rulesA);
+
+                while(true)
+                {
+                    stripped2 = message;
+                    foreach (var rule in rules)
+                    {
+                        (matched2, stripped2) = rule.MatchesRules(stripped2);
+                        if (!matched2) break;
+                    }
+                    if (matched2) return (matched2, stripped2);
+                    rules.Prepend(_rulesA[0]);
+                    rules.Add(_rulesA[1]);
+                    if (rules.Count >= message.Length) return (false, message);
+                    //(matched1, stripped1) = (matched2, stripped2);
+                }
+            }
         }
 
         public override string ToString() => _rule;
