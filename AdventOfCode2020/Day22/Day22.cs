@@ -11,20 +11,7 @@ namespace AdventOfCode2020
     {
         public static int PartOne(string filename)
         {
-            // Parse
-            string[] lines = filename.ReadAllLines();
-            LinkedList<int> player1 = new LinkedList<int>();
-            LinkedList<int> player2 = new LinkedList<int>();
-            LinkedList<int> current = player1;
-            foreach(string line in lines)
-            {
-                if (line == "Player 1:")
-                    current = player1;
-                else if (line == "Player 2:")
-                    current = player2;
-                else
-                    current.AddLast(line.ToInt());
-            }
+            (LinkedList<int> player1, LinkedList<int> player2) = Parse(filename);
 
             // Play
             while(player1.Count > 0 && player2.Count > 0)
@@ -49,23 +36,47 @@ namespace AdventOfCode2020
 
             // Score
             var winner = player1.Count > 0 ? player1 : player2;
-            int score = 0;
-            int count = 1;
-            while(winner.Count > 0)
-            {
-                int card = winner.Last.Value;
-                winner.RemoveLast();
-
-                score += card * count++;
-            }
-
-            return score;
+            return Score(winner);
         }
 
         public static int PartTwo(string filename)
         {
             string[] lines = filename.ReadAllLines();
             return 0;
+        }
+
+        static (LinkedList<int> player1, LinkedList<int> player2) Parse(string filename)
+        {
+            // Parse
+            string[] lines = filename.ReadAllLines();
+            LinkedList<int> player1 = new LinkedList<int>();
+            LinkedList<int> player2 = new LinkedList<int>();
+            LinkedList<int> current = player1;
+            foreach (string line in lines)
+            {
+                if (line == "Player 1:")
+                    current = player1;
+                else if (line == "Player 2:")
+                    current = player2;
+                else
+                    current.AddLast(line.ToInt());
+            }
+            return (player1, player2);
+        }
+
+        static int Score(LinkedList<int> deck)
+        {
+            int score = 0;
+            int count = 1;
+            var item = deck.Last;
+            while (item != null)
+            {
+                int card = item.Value;
+                item = item.Previous;
+
+                score += card * count++;
+            }
+            return score;
         }
     }
 }
