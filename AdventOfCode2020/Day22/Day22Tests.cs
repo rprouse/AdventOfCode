@@ -33,7 +33,7 @@ namespace AdventOfCode2020
         public static IEnumerable TestDataTwo()
         {
             yield return new TestCaseData(TestFile(DAY), 291);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(PuzzleFile(DAY), 31436);
         }
     }
 }
