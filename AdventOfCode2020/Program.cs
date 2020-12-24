@@ -12,7 +12,8 @@ namespace AdventOfCode2020
         {
             //PlayBreakout();
             //WalkDroid();
-            Day23.PartOne("389125467", 10, true);
+            long result = Day23.PartTwo("247819356");
+            Console.WriteLine(result);
 
             Console.ResetColor();
             Console.ReadLine();

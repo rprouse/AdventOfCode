@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2020
 {
@@ -20,23 +17,11 @@ namespace AdventOfCode2020
             Day23.PartOne(cups, moves).Should().Be(expected);
         }
 
-        [TestCase(-1, 8)]
-        [TestCase(0, 0)]
-        [TestCase(8, 8)]
-        [TestCase(9, 0)]
-        [TestCase(10, 1)]
-        [TestCase(11, 2)]
-        [TestCase(12, 3)]
-        public void TestWrap(int cup, int expected)
+        [TestCase("389125467", 149245887792L, Ignore = "Too long")]
+        [TestCase("247819356", 0L, Ignore = "Too long")]
+        public void TestPartTwo(string cups, long expected)
         {
-            Day23.Wrap(cup).Should().Be(expected);
-        }
-
-        [TestCase("389125467", 10000000, "67384529")]
-        [TestCase("247819356", 10000000, "76385429")]
-        public void TestPartTwo(string cups, int moves, string expected)
-        {
-            Day23.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+            Day23.PartTwo(cups).Should().Be(expected);
         }
     }
 }
