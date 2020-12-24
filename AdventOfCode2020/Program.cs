@@ -12,7 +12,7 @@ namespace AdventOfCode2020
         {
             //PlayBreakout();
             //WalkDroid();
-            //Day19.VisualizeTractorBeam();
+            Day23.PartOne("389125467", 10, true);
 
             Console.ResetColor();
             Console.ReadLine();

@@ -12,40 +12,31 @@ namespace AdventOfCode2020
     {
         const int DAY = 23;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase("389125467", 10, "92658374")]
+        [TestCase("389125467", 100, "67384529")]
+        [TestCase("247819356", 100, "76385429")]
+        public void TestPartOne(string cups, int moves, string expected)
         {
-            Day23.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day23.PartOne(cups, moves).Should().Be(expected);
         }
 
-        [Test]
-        public void TestPartTwo()
+        [TestCase(-1, 8)]
+        [TestCase(0, 0)]
+        [TestCase(8, 8)]
+        [TestCase(9, 0)]
+        [TestCase(10, 1)]
+        [TestCase(11, 2)]
+        [TestCase(12, 3)]
+        public void TestWrap(int cup, int expected)
+        {
+            Day23.Wrap(cup).Should().Be(expected);
+        }
+
+        [TestCase("389125467", 10000000, "67384529")]
+        [TestCase("247819356", 10000000, "76385429")]
+        public void TestPartTwo(string cups, int moves, string expected)
         {
             Day23.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Day23.PartOne(filename).Should().Be(expected);
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Day23.PartTwo(filename).Should().Be(expected);
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }
