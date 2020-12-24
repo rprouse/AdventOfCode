@@ -42,12 +42,13 @@ namespace AdventOfCode2020
             {
                 int cup = Wrap(move);
 
-                if (output)
+                if (output || move % 10000 == 0)
                 {
+                    Console.Clear();
                     var b = new StringBuilder();
                     b.AppendLine($"-- move {move + 1} --");
                     b.Append("cups: ");
-                    for (int i = 0; i < _len; i++)
+                    for (int i = 0; i < 9; i++)
                     {
                         bool current = cup == i;
                         if (current)
@@ -88,7 +89,7 @@ namespace AdventOfCode2020
                     _newCups[Wrap(c)] = _cups[Wrap(remaining++)];
                 }
 
-                if (output)
+                if (output || move % 10000 == 0)
                 {
                     Console.WriteLine($"destination: {dest + 1}");
                     Console.WriteLine();
