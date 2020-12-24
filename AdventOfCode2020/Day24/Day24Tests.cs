@@ -12,10 +12,11 @@ namespace AdventOfCode2020
     {
         const int DAY = 24;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase("esew", 0, 1)]
+        [TestCase("esenee", 3, 0)]
+        public void TestMakeMoves(string moves, int x, int y)
         {
-            Day24.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day24.MakeMoves(moves).Should().Be((x, y));
         }
 
         [Test]
@@ -38,8 +39,8 @@ namespace AdventOfCode2020
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 10);
+            yield return new TestCaseData(PuzzleFile(DAY), 420);
         }
 
         public static IEnumerable TestDataTwo()

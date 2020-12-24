@@ -42,7 +42,7 @@ namespace AdventOfCode2020
             {
                 int cup = Wrap(move);
 
-                if (output || move % 10000 == 0)
+                if (output || move % 1000 == 0)
                 {
                     Console.Clear();
                     var b = new StringBuilder();
