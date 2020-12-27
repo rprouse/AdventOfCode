@@ -128,7 +128,10 @@ namespace AdventOfCode2020
         public long PartTwoAnswer()
         {
             var one = IndexOfCup(0);
-            return (_cups[Wrap(one + 1)] + 1L) * (_cups[Wrap(one + 1)] + 1L);
+            Console.Write($"{_cups[Wrap(one + 1)] + 1L} * {(_cups[Wrap(one + 2)] + 1L)} = ");
+            long result = (_cups[Wrap(one + 1)] + 1L) * (_cups[Wrap(one + 2)] + 1L);
+            Console.WriteLine(result);
+            return result;
         }
     }
 }
