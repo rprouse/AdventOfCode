@@ -1,11 +1,3 @@
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using AdventOfCode.Core;
-using System.Numerics;
-
 namespace AdventOfCode2020
 {
     public static class Day25

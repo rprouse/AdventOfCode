@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
-using System.Numerics;
+using NUnit.Framework;
 
 namespace AdventOfCode2020
 {
@@ -32,12 +28,6 @@ namespace AdventOfCode2020
         public void TestCalculateEncryptionKey(long key, int loopsize, long expected)
         {
             Day25.CalculateEncryptionKey(key, loopsize).Should().Be(expected);
-        }
-
-        [Test]
-        public void TestPartTwo()
-        {
-            //Day25.PartTwo(PuzzleFile(DAY)).Should().Be(0);
         }
     }
 }
