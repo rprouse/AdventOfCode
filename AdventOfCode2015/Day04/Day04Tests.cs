@@ -1,50 +1,32 @@
-using System;
-using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2015
 {
+    [Parallelizable(ParallelScope.Children)]
     public class Day04Tests : TestBase
     {
-        const int DAY = 04;
-
-        [Test]
-        public void TestPartOne()
+        [TestCase("abcdef609043", "000001DBBFA")]
+        [TestCase("pqrstuv1048970", "000006136EF")]
+        public void CheckMD5(string txt, string expected)
         {
-            Day04.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day04.CreateMD5(txt).Should().StartWith(expected);
+        }
+
+        [TestCase("abcdef", 609043)]
+        [TestCase("pqrstuv", 1048970)]
+        [TestCase("yzbqklnj", 282749)]
+        public void TestPartOne(string secret, int expected)
+        {
+            Day04.PartOne(secret).Should().Be(expected);
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Day04.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Day04.PartOne(filename).Should().Be(expected);
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Day04.PartTwo(filename).Should().Be(expected);
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            // Takes 13 seconds
+            // Day04.PartTwo("yzbqklnj").Should().Be(9962624);
         }
     }
 }
