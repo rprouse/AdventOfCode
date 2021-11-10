@@ -33,6 +33,9 @@ namespace AdventOfCode2015
 
         public static IEnumerable TestDataTwo()
         {
+            yield return new TestCaseData("^v", 3);
+            yield return new TestCaseData("^>v<", 3);
+            yield return new TestCaseData("^v^v^v^v^v", 11);
             yield return new TestCaseData(PuzzleFile(DAY).ReadAll().Trim(), 0);
         }
     }
