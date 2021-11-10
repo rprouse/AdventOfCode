@@ -36,7 +36,7 @@ namespace AdventOfCode2015
             yield return new TestCaseData("^v", 3);
             yield return new TestCaseData("^>v<", 3);
             yield return new TestCaseData("^v^v^v^v^v", 11);
-            yield return new TestCaseData(PuzzleFile(DAY).ReadAll().Trim(), 0);
+            yield return new TestCaseData(PuzzleFile(DAY).ReadAll().Trim(), 2341);
         }
     }
 }
