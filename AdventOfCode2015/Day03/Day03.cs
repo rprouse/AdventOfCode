@@ -82,7 +82,6 @@ namespace AdventOfCode2015
             }
 
             return map.Count;
-            return 0;
         }
     }
 }
