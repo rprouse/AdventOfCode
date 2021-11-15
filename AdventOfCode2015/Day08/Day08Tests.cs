@@ -11,10 +11,13 @@ namespace AdventOfCode2015
     {
         const int DAY = 08;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase( "\"\"", 0)]
+        [TestCase( "\"abc\"", 3)]
+        [TestCase( "\"aaa\\\"aaa\"", 7)]
+        [TestCase( "\"\\x27\"", 1)]
+        public void TestCountCharacters(string line, int expected)
         {
-            Day08.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day08.CountCharacters(line).Should().Be(expected);
         }
 
         [Test]
@@ -37,7 +40,7 @@ namespace AdventOfCode2015
 
         public static IEnumerable TestDataOne()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 12);
             yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
 

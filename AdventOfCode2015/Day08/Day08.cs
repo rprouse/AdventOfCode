@@ -7,9 +7,12 @@ namespace AdventOfCode2015
 {
     public static class Day08
     {
-        public static int PartOne(string filename)
+        public static int PartOne(string filename) =>
+            filename.ReadAllLines()
+                .Sum(line => line.Length - CountCharacters(line));
+
+        internal static int CountCharacters(string line)
         {
-            string[] lines = filename.ReadAllLines();
             return 0;
         }
 
