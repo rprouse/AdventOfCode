@@ -81,11 +81,5 @@ namespace AdventOfCode2015
             }
             return circuit[val];
         }
-
-        public static int PartTwo(string filename)
-        {
-            string[] lines = filename.ReadAllLines();
-            return 0;
-        }
     }
 }
