@@ -17,7 +17,7 @@ namespace AdventOfCode2015
         [Test]
         public void TestPartTwo()
         {
-            Day06.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+            Day06.PartTwo(PuzzleFile(DAY)).Should().Be(14110788);
         }
     }
 }
