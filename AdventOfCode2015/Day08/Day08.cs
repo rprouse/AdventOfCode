@@ -10,18 +10,10 @@ namespace AdventOfCode2015
     {
         public static int PartOne(string filename) =>
             filename.ReadAllLines()
-                .Sum(line => line.Length - CountCharacters(line));
+                .Sum(line => line.Length - DecodeLength(line));
 
-        static Regex hex = new Regex(@"\\x\d\d",
-            RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        internal static int CountCharacters(string line)
+        internal static int DecodeLength(string line)
         {
-            //var hexMatches = hex.Matches(line);
-            //line = line.Substring(1, line.Length - 2)
-            //    .Replace("\\\"", "\"")
-            //    .Replace("\\\\", "\\");
-            //return line.Length - ( hexMatches.Count * 3);
             int count = 0;
             for (int i = 1; i < line.Length - 1; i++)
             {
@@ -42,10 +34,22 @@ namespace AdventOfCode2015
             (ch >= 'a' && ch <= 'f') ||
             (ch >= 'A' && ch <= 'F');
 
-        public static int PartTwo(string filename)
+        public static int PartTwo(string filename) =>
+            filename.ReadAllLines()
+                .Sum(line => EncodeLength(line) - line.Length);
+
+        public static int EncodeLength(string line)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            int count = 2;
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] == '\\' || line[i] == '"')
+                {
+                    count++;
+                }
+                count++;
+            }
+            return count;
         }
     }
 }
