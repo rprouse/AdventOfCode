@@ -42,7 +42,7 @@ namespace AdventOfCode2015
         [Test]
         public void TestPartTwo()
         {
-            Day11.PartTwo("").Should().Be("");
+            Day11.PartTwo("hepxcrrq").Should().Be("heqaabcc");
         }
     }
 }

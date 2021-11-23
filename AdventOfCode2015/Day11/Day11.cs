@@ -68,6 +68,15 @@ namespace AdventOfCode2015
 
         public static string PartTwo(string password)
         {
+            while (!IsValid(password))
+            {
+                password = IncrementPassword(password);
+            }
+            password = IncrementPassword(password);
+            while (!IsValid(password))
+            {
+                password = IncrementPassword(password);
+            }
             return password;
         }
     }
