@@ -8,9 +8,9 @@ namespace AdventOfCode2015
 {
     public static class Day10
     {
-        public static int PartOne(string input)
+        public static int PartOne(string input, int count)
         {
-            for(int i = 0; i < 40; i++)
+            for(int i = 0; i < count; i++)
                 input = LookAndSay(input);
 
             return input.Length;

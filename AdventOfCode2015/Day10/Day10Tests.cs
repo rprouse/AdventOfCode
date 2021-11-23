@@ -24,7 +24,13 @@ namespace AdventOfCode2015
         [Test]
         public void TestPartOne()
         {
-            Day10.PartOne("1321131112").Should().Be(0);
+            Day10.PartOne("1321131112", 40).Should().Be(492982);
+        }
+
+        [Test]
+        public void TestPartTwo()
+        {
+            Day10.PartOne("1321131112", 50).Should().Be(492982);
         }
     }
 }
