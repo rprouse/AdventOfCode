@@ -7,16 +7,68 @@ namespace AdventOfCode2015
 {
     public static class Day11
     {
-        public static int PartOne(string filename)
+        public static string PartOne(string password)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            while(!IsValid(password))
+            {
+                password = IncrementPassword(password);
+            }
+            return password;
         }
 
-        public static int PartTwo(string filename)
+        internal static string IncrementPassword(string password)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            var result = password.ToArray();
+            result[password.Length - 1]++;
+            bool carry = false;
+            for(int i = password.Length - 1; i >= 0; i--)
+            {
+                if (carry) result[i]++;
+                carry = false;
+
+                if(result[i] > 'z')
+                {
+                    result[i] = 'a';
+                    carry = true;
+                }
+            }
+            return string.Join("", result);
+        }
+
+        public static bool IsValid(string password)
+        {
+            if ( password.Contains('i') ||
+                 password.Contains('o') ||
+                 password.Contains('l'))
+                return false;
+
+            int pairs = 0;
+            for (int i = 0; i < password.Length - 1; i++)
+            {
+                if(password[i] == password[i+1])
+                {
+                    pairs++;
+                    i++;
+                }
+            }
+
+            bool straight = false;
+            for(int i = 0; i < password.Length - 2; i++)
+            {
+                if(password[i] == (password[i+1] - 1) &&
+                   password[i] == (password[i+2] - 2))
+                {
+                    straight = true;
+                    break;
+                }
+            }
+
+            return straight && pairs >= 2;
+        }
+
+        public static string PartTwo(string password)
+        {
+            return password;
         }
     }
 }

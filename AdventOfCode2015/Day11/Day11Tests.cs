@@ -11,40 +11,38 @@ namespace AdventOfCode2015
     {
         const int DAY = 11;
 
-        [Test]
-        public void TestPartOne()
+        [TestCase("abcdefgh", "abcdffaa")]
+        [TestCase("ghijklmn", "ghjaabcc")]
+        [TestCase("hepxcrrq", "hepxxyzz")]
+        public void TestPartOne(string pass, string next)
         {
-            Day11.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day11.PartOne(pass).Should().Be(next);
+        }
+
+        [TestCase("aaaaaa", "aaaaab")]
+        [TestCase("aaaaaz", "aaaaba")]
+        [TestCase("aaaaza", "aaaazb")]
+        [TestCase("aaaazz", "aaabaa")]
+        [TestCase("yzzzzz", "zaaaaa")]
+        public void TestIncrementPassword(string pass, string expected)
+        {
+            Day11.IncrementPassword(pass).Should().Be(expected);
+        }
+
+        [TestCase("hijklmmn", false)]
+        [TestCase("abbceffg", false)]
+        [TestCase("abbcegjk", false)]
+        [TestCase("abcdffaa", true)]
+        [TestCase("ghjaabcc", true)]
+        public void TestIsValid(string pass, bool valid)
+        {
+            Day11.IsValid(pass).Should().Be(valid);
         }
 
         [Test]
         public void TestPartTwo()
         {
-            Day11.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Day11.PartOne(filename).Should().Be(expected);
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Day11.PartTwo(filename).Should().Be(expected);
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Day11.PartTwo("").Should().Be("");
         }
     }
 }
