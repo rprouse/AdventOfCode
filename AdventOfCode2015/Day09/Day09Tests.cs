@@ -40,8 +40,8 @@ namespace AdventOfCode2015
 
         public static IEnumerable TestDataTwo()
         {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            yield return new TestCaseData(TestFile(DAY), 982);
+            yield return new TestCaseData(PuzzleFile(DAY), 804);
         }
     }
 }

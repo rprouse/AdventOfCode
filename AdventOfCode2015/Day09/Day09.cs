@@ -89,8 +89,21 @@ namespace AdventOfCode2015
 
         public static int PartTwo(string filename)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            var cities = GetCities(filename);
+            var routes = Day09.Routes(cities.Keys.ToList());
+
+            int maxDist = int.MinValue;
+            foreach (var route in routes)
+            {
+                int dist = 0;
+                for (int i = 0; i < route.Count - 1; i++)
+                {
+                    dist += cities[route[i]][route[i + 1]];
+                }
+                if (dist > maxDist)
+                    maxDist = dist;
+            }
+            return maxDist;
         }
     }
 }
