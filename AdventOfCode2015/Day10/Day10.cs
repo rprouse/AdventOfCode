@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using AdventOfCode.Core;
 
 namespace AdventOfCode2015
 {
@@ -29,11 +25,6 @@ namespace AdventOfCode2015
                 i += j;
             }
             return result.ToString();
-        }
-
-        public static string PartTwo(string input)
-        {
-            return input;
         }
     }
 }
