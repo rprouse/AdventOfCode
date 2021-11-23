@@ -1,22 +1,39 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using AdventOfCode.Core;
 
 namespace AdventOfCode2015
 {
     public static class Day10
     {
-        public static int PartOne(string filename)
+        public static int PartOne(string input)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            for(int i = 0; i < 40; i++)
+                input = LookAndSay(input);
+
+            return input.Length;
         }
 
-        public static int PartTwo(string filename)
+        public static string LookAndSay(string input)
         {
-            string[] lines = filename.ReadAllLines();
-            return 0;
+            var result = new StringBuilder();
+            for(int i = 0; i < input.Length;)
+            {
+                int j = 1;
+                while(i + j < input.Length && input[i] == input[i + j])
+                    j++;
+                result.Append(j.ToString());
+                result.Append(input[i]);
+                i += j;
+            }
+            return result.ToString();
+        }
+
+        public static string PartTwo(string input)
+        {
+            return input;
         }
     }
 }

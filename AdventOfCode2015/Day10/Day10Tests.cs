@@ -11,40 +11,20 @@ namespace AdventOfCode2015
     {
         const int DAY = 10;
 
+        [TestCase( "1", "11" )]
+        [TestCase( "11", "21" )]
+        [TestCase( "21", "1211" )]
+        [TestCase( "1211", "111221" )]
+        [TestCase( "111221", "312211" )]
+        public void TestLookAndSay(string input, string expected)
+        {
+            Day10.LookAndSay(input).Should().Be(expected);
+        }
+
         [Test]
         public void TestPartOne()
         {
-            Day10.PartOne(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [Test]
-        public void TestPartTwo()
-        {
-            Day10.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Day10.PartOne(filename).Should().Be(expected);
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Day10.PartTwo(filename).Should().Be(expected);
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
+            Day10.PartOne("1321131112").Should().Be(0);
         }
     }
 }
