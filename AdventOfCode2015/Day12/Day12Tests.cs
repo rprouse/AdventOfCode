@@ -11,40 +11,29 @@ namespace AdventOfCode2015
     {
         const int DAY = 12;
 
+        [TestCase("[1,2,3]", 6)]
+        [TestCase("{\"a\":2,\"b\":4}", 6)]
+        [TestCase("[[[3]]]", 3)]
+        [TestCase("{\"a\":{\"b\":4},\"c\":-1}", 3)]
+        [TestCase("{\"a\":[-1,1]}", 0)]
+        [TestCase("[-1,{ \"a\":1}]", 0)]
+        [TestCase("[]", 0)]
+        [TestCase("{ }", 0)]
+        public void TestSumNumbers(string json, int expected)
+        {
+            Day12.SumNumbers(json).Should().Be(expected);
+        }
+
         [Test]
         public void TestPartOne()
         {
-            Day12.PartOne(PuzzleFile(DAY)).Should().Be(0);
+            Day12.PartOne(PuzzleFile(DAY)).Should().Be(111754);
         }
 
         [Test]
         public void TestPartTwo()
         {
             Day12.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-        }
-
-        [TestCaseSource(nameof(TestDataOne))]
-        public void TestPartOne(string filename, int expected)
-        {
-            Day12.PartOne(filename).Should().Be(expected);
-        }
-
-        [TestCaseSource(nameof(TestDataTwo))]
-        public void TestPartTwo(string filename, int expected)
-        {
-            Day12.PartTwo(filename).Should().Be(expected);
-        }
-
-        public static IEnumerable TestDataOne()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
-        }
-
-        public static IEnumerable TestDataTwo()
-        {
-            yield return new TestCaseData(TestFile(DAY), 0);
-            yield return new TestCaseData(PuzzleFile(DAY), 0);
         }
     }
 }
