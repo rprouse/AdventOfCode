@@ -12,7 +12,7 @@ namespace AdventOfCode2015
         public static int PartOne(string filename)
         {
             var cities = GetCities(filename);
-            var routes = Day09.Routes(cities.Keys.ToList());
+            var routes = Routes(cities.Keys.ToList());
 
             int minDist = int.MaxValue;
             foreach (var route in routes)
