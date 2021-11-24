@@ -42,9 +42,17 @@ namespace AdventOfCode2015
             return maxHappy;
         }
 
+        const string ME = "me";
         public static int PartTwo(string filename)
         {
             var people = GetHappiness(filename);
+            var me = new Dictionary<string, int>();
+            foreach(var person in people)
+            {
+                me[person.Key] = 0;
+                person.Value[ME] = 0;
+            }
+            people.Add(ME, me);
             var routes = Seatings(people.Keys.ToList());
             return CalculateMaxHappiness(people, routes);
         }
