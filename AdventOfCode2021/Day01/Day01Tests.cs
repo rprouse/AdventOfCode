@@ -24,6 +24,18 @@ public class Day01Tests : TestBase
         Day01.PartTwo(PuzzleFile(DAY)).Should().Be(0);
     }
 
+    [TestCase("", 0)]
+    public void TestCasePartOne(string text, int expected)
+    {
+        Day01.PartOne(text).Should().Be(expected);
+    }
+
+    [TestCase("", 0)]
+    public void TestCasePartTwo(string text, int expected)
+    {
+        Day01.PartTwo(text).Should().Be(expected);
+    }
+
     [TestCaseSource(nameof(TestDataOne))]
     public void TestPartOne(string filename, int expected)
     {
