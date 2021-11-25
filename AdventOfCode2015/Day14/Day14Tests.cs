@@ -15,7 +15,8 @@ public class Day14Tests : TestBase
     [TestCase("Dancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.", 1056)]
     public void TestDistanceRaced(string text, int expected)
     {
-        Day14.RaceForSeconds(text, 1000).Should().Be(expected);
+        var reindeer = new Day14.Reindeer(text);
+        reindeer.RaceForSeconds(1000).Should().Be(expected);
     }
 
     [Test]
