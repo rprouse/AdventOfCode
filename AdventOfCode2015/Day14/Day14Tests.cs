@@ -28,7 +28,7 @@ public class Day14Tests : TestBase
     [Test]
     public void TestPartTwo()
     {
-        Day14.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+        Day14.PartTwo(PuzzleFile(DAY)).Should().Be(1059);
     }
 }
 
