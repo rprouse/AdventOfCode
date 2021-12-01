@@ -11,8 +11,13 @@ public static class Day01
 {
     public static int PartOne(string filename)
     {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        int[] depths = filename.GetInts();
+        int count = 0;
+        for (int i = 0; i < depths.Length - 1; i++)
+        {
+            if (depths[i] < depths[i + 1]) count++;
+        }
+        return count;
     }
 
     public static int PartTwo(string filename)
