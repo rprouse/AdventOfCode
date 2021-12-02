@@ -1,7 +1,3 @@
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -14,14 +10,14 @@ public static class Day02
         var directions = filename
             .ReadAllLines()
             .Select(line => line.Split())
-            .Select(pair => ( pair[0], pair[1].ToInt() ))
+            .Select(pair => (pair[0], pair[1].ToInt()))
             .ToArray();
 
         int x = 0;
         int y = 0;
-        foreach( (string dir, int dist) in directions)
+        foreach ((string dir, int dist) in directions)
         {
-            switch(dir[0])
+            switch (dir[0])
             {
                 case 'f':
                     x += dist;
@@ -34,12 +30,36 @@ public static class Day02
                     break;
             }
         }
-        return x*y;
+        return x * y;
     }
 
     public static int PartTwo(string filename)
     {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        var directions = filename
+            .ReadAllLines()
+            .Select(line => line.Split())
+            .Select(pair => (pair[0], pair[1].ToInt()))
+            .ToArray();
+
+        int x = 0;
+        int y = 0;
+        int aim = 0;
+        foreach ((string dir, int dist) in directions)
+        {
+            switch (dir[0])
+            {
+                case 'f':
+                    x += dist;
+                    y += aim * dist;
+                    break;
+                case 'd':
+                    aim += dist;
+                    break;
+                case 'u':
+                    aim -= dist;
+                    break;
+            }
+        }
+        return x * y;
     }
 }
