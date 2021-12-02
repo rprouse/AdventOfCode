@@ -13,12 +13,12 @@ public static class Day01
             .Count(i => depths[i] < depths[i + 1]);
     }
 
-    public static int PartTwo(string filename)
-    {
-        int[] depths = filename.GetInts();
-        return Enumerable
-            .Range(0, depths.Length - 3)
-            .Count(i => depths[i..(i+3)].Sum() < depths[(i+1)..(i+4)].Sum());
-    }
+public static int PartTwo(string filename)
+{
+    int[] depths = filename.GetInts();
+    return Enumerable
+        .Range(0, depths.Length - 3)
+        .Count(i => depths[i..(i+3)].Sum() < depths[(i+1)..(i+4)].Sum());
+}
 }
 
