@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <StartupObject>AdventOfCode2021.ProgramEntry</StartupObject>
+    <StartupObject></StartupObject>
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
