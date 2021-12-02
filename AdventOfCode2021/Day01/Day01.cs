@@ -18,8 +18,7 @@ public static class Day01
         int[] depths = filename.GetInts();
         return Enumerable
             .Range(0, depths.Length - 3)
-            .Count(i => depths[i] + depths[i + 1] + depths[i + 2] < 
-                        depths[i + 1] + depths[i + 2] + depths[i + 3]);
+            .Count(i => depths[i..(i+3)].Sum() < depths[(i+1)..(i+4)].Sum());
     }
 }
 
