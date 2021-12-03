@@ -24,13 +24,9 @@ public static class Day03
         for (int i = 0; i < counts.Length; i++)
         {
             if (counts[i] > half)
-            {
                 gamma += 1 << (counts.Length - i - 1);
-            }
             else
-            {
                 epsilon += 1 << (counts.Length - i - 1);
-            }
         }
         return gamma * epsilon;
     }
