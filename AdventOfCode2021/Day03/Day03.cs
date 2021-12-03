@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using AdventOfCode.Core;
 
 namespace AdventOfCode2021;
@@ -36,65 +38,47 @@ public static class Day03
     public static int PartTwo(string filename)
     {
         string[] lines = filename.ReadAllLines();
-        int len = lines[0].Length;
-        var o2Candidates = new List<string>(lines);
-        var co2Candidates = new List<string>(lines);
-        for (int i = 0; i < len; i++)
+        return GetO2(lines) * GetCO2(lines);
+    }
+
+    private static int GetO2(string[] lines) =>
+        GetValues(lines, (int count, double half, char c) =>
+            (count >= half && c == '0') || (count < half && c == '1')
+        );
+
+    private static int GetCO2(string[] lines) =>
+        GetValues(lines, (int count, double half, char c) =>
+            (count < half && c == '0') || (count >= half && c == '1')
+        );
+
+    private static int GetValues(string[] lines, Func<int, double, char, bool> evaluator)
+    {
+        var candidates = new List<string>(lines);
+        for (int i = 0; i < lines[0].Length; i++)
         {
-            int o2count = 0;
-            foreach (string candidate in o2Candidates)
-            {
-                if (candidate[i] == '1') o2count++;
-            }
-            var o2half = o2Candidates.Count / 2.0;
-            int co2count = 0;
-            foreach (string candidate in co2Candidates)
-            {
-                if (candidate[i] == '1') co2count++;
-            }
-            var co2half = co2Candidates.Count / 2.0;
+            int count = candidates.Count(c => c[i] == '1');
+            var half = candidates.Count / 2.0;
 
-            foreach (string line in lines)
+            lines.ForEach(line => 
             {
-                if (o2Candidates.Count > 1 && o2Candidates.Contains(line))
+                if (candidates.Contains(line) && evaluator(count, half, line[i]))
                 {
-                    if ((o2count >= o2half && line[i] == '0'))
-                    {
-                        o2Candidates.Remove(line);
-                    }
-                    if ((o2count < o2half && line[i] == '1'))
-                    {
-                        o2Candidates.Remove(line);
-                    }
+                    candidates.Remove(line);
                 }
-
-                if (co2Candidates.Count > 1 && co2Candidates.Contains(line))
-                {
-                    if ((co2count < co2half && line[i] == '0'))
-                    {
-                        co2Candidates.Remove(line);
-                    }
-                    if ((co2count >= co2half && line[i] == '1'))
-                    {
-                        co2Candidates.Remove(line);
-                    }
-                }
-            }
+            });
+            if (candidates.Count == 1) break;
         }
-        int o2 = 0;
-        int co2 = 0;
-        for (int i = 0; i < len; i++)
+        return ConvertToBinary(candidates[0]);
+    }
+
+    private static int ConvertToBinary(string value)
+    {
+        int dec = 0;
+        for (int i = 0; i < value.Length; i++)
         {
-            if (o2Candidates[0][i] == '1')
-            {
-                o2 += 1 << (len - i - 1);
-            }
-
-            if (co2Candidates[0][i] == '1')
-            {
-                co2 += 1 << (len - i - 1);
-            }
+            if (value[i] == '1')
+                dec += 1 << (value.Length - i - 1);
         }
-        return o2 * co2;
+        return dec;
     }
 }
