@@ -27,12 +27,12 @@ public class Day03Tests : TestBase
     public static IEnumerable TestDataOne()
     {
         yield return new TestCaseData(TestFile(DAY), 198);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(PuzzleFile(DAY), 2724524);
     }
 
     public static IEnumerable TestDataTwo()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 230);
+        yield return new TestCaseData(PuzzleFile(DAY), 2775870);
     }
 }
