@@ -1,8 +1,4 @@
-using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using AdventOfCode.Core;
 
 namespace AdventOfCode2021;
@@ -93,7 +89,7 @@ public static class Day03
             {
                 o2 += 1 << (len - i - 1);
             }
-            
+
             if (co2Candidates[0][i] == '1')
             {
                 co2 += 1 << (len - i - 1);
