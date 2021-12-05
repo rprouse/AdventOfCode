@@ -1,7 +1,4 @@
-using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -9,19 +6,50 @@ namespace AdventOfCode2021;
 
 public static class Day04
 {
-    public static int PartOne(string filename) =>
-        PlayBingo(filename, false);
-
-    public static int PartTwo(string filename)
+    public static int PartOne(string filename)
     {
-        string[] lines = filename.ReadAllLinesIncludingBlank();
+        // Parse out the moves and boards
+        int[] moves = filename.SplitInts();
+        var boards = ParseBoards(filename);
+
+        // Start playing the game
+        foreach (var move in moves)
+        {
+            Play(move, boards);
+            int[][] winningBoard = CheckWins(boards);
+            if (winningBoard != null)
+            {
+                return SumBoard(winningBoard) * move;
+            }
+        }
         return 0;
     }
 
-    static int PlayBingo(string filename, bool includeDiagonals)
-    { 
+    public static int PartTwo(string filename)
+    {
         // Parse out the moves and boards
         int[] moves = filename.SplitInts();
+
+        // Play through all boards
+        var boards = ParseBoards(filename);
+        int lastWinningMove = -1;
+        int[][] lastWinningBoard = null;
+        foreach (var move in moves)
+        {
+            Play(move, boards);
+            var winningBoards = CheckAllWins(boards);
+            foreach (var winningBoard in winningBoards)
+            {
+                lastWinningMove = move;
+                lastWinningBoard = winningBoard;
+                boards.Remove(winningBoard);
+            }
+        }
+        return SumBoard(lastWinningBoard) * lastWinningMove;
+    }
+
+    private static List<int[][]> ParseBoards(string filename)
+    {
         string[] lines = filename.ReadAllLinesIncludingBlank();
         List<int[][]> boards = new List<int[][]>();
         for (int i = 2; i < lines.Length; i += 6)
@@ -29,17 +57,7 @@ public static class Day04
             boards.Add(GetBoard(lines.Skip(i).Take(5).ToArray()));
         }
 
-        // Start playing the game
-        foreach (var move in moves)
-        {
-            Play(move, boards);
-            int[][] winningBoard = CheckWins(boards, includeDiagonals);
-            if(winningBoard != null)
-            {
-                return SumBoard(winningBoard) * move;
-            }
-        }
-        return 0;
+        return boards;
     }
 
     static int[][] GetBoard(string[] lines)
@@ -73,17 +91,20 @@ public static class Day04
         }
     }
 
-    static int[][] CheckWins(IEnumerable<int[][]> boards, bool includeDiagonals)
+    static IList<int[][]> CheckAllWins(IEnumerable<int[][]> boards) =>
+        boards.Where(b => CheckWin(b)).ToList();
+
+    static int[][] CheckWins(IEnumerable<int[][]> boards)
     {
         foreach (int[][] board in boards)
         {
-            if (CheckWin(board, includeDiagonals))
+            if (CheckWin(board))
                 return board;
         }
         return null;
     }
 
-    static bool CheckWin(int[][] board, bool includeDiagonals)
+    static bool CheckWin(int[][] board)
     {
         // Horizontal
         foreach (int[] row in board)
@@ -98,14 +119,6 @@ public static class Day04
             if (board.Select(r => r[x]).All(c => c < 0))
                 return true;
         }
-
-        // Diagonal 1
-        if (includeDiagonals && Enumerable.Range(0, 5).All(i => board[i][i] < 0))
-            return true;
-
-        // Diagonal 2
-        if (includeDiagonals && Enumerable.Range(0, 5).All(i => board[i][4-i] < 0))
-            return true;
 
         return false;
     }
