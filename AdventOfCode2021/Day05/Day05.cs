@@ -27,7 +27,18 @@ public static class Day05
         public int X2 { get; init; }
         public int Y2 { get; init; }
 
-        public bool HorizontalOrVertical => X1 == X2 || Y1 == Y2;
+        public bool Horizontal => Y1 == Y2;
+        public bool Vertical => X1 == X2;
+
+        public bool Diagonal =>
+            (X1 < X2 && Y1 < Y2) ||
+            (X1 > X2 && Y1 > Y2);
+
+        public bool ReverseDiagonal =>
+            (X1 < X2 && Y1 > Y2) ||
+            (X1 > X2 && Y1 < Y2);
+
+        public bool HorizontalOrVertical => Horizontal || Vertical;
         public int MinX => Math.Min(X1, X2);
         public int MaxX => Math.Max(X1, X2);
         public int MinY => Math.Min(Y1, Y2);
@@ -43,8 +54,8 @@ public static class Day05
             .ToList();
         var maxX = directions.Max(d => d.MaxX) + 1;
         var maxY = directions.Max(d => d.MaxY) + 1;
-        int[,] board = new int[maxX,maxY];
-        foreach(var d in directions)
+        int[,] board = new int[maxX, maxY];
+        foreach (var d in directions)
         {
             for (int x = d.MinX; x <= d.MaxX; x++)
             {
@@ -59,7 +70,7 @@ public static class Day05
         {
             for (int x = 0; x < maxX; x++)
             {
-                if(board[x,y] >= 2) count++;
+                if (board[x, y] >= 2) count++;
             }
         }
         return count;
@@ -67,7 +78,70 @@ public static class Day05
 
     public static int PartTwo(string filename)
     {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        var directions = filename
+            .ReadAllLines()
+            .Select(line => new Direction(line))
+            .ToList();
+        var maxX = directions.Max(d => d.MaxX) + 1;
+        var maxY = directions.Max(d => d.MaxY) + 1;
+        int[,] board = new int[maxX, maxY];
+        foreach (var d in directions)
+        {
+            if (d.Horizontal)
+            {
+                for (int x = d.MinX; x <= d.MaxX; x++)
+                {
+                    board[x, d.Y1]++;
+                }
+            }
+            else if (d.Vertical)
+            {
+                for (int y = d.MinY; y <= d.MaxY; y++)
+                {
+                    board[d.X1, y]++;
+                }
+            }
+            else if (d.ReverseDiagonal)
+            {
+                int x = d.MinX;
+                int y = d.MaxY;
+                for (; x <= d.MaxX && y >= d.MinY; x++, y--)
+                {
+                    board[x, y]++;
+                }
+            }
+            else if (d.Diagonal)
+            {
+                int x = d.MinX;
+                int y = d.MinY;
+                for (; x <= d.MaxX && y <= d.MaxY; x++, y++)
+                {
+                    board[x, y]++;
+                }
+            }
+            //PrintBoard(board);
+        }
+        int count = 0;
+        for (int y = 0; y < maxY; y++)
+        {
+            for (int x = 0; x < maxX; x++)
+            {
+                if (board[x, y] >= 2) count++;
+            }
+        }
+        return count;
+    }
+
+    static void PrintBoard(int[,] board)
+    {
+        for (int y = 0; y < board.GetLength(1); y++)
+        {
+            for (int x = 0; x < board.GetLength(0); x++)
+            {
+                Console.Write($"{board[x, y]}");
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine();
     }
 }

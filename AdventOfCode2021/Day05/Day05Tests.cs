@@ -32,7 +32,7 @@ public class Day05Tests : TestBase
 
     public static IEnumerable TestDataTwo()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 12);
+        yield return new TestCaseData(PuzzleFile(DAY), 21104);
     }
 }
