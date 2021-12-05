@@ -16,10 +16,10 @@ public static class Day04
         foreach (var move in moves)
         {
             Play(move, boards);
-            int[][] winningBoard = CheckWins(boards);
-            if (winningBoard != null)
+            var winningBoards = CheckAllWins(boards);
+            if (winningBoards.Count > 0)
             {
-                return SumBoard(winningBoard) * move;
+                return SumBoard(winningBoards[0]) * move;
             }
         }
         return 0;
@@ -93,16 +93,6 @@ public static class Day04
 
     static IList<int[][]> CheckAllWins(IEnumerable<int[][]> boards) =>
         boards.Where(b => CheckWin(b)).ToList();
-
-    static int[][] CheckWins(IEnumerable<int[][]> boards)
-    {
-        foreach (int[][] board in boards)
-        {
-            if (CheckWin(board))
-                return board;
-        }
-        return null;
-    }
 
     static bool CheckWin(int[][] board)
     {
