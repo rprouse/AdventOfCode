@@ -57,11 +57,18 @@ public static class Day05
         int[,] board = new int[maxX, maxY];
         foreach (var d in directions)
         {
-            for (int x = d.MinX; x <= d.MaxX; x++)
+            if (d.Horizontal)
+            {
+                for (int x = d.MinX; x <= d.MaxX; x++)
+                {
+                    board[x, d.Y1]++;
+                }
+            }
+            else if (d.Vertical)
             {
                 for (int y = d.MinY; y <= d.MaxY; y++)
                 {
-                    board[x, y]++;
+                    board[d.X1, y]++;
                 }
             }
         }
