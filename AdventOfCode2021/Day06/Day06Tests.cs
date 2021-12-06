@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.IO;
-using AdventOfCode.Core;
-using NUnit.Framework;
-using FluentAssertions;
 using System.Linq;
+using AdventOfCode.Core;
+using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2021;
 
@@ -13,16 +10,13 @@ public class Day06Tests : TestBase
 {
     const int DAY = 06;
 
-    [Test]
-    public void TestPartOne()
+    [TestCase(80, 396210)]
+    [TestCase(256, 1770823541496)]
+    public void TestDay06Answers(int days, long expected)
     {
-        Day06.PartOne(PuzzleFile(DAY)).Should().Be(396210);
-    }
-
-    [Test]
-    public void TestPartTwo()
-    {
-        Day06.PartTwo(PuzzleFile(DAY)).Should().Be(1770823541496);
+        Day06.ReproduceFishForDays(PuzzleFile(DAY).SplitInts(), days)
+            .Should()
+            .Be(expected);
     }
 
     [TestCase(18, 26)]
@@ -40,9 +34,9 @@ public class Day06Tests : TestBase
     [TestCase(176, 25424473)]
     [TestCase(192, 102417953)]
     [TestCase(256, 26984457539)]
-    public void TestCasePartOne(int days, long expected)
+    public void TestReproduceFishForDays(int days, long expected)
     {
-        var fish = "3,4,3,1,2".Split(',').Select(c => c.ToInt()).ToList();
+        var fish = "3,4,3,1,2".Split(',').Select(c => c.ToInt());
         Day06.ReproduceFishForDays(fish.ToList(), days).Should().Be(expected);
     }
 }
