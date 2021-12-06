@@ -24,13 +24,13 @@ public class Day00Tests : TestBase
         Day00.PartTwo(PuzzleFile(DAY)).Should().Be(0);
     }
 
-    [TestCase("", 0)]
+    [TestCase("", 0, Ignore = "If Needed")]
     public void TestCasePartOne(string text, int expected)
     {
         Day00.PartOne(text).Should().Be(expected);
     }
 
-    [TestCase("", 0)]
+    [TestCase("", 0, Ignore = "If Needed")]
     public void TestCasePartTwo(string text, int expected)
     {
         Day00.PartTwo(text).Should().Be(expected);
