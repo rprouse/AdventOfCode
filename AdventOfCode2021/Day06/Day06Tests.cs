@@ -22,32 +22,27 @@ public class Day06Tests : TestBase
     [Test]
     public void TestPartTwo()
     {
-        Day06.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+        Day06.PartTwo(PuzzleFile(DAY)).Should().Be(1770823541496);
     }
 
-    [TestCase("3,4,3,1,2", 18, 26)]
-    [TestCase("3,4,3,1,2", 80, 5934)]
-    public void TestCasePartOne(string text, int days, int expected)
+    [TestCase(18, 26)]
+    [TestCase(80, 5934)]
+    [TestCase(16, 21)]
+    [TestCase(32, 88)]
+    [TestCase(48, 361)]
+    [TestCase(64, 1467)]
+    [TestCase(80, 5934)]
+    [TestCase(96, 23948)]
+    [TestCase(112, 96540)]
+    [TestCase(128, 388976)]
+    [TestCase(144, 1566923)]
+    [TestCase(160, 6311710)]
+    [TestCase(176, 25424473)]
+    [TestCase(192, 102417953)]
+    [TestCase(256, 26984457539)]
+    public void TestCasePartOne(int days, long expected)
     {
-        var fish = text.Split(',').Select(c => c.ToInt()).ToList();
+        var fish = "3,4,3,1,2".Split(',').Select(c => c.ToInt()).ToList();
         Day06.ReproduceFishForDays(fish.ToList(), days).Should().Be(expected);
-    }
-
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartTwo(string text, int expected)
-    {
-        Day06.PartTwo(text).Should().Be(expected);
-    }
-
-    [TestCaseSource(nameof(TestDataTwo))]
-    public void TestPartTwo(string filename, int expected)
-    {
-        Day06.PartTwo(filename).Should().Be(expected);
-    }
-
-    public static IEnumerable TestDataTwo()
-    {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
     }
 }

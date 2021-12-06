@@ -9,35 +9,30 @@ namespace AdventOfCode2021;
 
 public static class Day06
 {
-    public static int PartOne(string filename) =>
+    public static long PartOne(string filename) =>
         ReproduceFishForDays(filename.SplitInts().ToList(), 80);
 
-    public static int ReproduceFishForDays(IList<int> fish, int days)
+    public static long PartTwo(string filename) =>
+        ReproduceFishForDays(filename.SplitInts().ToList(), 256);
+
+    public static long ReproduceFishForDays(List<int> fish, int days)
     {
+        long[] ages = new long[9];
+        for(int day = 0; day <= 6; day++)
+        {
+            ages[day] = fish.Count(f => f == day);
+        }
         Enumerable.Range(0, days)
             .ForEach(_ => 
             {
-                var generation = new List<int>(fish.Count);
-                foreach(int f in fish)
+                long respawning = ages[0];
+                for (int day = 0; day < 8; day++)
                 {
-                    if(f == 0)
-                    {
-                        generation.Add(6);
-                        generation.Add(8);
-                    }
-                    else
-                    {
-                        generation.Add(f-1);
-                    }
+                    ages[day] = ages[day + 1];
                 }
-                fish = generation;
+                ages[6] += respawning;
+                ages[8] = respawning;
             });
-        return fish.Count;
-    }
-
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        return ages.Sum();
     }
 }
