@@ -15,16 +15,12 @@ public static class Day07
     internal static int CalculateFuel(string filename, Func<int, int> fuelRate)
     {
         int[] crabs = filename.SplitInts();
-        int min = crabs.Min();
-        int max = crabs.Max();
-        int fuel = int.MaxValue;
-        for (int i = min; i <= max; i++)
-        {
-            int sum = crabs.Select(x => fuelRate(i - x)).Sum();
-            if (sum < fuel)
-                fuel = sum;
-        }
-        return fuel;
+        int start = crabs.Min();
+        int count = crabs.Max() - start;
+
+        return Enumerable
+            .Range(start, count)
+            .Min(i => crabs.Select(x => fuelRate(i - x)).Sum());
     }
 
     // Uses the triangle number sequence
