@@ -12,15 +12,15 @@ public class Day07Tests : TestBase
 {
     const int DAY = 07;
 
-    [TestCase(11, 66)]
-    [TestCase(4, 10)]
-    [TestCase(3, 6)]
+    [TestCase(-9, 45)]
     [TestCase(-3, 6)]
-    [TestCase(5, 15)]
     [TestCase(1, 1)]
     [TestCase(2, 3)]
+    [TestCase(3, 6)]
+    [TestCase(4, 10)]
+    [TestCase(5, 15)]
     [TestCase(9, 45)]
-    [TestCase(-9, 45)]
+    [TestCase(11, 66)]
     public void TestCalculateFuel(int steps, int expected)
     {
         Day07.CalculateFuel(steps).Should().Be(expected);
