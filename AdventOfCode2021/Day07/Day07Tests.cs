@@ -12,16 +12,18 @@ public class Day07Tests : TestBase
 {
     const int DAY = 07;
 
-    [Test]
-    public void TestPartTwo()
+    [TestCase(11, 66)]
+    [TestCase(4, 10)]
+    [TestCase(3, 6)]
+    [TestCase(-3, 6)]
+    [TestCase(5, 15)]
+    [TestCase(1, 1)]
+    [TestCase(2, 3)]
+    [TestCase(9, 45)]
+    [TestCase(-9, 45)]
+    public void TestCalculateFuel(int steps, int expected)
     {
-        Day07.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartTwo(string text, int expected)
-    {
-        Day07.PartTwo(text).Should().Be(expected);
+        Day07.CalculateFuel(steps).Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataOne))]
@@ -44,7 +46,7 @@ public class Day07Tests : TestBase
 
     public static IEnumerable TestDataTwo()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 168);
+        yield return new TestCaseData(PuzzleFile(DAY), 94862124);
     }
 }
