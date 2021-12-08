@@ -12,6 +12,14 @@ public static class Day08
     public static int PartOne(string filename)
     {
         string[] lines = filename.ReadAllLines();
+        int count = 0;
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split(" | ");
+            string[] input = parts[0].Split(' ');
+            string[] output = parts[1].Split(' ');
+            count += output.Count(o => o.Length == 2 || o.Length == 4 || o.Length == 3 || o.Length == 7);
+        }
         return 0;
     }
 
