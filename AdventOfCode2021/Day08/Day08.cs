@@ -20,7 +20,7 @@ public static class Day08
             string[] output = parts[1].Split(' ');
             count += output.Count(o => o.Length == 2 || o.Length == 4 || o.Length == 3 || o.Length == 7);
         }
-        return 0;
+        return count;
     }
 
     public static int PartTwo(string filename)
