@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace AdventOfCode.Core
 {
     public static class StringExtensions
@@ -37,5 +39,23 @@ namespace AdventOfCode.Core
         /// <returns></returns>
         public static ulong ToUlong(this string str, ulong def = 0) =>
             ulong.TryParse(str, out ulong l) ? l : def;
+
+        /// <summary>
+        /// Determine if a string is a superset of another string
+        /// </summary>
+        /// <param name="superset"></param>
+        /// <param name="subset"></param>
+        /// <returns></returns>
+        public static bool IsSupersetOf(this string superset, string subset) =>
+            subset.All(c => superset.Contains(c));
+
+        /// <summary>
+        /// Determine if a string is a subset of another string
+        /// </summary>
+        /// <param name="subset"></param>
+        /// <param name="superset"></param>
+        /// <returns></returns>
+        public static bool IsSubsetOf(this string subset, string superset) =>
+            subset.All(c => superset.Contains(c));
     }
 }

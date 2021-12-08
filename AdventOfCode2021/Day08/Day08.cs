@@ -1,7 +1,4 @@
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -62,13 +59,13 @@ public static class Day08
         var mappings = GetMappings(inputs).ToList();
 
         int result = 0;
-        for(int i = 0; i < outputs.Length; i++)
+        for (int i = 0; i < outputs.Length; i++)
         {
             string digit = outputs[3 - i];
             string map = mappings.Single(m => digit.Length == m.Length && m.All(c => digit.Contains(c)));
             int value = mappings.IndexOf(map);
             int power = (int)Math.Pow(10, i);
-            result +=  value * power;
+            result += value * power;
         }
         return result;
     }
@@ -92,19 +89,19 @@ public static class Day08
         // Threes have 5 segments a, c, d, f and g
         // and are common with seven
         mappings[3] = inputs.First(i => i.Length == 5 &&
-            mappings[7].All(c => i.Contains(c)));
+            mappings[7].IsSubsetOf(i));
 
         // Sixes have 6 segments a, b, d, e, f and g
         // and are not common with seven
         mappings[6] = inputs.First(i => i.Length == 6 &&
-            !mappings[7].All(c => i.Contains(c)));
+            !mappings[7].IsSubsetOf(i));
 
         // Fives have 5 segments a, b, d, f and g,
         // are not 3
         // and have all segments in common with 6
         mappings[5] = inputs.First(i => i.Length == 5 &&
             i != mappings[3] &&
-            i.All(c => mappings[6].Contains(c)));
+            mappings[6].IsSupersetOf(i));
 
         // Twos have 5 segments a, c, d, e and g
         // and are not 3 or 5
@@ -117,7 +114,7 @@ public static class Day08
         // and have segments in common with 4
         mappings[9] = inputs.First(i => i.Length == 6 &&
             i != mappings[6] &&
-            mappings[4].All(c => i.Contains(c)));
+            mappings[4].IsSubsetOf(i));
 
         // Zeros have 6 segments a, b, c, e, f and g
         // and are not 6 or 9
