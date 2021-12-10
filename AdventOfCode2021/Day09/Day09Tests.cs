@@ -18,7 +18,8 @@ public class Day09Tests : TestBase
     public void TestBasinSize(int x, int y, int expected)
     {
         var map = Day09.GetMap(TestFile(DAY));
-        Day09.BasinSize(map, new Point(x, y)).Should().Be(expected);
+        map = Day09.AddBorderToMap(map);
+        Day09.BasinSize(map, new Point(x+1, y+1)).Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataOne))]
