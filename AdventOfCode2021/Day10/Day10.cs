@@ -11,10 +11,10 @@ public static class Day10
 {
     static Dictionary<char, char> _matches = new Dictionary<char, char>
     {
-        { '(', ')' },
-        { '[', ']' },
-        { '{', '}' },
-        { '<', '>' }
+        { ')', '(' },
+        { ']', '[' },
+        { '}', '{' },
+        { '>', '<' }
     };
 
     public static long PartOne(string filename)
@@ -23,39 +23,25 @@ public static class Day10
         string[] lines = filename.ReadAllLines();
         foreach (string line in lines)
         {
-            var corrupted = GetCorruptedCharacter(line);
+            var corrupted = GetCorruptedCharacter2(line);
             score += GetCorruptedScore(corrupted);
         }
         return score;
     }
 
-    internal static char GetCorruptedCharacter(string line)
+    internal static char GetCorruptedCharacter2(string line)
     {
-        var buffer = new StringBuilder();
-        bool foundMatch = false;
-        do
+        var seen = new Stack<char>();
+        foreach(char c in line)
         {
-            foundMatch = false;
-            buffer.Clear();
-            for (int i = 0; i < line.Length - 1; i++)
-            {
-                if (_matches.ContainsKey(line[i]) &&
-                   _matches[line[i]] == line[i + 1])
-                {
-                    foundMatch = true;
-                    i += 1;
-                }
-                else
-                {
-                    buffer.Append(line[i]);
-                }
-            }
-            line = buffer.ToString();
+            if(!_matches.ContainsKey(c))
+                seen.Push(c);
+            else if (seen.Peek() == _matches[c])
+                seen.Pop();
+            else
+                return c;
         }
-        while (foundMatch);
-        char corrupted = line.FirstOrDefault(c => _matches.Values.Contains(c));
-        Console.WriteLine($"{(corrupted == 0 ? ' ' : corrupted)} {line}");
-        return corrupted;
+        return '\0';
     }
 
     internal static int GetCorruptedScore(char corrupted) =>
