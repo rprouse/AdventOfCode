@@ -43,13 +43,13 @@ public static class Day11
 
                             if (y > 0 && x > 0 && map[y - 1][x - 1] != 0) map[y - 1][x - 1]++;
                             if (y < 9 && x > 0 && map[y + 1][x - 1] != 0) map[y + 1][x - 1]++;
-                            if (y < 9 && x < 9 && map[y + 1][x + 1] != 0) map[y + 1][x + 1]++;
+                            if (y > 0 && x < 9 && map[y - 1][x + 1] != 0) map[y - 1][x + 1]++;
                             if (y < 9 && x < 9 && map[y + 1][x + 1] != 0) map[y + 1][x + 1]++;
                         }
                     }
                 }
             }
-            OutputMap(map);
+            //OutputMap(map);
         }
         return flashes;
     }
@@ -69,8 +69,48 @@ public static class Day11
 
     public static int PartTwo(string filename)
     {
-        var map = GetMap(filename);
-        return 0;
+        int steps = 0;
+        int[][] map = GetMap(filename);
+        do
+        {
+            // Increment all by one
+            foreach (var row in map)
+            {
+                for (int i = 0; i < row.Length; i++)
+                    row[i]++;
+            }
+            // Flash
+            bool found = true;
+            while (found)
+            {
+                found = false;
+                for (int y = 0; y < map.Length; y++)
+                {
+                    for (int x = 0; x < map[y].Length; x++)
+                    {
+                        if (map[y][x] > 9)
+                        {
+                            found = true;
+                            map[y][x] = 0;
+
+                            if (y > 0 && map[y - 1][x] != 0) map[y - 1][x]++;
+                            if (x > 0 && map[y][x - 1] != 0) map[y][x - 1]++;
+                            if (y < 9 && map[y + 1][x] != 0) map[y + 1][x]++;
+                            if (x < 9 && map[y][x + 1] != 0) map[y][x + 1]++;
+
+                            if (y > 0 && x > 0 && map[y - 1][x - 1] != 0) map[y - 1][x - 1]++;
+                            if (y < 9 && x > 0 && map[y + 1][x - 1] != 0) map[y + 1][x - 1]++;
+                            if (y > 0 && x < 9 && map[y - 1][x + 1] != 0) map[y - 1][x + 1]++;
+                            if (y < 9 && x < 9 && map[y + 1][x + 1] != 0) map[y + 1][x + 1]++;
+                        }
+                    }
+                }
+            }
+            steps++;
+            //OutputMap(map);
+        }
+        while (!map.All(r => r.All(c => c == 0)));
+        return steps;
     }
 
     internal static int[][] GetMap(string filename) =>
