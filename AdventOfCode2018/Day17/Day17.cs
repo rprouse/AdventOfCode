@@ -1,4 +1,7 @@
-﻿using System;
+#define DISPLAY_FINAL
+#undef DISPLAY_ALL
+
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
@@ -6,13 +9,11 @@ using System.Linq;
 using AdventOfCode.Core;
 using System.Text.RegularExpressions;
 
+
 namespace AdventOfCode2018
 {
     public static class Day17
     {
-        const bool DISPLAY_FINAL = true;
-        const bool DISPLAY_ALL = false;
-
         public static int PartOne(string filename)
         {
             // Parse the file
@@ -38,9 +39,9 @@ namespace AdventOfCode2018
             char[,] ground = new char[maxX - minX + 2, maxY + 2];
 
             // Draw initial ground
-            foreach(var m in matches)
+            foreach (var m in matches)
             {
-                for(int i = m.v2; i <= m.v3; i++)
+                for (int i = m.v2; i <= m.v3; i++)
                 {
                     if (m.a == "x")
                         ground[m.v1 - minX, i] = '#';
@@ -52,11 +53,10 @@ namespace AdventOfCode2018
             // Drip down from the well
             DripDown(ground, 500 - minX, 1);
 
-            if (DISPLAY_FINAL)
-            {
-                OutputGround(ground);
-                Console.WriteLine("Finished");
-            }
+#if DISPLAY_FINAL
+            OutputGround(ground);
+            Console.WriteLine("Finished");
+#endif
 
             int water = ground.Cast<char>().Where(c => c == '~').Count();
             int drips = ground.Cast<char>().Where(c => c == '|').Count();
@@ -69,7 +69,7 @@ namespace AdventOfCode2018
         {
             ground[x, y] = '|';
 
-            while (ground[x, y+1] != '#' && ground[x, y+1] != '~')
+            while (ground[x, y + 1] != '#' && ground[x, y + 1] != '~')
             {
                 y++;
                 if (y >= ground.GetLength(1) - 1)
@@ -77,11 +77,10 @@ namespace AdventOfCode2018
                 ground[x, y] = '|';
             }
 
-            if (DISPLAY_ALL)
-            {
-                OutputGround(ground);
-                Console.ReadLine();
-            }
+#if DISPLAY_ALL
+            OutputGround(ground);
+            Console.ReadLine();
+#endif
 
             do
             {
@@ -90,7 +89,7 @@ namespace AdventOfCode2018
                 int minX;
                 for (minX = x; minX >= 0; minX--)
                 {
-                    if(!ground.Occupied(minX, y + 1))
+                    if (!ground.Occupied(minX, y + 1))
                     {
                         dripLeft = true;
                         break;
@@ -115,7 +114,7 @@ namespace AdventOfCode2018
                 if (dripRight && ground[maxX, y + 1] != '|')
                     DripDown(ground, maxX, y);
 
-                if (dripLeft && ground[minX,y+1] != '|')
+                if (dripLeft && ground[minX, y + 1] != '|')
                     DripDown(ground, minX, y);
 
                 if (dripLeft || dripRight)
@@ -128,11 +127,10 @@ namespace AdventOfCode2018
 
                 y--;
 
-                if (DISPLAY_ALL)
-                {
-                    OutputGround(ground);
-                    Console.ReadLine();
-                }
+#if DISPLAY_ALL
+                OutputGround(ground);
+                Console.ReadLine();
+#endif
             } while (true);
         }
 
@@ -149,7 +147,7 @@ namespace AdventOfCode2018
         {
             Console.Clear();
             var sb = new StringBuilder(ground.GetLength(0));
-            for(int y = 0; y < ground.GetLength(1); y++)
+            for (int y = 0; y < ground.GetLength(1); y++)
             {
                 sb.Clear();
                 for (int x = 0; x < ground.GetLength(0); x++)
