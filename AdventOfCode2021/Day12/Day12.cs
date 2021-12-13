@@ -76,6 +76,9 @@ public static class Day12
                     yield return childRoute;
             }
         }
-        yield return visited;
+        else
+        {
+            yield return visited;
+        }
     }
 }
