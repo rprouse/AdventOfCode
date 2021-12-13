@@ -37,6 +37,6 @@ public class Day12Tests : TestBase
         yield return new TestCaseData(TestFile(DAY, "Test1.txt"), 36);
         yield return new TestCaseData(TestFile(DAY, "Test2.txt"), 103);
         yield return new TestCaseData(TestFile(DAY, "Test3.txt"), 3509);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(PuzzleFile(DAY), 130094);
     }
 }

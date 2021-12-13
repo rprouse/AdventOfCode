@@ -21,8 +21,18 @@ public static class Day12
 
     public static int PartTwo(string filename)
     {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        Map map = GetMap(filename);
+        var routes = GetRoutes(map).ToList();
+        foreach(var childMap in GetMapsWithExtraStops(map))
+        {
+            routes.AddRange(GetRoutes(childMap));
+        }
+        var stringRoutes = new List<string>();
+        foreach(var route in routes)
+        {
+            stringRoutes.Add(string.Join(',', route).Replace("1", ""));
+        }
+        return stringRoutes.Distinct().Count();
     }
 
     private static Map GetMap(string filename)
@@ -50,6 +60,30 @@ public static class Day12
             }
         }
         return map;
+    }
+
+    private static IEnumerable<Map> GetMapsWithExtraStops(Map map)
+    {
+        foreach(var smallCave in map.Keys.Where(c => c != "start" && c.ToLower() == c))
+        {
+            var childMap = CloneMap(map);
+            foreach(var key in childMap.Keys.Where(c => c != "start" && childMap[c].Contains(smallCave)))
+            {
+                childMap[key].Add(smallCave+"1");
+            }
+            childMap.Add(smallCave+"1", new Node(childMap[smallCave]));
+            yield return childMap;
+        }
+    }
+
+    private static Map CloneMap(Map map)
+    {
+        Map clone = new Map();
+        foreach(var key in map.Keys)
+        {
+            clone[key] = new Node(map[key]);
+        }
+        return clone;
     }
 
     private static IEnumerable<Node> GetRoutes(Map map)
