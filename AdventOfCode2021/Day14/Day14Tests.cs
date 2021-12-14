@@ -37,13 +37,13 @@ public class Day14Tests : TestBase
     }
 
     [TestCaseSource(nameof(TestDataOne))]
-    public void TestPartOne(string filename, int expected)
+    public void TestPartOne(string filename, long expected)
     {
         Day14.PartOne(filename).Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataTwo))]
-    public void TestPartTwo(string filename, int expected)
+    public void TestPartTwo(string filename, long expected)
     {
         Day14.PartTwo(filename).Should().Be(expected);
     }
@@ -56,7 +56,7 @@ public class Day14Tests : TestBase
 
     public static IEnumerable TestDataTwo()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 2188189693529);
         yield return new TestCaseData(PuzzleFile(DAY), 0);
     }
 }
