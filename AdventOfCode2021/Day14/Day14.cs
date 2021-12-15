@@ -20,8 +20,7 @@ public static class Day14
     internal static long BuildPolymer(string filename, int steps)
     {
         (string polymer, Rules rules) = ParseInput(filename);
-        polymer = RunSteps(steps, polymer, rules);
-        return CountElements(polymer);
+        return RunSteps(steps, polymer, rules);
     }
 
     private static (string polymer, Rules rules) ParseInput(string filename)
@@ -37,35 +36,50 @@ public static class Day14
         return (polymer, rules);
     }
 
-    private static long CountElements(string polymer)
+    private static long RunSteps(int steps, string polymer, Dictionary<string, string> rules)
     {
-        long min = long.MaxValue;
-        long max = 0;
-        foreach (char c in polymer.Distinct())
+        var pairs = new Dictionary<string, long>();
+        for (int i = 0; i < polymer.Length - 1; i++)
         {
-            int count = polymer.Count(c1 => c1 == c);
-            if (count < min) min = count;
-            if (count > max) max = count;
+            var pair = polymer.Substring(i, 2);
+            if (!pairs.ContainsKey(pair)) pairs.Add(pair, 0);
+            pairs[pair]++;
         }
-        return max - min;
-    }
 
-    private static string RunSteps(int steps, string polymer, Dictionary<string, string> rules)
-    {
-        StringBuilder sb = new StringBuilder();
         for (int step = 0; step < steps; step++)
         {
-            sb.Clear();
-            sb.Append(polymer[0]);
-            for (int i = 0; i < polymer.Length - 1; i++)
+            var newPairs = new Dictionary<string, long>();
+
+            foreach (var key in pairs.Keys)
             {
-                var pair = polymer.Substring(i, 2);
-                sb.Append(rules[pair]);
-                sb.Append(polymer[i + 1]);
+                var np1 = key[0] + rules[key];
+                var np2 = rules[key] + key[1];
+
+                if (!newPairs.ContainsKey(np1)) newPairs.Add(np1, 0);
+                if (!newPairs.ContainsKey(np2)) newPairs.Add(np2, 0);
+
+                newPairs[np1] += pairs[key];
+                newPairs[np2] += pairs[key];
             }
-            polymer = sb.ToString();
+            pairs = newPairs;
         }
 
-        return polymer;
+        // Count chars
+        var count = new Dictionary<char, long>();
+        foreach (var pair in pairs)
+        {
+            var c1 = pair.Key[0];
+            var c2 = pair.Key[1];
+
+            if (!count.ContainsKey(c1)) count.Add(c1, 0);
+            if (!count.ContainsKey(c2)) count.Add(c2, 0);
+
+            count[c1] += pair.Value;
+            count[c2] += pair.Value;
+        }
+        count[polymer.Last()]++;
+        long min = count.Min(c => c.Value);
+        long max = count.Max(c => c.Value);
+        return (max - min) / 2;
     }
 }
