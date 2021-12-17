@@ -22,7 +22,11 @@ public static class Day16
     public static int PartTwo(string filename)
     {
         string line = filename.ReadAll();
-        return 0;
+        var bytes = ParseHex(line);
+        var binary = HexToBinaryString(bytes);
+        int offset = 0;
+        Day16.Packet packet = Day16.Packet.ParsePacket(binary, ref offset);
+        return packet.CalculateValue();
     }
 
     internal class Packet
@@ -36,6 +40,42 @@ public static class Day16
 
         public int CalculateVersionSum() =>
             Version + SubPackets.Sum(p => p.CalculateVersionSum());
+
+        public int CalculateValue() =>
+            TypeId switch
+            {
+                0 => Sum(),
+                1 => Product(),
+                2 => Minimum(),
+                3 => Maximum(),
+                4 => LiteralValue,
+                5 => GreaterThan(),
+                6 => LessThan(),
+                7 => EqualTo(),
+            };
+
+        private int Sum() => SubPackets.Sum(p => p.CalculateValue());
+
+        private int Product()
+        {
+            int value = SubPackets[0].CalculateValue();
+            for(int i = 1; i < SubPackets.Count; i++)
+                value *= SubPackets[i].CalculateValue();
+            return value;
+        }
+
+        private int Minimum() => SubPackets.Min(p => p.CalculateValue());
+
+        private int Maximum() => SubPackets.Max(p => p.CalculateValue());
+
+        private int GreaterThan() =>
+            SubPackets[0].CalculateValue() > SubPackets[1].CalculateValue() ? 1 : 0;
+
+        private int LessThan() =>
+            SubPackets[0].CalculateValue() < SubPackets[1].CalculateValue() ? 1 : 0;
+
+        private int EqualTo() =>
+            SubPackets[0].CalculateValue() == SubPackets[1].CalculateValue() ? 1 : 0;
 
         public static Packet ParsePacket(string binary, ref int offset)
         {

@@ -23,7 +23,24 @@ public class Day16Tests : TestBase
     [Test]
     public void TestPartTwo()
     {
-        Day16.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+        Day16.PartTwo(PuzzleFile(DAY)).Should().Be(1097039847);
+    }
+
+    [TestCase("C200B40A82", 3)] // Sum
+    [TestCase("04005AC33890", 54)] // Product
+    [TestCase("880086C3E88112", 7)] // Minimum
+    [TestCase("CE00C43D881120", 9)] // Maximum
+    [TestCase("D8005AC2A8F0", 1)] // Less Than
+    [TestCase("F600BC2D8F", 0)] // Greater Than
+    [TestCase("9C005AC2F8F0", 0)] // Equals
+    [TestCase("9C0141080250320F1802104A08", 1)] // Complex
+    public void CanCalculateValueOfPacket(string hex, int expected)
+    {
+        var bytes = Day16.ParseHex(hex);
+        var binary = Day16.HexToBinaryString(bytes);
+        int offset = 0;
+        Day16.Packet packet = Day16.Packet.ParsePacket(binary, ref offset);
+        packet.CalculateValue().Should().Be(expected);
     }
 
     [Test]
