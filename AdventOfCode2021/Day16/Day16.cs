@@ -13,6 +13,7 @@ public static class Day16
     {
         string line = filename.ReadAll();
         var bytes = ParseHex(line);
+        var binary = HexToBinaryString(bytes);
         return 0;
     }
 
@@ -22,7 +23,17 @@ public static class Day16
         return 0;
     }
 
-    internal static IList<byte> ParseHex(string line)
+    internal class Packet
+    {
+        public int Version { get; private set; }
+        public int TypeId { get; private set; }
+        public int LiteralValue { get; private set; }
+        public int LengthTypeId { get; private set; }
+        public int NumberSubPackets { get; private set; }
+
+    }
+
+    internal static IEnumerable<byte> ParseHex(string line)
     {
         var bytes = new List<byte>();
 
@@ -36,4 +47,10 @@ public static class Day16
 
         return bytes;
     }
+
+    internal static string HexToBinaryString(IEnumerable<byte> bytes) =>
+        string.Join("", bytes.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')).ToArray() );
+
+    internal static int BinaryStringToInt(string binary) =>
+        Convert.ToInt32(binary, 2);
 }
