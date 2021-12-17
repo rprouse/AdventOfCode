@@ -102,6 +102,9 @@ public static class Day16
 
         private int ParseOperatorPacketByNumberOfPackets(string binary, int offset)
         {
+            for (int i = 0; i < LengthOrNumberOfSubPackets; i++)
+                SubPackets.Add(ParsePacket(binary, ref offset));
+
             return offset;
         }
     }

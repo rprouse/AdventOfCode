@@ -64,6 +64,22 @@ public class Day16Tests : TestBase
         packet.SubPackets[1].LiteralValue.Should().Be(20);
     }
 
+    [Test]
+    public void CanParseOperatorPacketByNumberOfSubPackets()
+    {
+        int offset = 0;
+        Day16.Packet packet = Day16.Packet.ParsePacket("11101110000000001101010000001100100000100011000001100000", ref offset);
+        offset.Should().Be(50);
+        packet.Version.Should().Be(7);
+        packet.TypeId.Should().Be(3);
+        packet.LengthTypeId.Should().Be(1);
+        packet.LengthOrNumberOfSubPackets.Should().Be(3);
+        packet.SubPackets.Should().HaveCount(3);
+        packet.SubPackets[0].LiteralValue.Should().Be(1);
+        packet.SubPackets[1].LiteralValue.Should().Be(2);
+        packet.SubPackets[2].LiteralValue.Should().Be(3);
+    }
+
     [TestCaseSource(nameof(ParseHexData))]
     public void CanParseHex(string line, byte[] expected)
     {
