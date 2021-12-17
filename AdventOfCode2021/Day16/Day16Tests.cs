@@ -69,7 +69,7 @@ public class Day16Tests : TestBase
     {
         int offset = 0;
         Day16.Packet packet = Day16.Packet.ParsePacket("11101110000000001101010000001100100000100011000001100000", ref offset);
-        offset.Should().Be(50);
+        offset.Should().Be(51);
         packet.Version.Should().Be(7);
         packet.TypeId.Should().Be(3);
         packet.LengthTypeId.Should().Be(1);
@@ -78,6 +78,19 @@ public class Day16Tests : TestBase
         packet.SubPackets[0].LiteralValue.Should().Be(1);
         packet.SubPackets[1].LiteralValue.Should().Be(2);
         packet.SubPackets[2].LiteralValue.Should().Be(3);
+    }
+
+    [TestCase("8A004A801A8002F478", 16)]
+    [TestCase("620080001611562C8802118E34", 12)]
+    [TestCase("C0015000016115A2E0802F182340", 23)]
+    [TestCase("A0016C880162017C3686B18A3D4780", 31)]
+    public void CanCalculateVersionSumForPackets(string hex, int expected)
+    {
+        var bytes = Day16.ParseHex(hex);
+        var binary = Day16.HexToBinaryString(bytes);
+        int offset = 0;
+        Day16.Packet packet = Day16.Packet.ParsePacket(binary, ref offset);
+        packet.CalculateVersionSum().Should().Be(expected);
     }
 
     [TestCaseSource(nameof(ParseHexData))]

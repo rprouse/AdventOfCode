@@ -32,6 +32,9 @@ public static class Day16
         public int LengthOrNumberOfSubPackets { get; private set; }
         public List<Packet> SubPackets { get; } = new List<Packet>();
 
+        public int CalculateVersionSum() =>
+            Version + SubPackets.Sum(p => p.CalculateVersionSum());
+
         public static Packet ParsePacket(string binary, ref int offset)
         {
             Packet packet = new Packet();
