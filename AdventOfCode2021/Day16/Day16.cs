@@ -14,7 +14,9 @@ public static class Day16
         string line = filename.ReadAll();
         var bytes = ParseHex(line);
         var binary = HexToBinaryString(bytes);
-        return 0;
+        int offset = 0;
+        Day16.Packet packet = Day16.Packet.ParsePacket(binary, ref offset);
+        return packet.CalculateVersionSum();
     }
 
     public static int PartTwo(string filename)

@@ -17,25 +17,13 @@ public class Day16Tests : TestBase
     [Test]
     public void TestPartOne()
     {
-        Day16.PartOne(PuzzleFile(DAY)).Should().Be(0);
+        Day16.PartOne(PuzzleFile(DAY)).Should().Be(901);
     }
 
     [Test]
     public void TestPartTwo()
     {
         Day16.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [TestCase("01", 0, Ignore = "If Needed")]
-    public void TestCasePartOne(string text, int expected)
-    {
-        Day16.PartOne(text).Should().Be(expected);
-    }
-
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartTwo(string text, int expected)
-    {
-        Day16.PartTwo(text).Should().Be(expected);
     }
 
     [Test]
