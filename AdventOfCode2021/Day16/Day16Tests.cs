@@ -39,7 +39,7 @@ public class Day16Tests : TestBase
     }
 
     [Test]
-    public void TestParseLiteralPacket()
+    public void CanParseLiteralPacket()
     {
         int offset = 0;
         Day16.Packet packet = Day16.Packet.ParsePacket("110100101111111000101000", ref offset);
@@ -49,20 +49,35 @@ public class Day16Tests : TestBase
         packet.LiteralValue.Should().Be(2021);
     }
 
+    [Test]
+    public void CanParseOperatorPacketByLength()
+    {
+        int offset = 0;
+        Day16.Packet packet = Day16.Packet.ParsePacket("00111000000000000110111101000101001010010001001000000000", ref offset);
+        offset.Should().Be(49);
+        packet.Version.Should().Be(1);
+        packet.TypeId.Should().Be(6);
+        packet.LengthTypeId.Should().Be(0);
+        packet.LengthOrNumberOfSubPackets.Should().Be(27);
+        packet.SubPackets.Should().HaveCount(2);
+        packet.SubPackets[0].LiteralValue.Should().Be(10);
+        packet.SubPackets[1].LiteralValue.Should().Be(20);
+    }
+
     [TestCaseSource(nameof(ParseHexData))]
-    public void TestParseHex(string line, byte[] expected)
+    public void CanParseHex(string line, byte[] expected)
     {
         Day16.ParseHex(line).Should().BeEquivalentTo(expected);
     }
 
     [TestCaseSource(nameof(HexToBinaryStringData))]
-    public void TestHexToBinaryString(IEnumerable<byte> bytes, string expected)
+    public void CanConvertHexToBinaryString(IEnumerable<byte> bytes, string expected)
     {
         Day16.HexToBinaryString(bytes).Should().Be(expected);
     }
 
     [TestCaseSource(nameof(BinaryStringToIntData))]
-    public void TestBinaryStringToInt(string binary, int expected)
+    public void CanConvertBinaryStringToInt(string binary, int expected)
     {
         Day16.BinaryStringToInt(binary).Should().Be(expected);
     }

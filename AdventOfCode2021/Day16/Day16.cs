@@ -29,7 +29,7 @@ public static class Day16
         public int TypeId { get; private set; }
         public int LiteralValue { get; private set; }
         public int LengthTypeId { get; private set; }
-        public int NumberSubPackets { get; private set; }
+        public int LengthOrNumberOfSubPackets { get; private set; }
         public List<Packet> SubPackets { get; } = new List<Packet>();
 
         public static Packet ParsePacket(string binary, ref int offset)
@@ -48,6 +48,9 @@ public static class Day16
             {
                 case 4:
                     offset = packet.ParseLiteralPacket(binary, offset);
+                    break;
+                default:    // Operator
+                    offset = packet.ParseOperatorPacket(binary, offset);
                     break;
             }
 
@@ -68,6 +71,37 @@ public static class Day16
             LiteralValue = LiteralValue << 4;
             LiteralValue |= BinaryStringToInt(binary.Substring(offset + 1, 4));
             offset += 5;
+            return offset;
+        }
+
+        private int ParseOperatorPacket(string binary, int offset)
+        {
+            // Length Type ID
+            LengthTypeId = BinaryStringToInt(binary.Substring(offset, 1));
+            offset++;
+
+            // Length
+            int len = LengthTypeId == 0 ? 15 : 11;
+            LengthOrNumberOfSubPackets = BinaryStringToInt(binary.Substring(offset, len));
+            offset += len;
+
+            return LengthTypeId == 0 ?
+                ParseOperatorPacketByLength(binary, offset) :
+                ParseOperatorPacketByNumberOfPackets(binary, offset);
+        }
+
+        private int ParseOperatorPacketByLength(string binary, int offset)
+        {
+            int endOffset = offset + LengthOrNumberOfSubPackets;
+            while(offset < endOffset)
+            {
+                SubPackets.Add(ParsePacket(binary, ref offset));
+            }
+            return offset;
+        }
+
+        private int ParseOperatorPacketByNumberOfPackets(string binary, int offset)
+        {
             return offset;
         }
     }
