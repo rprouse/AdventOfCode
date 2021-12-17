@@ -30,7 +30,46 @@ public static class Day16
         public int LiteralValue { get; private set; }
         public int LengthTypeId { get; private set; }
         public int NumberSubPackets { get; private set; }
+        public List<Packet> SubPackets { get; } = new List<Packet>();
 
+        public static Packet ParsePacket(string binary, ref int offset)
+        {
+            Packet packet = new Packet();
+
+            // Version
+            packet.Version = BinaryStringToInt(binary.Substring(offset, 3));
+            offset += 3;
+
+            // TypeId
+            packet.TypeId = BinaryStringToInt(binary.Substring(offset, 3));
+            offset += 3;
+
+            switch(packet.TypeId)
+            {
+                case 4:
+                    offset = packet.ParseLiteralPacket(binary, offset);
+                    break;
+            }
+
+            return packet;
+        }
+
+        private int ParseLiteralPacket(string binary, int offset)
+        {
+            while(binary[offset] == '1')
+            {
+                offset = ParseLiteralPart(binary, offset);
+            }
+            return ParseLiteralPart(binary, offset);
+        }
+
+        private int ParseLiteralPart(string binary, int offset)
+        {
+            LiteralValue = LiteralValue << 4;
+            LiteralValue |= BinaryStringToInt(binary.Substring(offset + 1, 4));
+            offset += 5;
+            return offset;
+        }
     }
 
     internal static IEnumerable<byte> ParseHex(string line)

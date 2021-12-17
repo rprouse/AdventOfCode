@@ -38,6 +38,17 @@ public class Day16Tests : TestBase
         Day16.PartTwo(text).Should().Be(expected);
     }
 
+    [Test]
+    public void TestParseLiteralPacket()
+    {
+        int offset = 0;
+        Day16.Packet packet = Day16.Packet.ParsePacket("110100101111111000101000", ref offset);
+        offset.Should().Be(21);
+        packet.Version.Should().Be(6);
+        packet.TypeId.Should().Be(4);
+        packet.LiteralValue.Should().Be(2021);
+    }
+
     [TestCaseSource(nameof(ParseHexData))]
     public void TestParseHex(string line, byte[] expected)
     {
