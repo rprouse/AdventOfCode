@@ -19,7 +19,7 @@ public static class Day16
         return packet.CalculateVersionSum();
     }
 
-    public static int PartTwo(string filename)
+    public static long PartTwo(string filename)
     {
         string line = filename.ReadAll();
         var bytes = ParseHex(line);
@@ -33,7 +33,7 @@ public static class Day16
     {
         public int Version { get; private set; }
         public int TypeId { get; private set; }
-        public int LiteralValue { get; private set; }
+        public long LiteralValue { get; private set; }
         public int LengthTypeId { get; private set; }
         public int LengthOrNumberOfSubPackets { get; private set; }
         public List<Packet> SubPackets { get; } = new List<Packet>();
@@ -41,7 +41,7 @@ public static class Day16
         public int CalculateVersionSum() =>
             Version + SubPackets.Sum(p => p.CalculateVersionSum());
 
-        public int CalculateValue() =>
+        public long CalculateValue() =>
             TypeId switch
             {
                 0 => Sum(),
@@ -52,21 +52,22 @@ public static class Day16
                 5 => GreaterThan(),
                 6 => LessThan(),
                 7 => EqualTo(),
+                _ => throw new NotImplementedException()
             };
 
-        private int Sum() => SubPackets.Sum(p => p.CalculateValue());
+        private long Sum() => SubPackets.Sum(p => p.CalculateValue());
 
-        private int Product()
+        private long Product()
         {
-            int value = SubPackets[0].CalculateValue();
+            long value = SubPackets[0].CalculateValue();
             for(int i = 1; i < SubPackets.Count; i++)
                 value *= SubPackets[i].CalculateValue();
             return value;
         }
 
-        private int Minimum() => SubPackets.Min(p => p.CalculateValue());
+        private long Minimum() => SubPackets.Min(p => p.CalculateValue());
 
-        private int Maximum() => SubPackets.Max(p => p.CalculateValue());
+        private long Maximum() => SubPackets.Max(p => p.CalculateValue());
 
         private int GreaterThan() =>
             SubPackets[0].CalculateValue() > SubPackets[1].CalculateValue() ? 1 : 0;

@@ -23,7 +23,7 @@ public class Day16Tests : TestBase
     [Test]
     public void TestPartTwo()
     {
-        Day16.PartTwo(PuzzleFile(DAY)).Should().Be(1097039847);
+        Day16.PartTwo(PuzzleFile(DAY)).Should().Be(110434737925);
     }
 
     [TestCase("C200B40A82", 3)] // Sum
@@ -34,7 +34,7 @@ public class Day16Tests : TestBase
     [TestCase("F600BC2D8F", 0)] // Greater Than
     [TestCase("9C005AC2F8F0", 0)] // Equals
     [TestCase("9C0141080250320F1802104A08", 1)] // Complex
-    public void CanCalculateValueOfPacket(string hex, int expected)
+    public void CanCalculateValueOfPacket(string hex, long expected)
     {
         var bytes = Day16.ParseHex(hex);
         var binary = Day16.HexToBinaryString(bytes);
