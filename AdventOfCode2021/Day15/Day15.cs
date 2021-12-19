@@ -20,7 +20,7 @@ public static class Day15
     {
         int[,] map = ParseMap(filename);
         map = MultiplyMapByFive(map);
-        return Dijkstra(map, new Point(0, 0), new Point(map.GetLength(0) - 1, map.GetLength(1) - 1));
+        return UniformCostSearch(map, new Point(0, 0), new Point(map.GetLength(0) - 1, map.GetLength(1) - 1));
     }
 
     internal static int[,] MultiplyMapByFive(int[,] map)
@@ -32,7 +32,7 @@ public static class Day15
         {
             for (int x = 0; x < xLen * 5; x++)
             {
-                int i = x / xLen * 5 + y / yLen * 5;
+                int i = x / xLen + y / yLen;
                 bigMap[x, y] = (map[x%xLen, y%yLen] + i - 1) % 9 + 1;
             }
         }
@@ -52,6 +52,47 @@ public static class Day15
         }
         return map;
     }
+
+    // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Practical_optimizations_and_infinite_graphs
+    internal static int UniformCostSearch(int[,] graph, Point start, Point end)
+    {
+        Node node = new Node { Point = start, Cost = 0 };
+        var frontier = new PriorityQueue<Node, int>();
+        frontier.Enqueue(node, 0);
+        List<Point> explored = new List<Point>();
+
+        while(true)
+        {
+            if (frontier.Count == 0)
+                throw new Exception("Failed to find UCS route");
+
+            node = frontier.Dequeue();
+            if (node.Point == end)
+            {
+                return node.Cost;
+            }
+            explored.Add(node.Point);
+            foreach(var neighbor in Neighbors(node.Point).Where(p => InGraph(p, graph)))
+            {
+                if(!explored.Contains(neighbor))
+                {
+                    var neighborNode = new Node { Point = neighbor, Cost = graph[neighbor.X,neighbor.Y] + node.Cost };
+                    frontier.Enqueue(neighborNode, neighborNode.Cost);
+                }
+            }
+        }
+    }
+
+    public struct Node
+    {
+        public Point Point { get; init; }
+        public int Cost { get; init; }
+    }
+
+    internal static bool InGraph(Point point, int[,] map) =>
+        point.X > 0  && point.Y > 0 &&
+        point.X <= map.GetLength(0) &&
+        point.Y <= map.GetLength(1);
 
     // Returns the shortest distance to the destination
     // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
