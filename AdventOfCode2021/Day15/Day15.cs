@@ -13,7 +13,7 @@ public static class Day15
     public static int PartOne(string filename)
     {
         int[,] map = ParseMap(filename);
-        return 0;
+        return Dijkstra(map, new Point(0,0), new Point(map.GetLength(0)-1, map.GetLength(1)-1));
     }
 
     public static int PartTwo(string filename)
@@ -36,15 +36,17 @@ public static class Day15
         return map;
     }
 
+    // Returns the shortest distance to the destination
+    // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
     internal static int Dijkstra(int[,] graph, Point start, Point end)
     {
         List<Point> queue = new List<Point>();
         Dictionary<Point, int> dist = new Dictionary<Point, int>();
-        Point[,] prev = new Point[graph.GetLength(0), graph.GetLength(1)];
+        Dictionary<Point, Point> prev = new Dictionary<Point, Point>();
 
         for (int y = 0; y < graph.GetLength(1); y++)
         {
-            for(int x = 0; x <= graph.GetLength(0); x++)
+            for(int x = 0; x < graph.GetLength(0); x++)
             {
                 Point p = new Point(x, y);
                 dist[p] = int.MaxValue;
@@ -60,10 +62,30 @@ public static class Day15
 
             queue.Remove(u);
 
+            // If u is the target, return the distance to it
+            if(u == end)
+                return dist[prev[u]] + graph[end.X, end.Y];
+
             // foreach neighbor still in queue
+            foreach(Point v in Neighbors(u).Where(p => queue.Contains(p)))
+            {
+                var alt = dist[u] + graph[v.X, v.Y];
+                if(alt < dist[v])
+                {
+                    dist[v] = alt;
+                    prev[v] = u;
+                }
+            }
 
         }
-
         return 0;
+    }
+
+    internal static IEnumerable<Point> Neighbors(Point p)
+    {
+        yield return new Point(p.X+1, p.Y);
+        yield return new Point(p.X-1, p.Y);
+        yield return new Point(p.X, p.Y-1);
+        yield return new Point(p.X, p.Y+1);
     }
 }
