@@ -12,17 +12,19 @@ public class Day17Tests : TestBase
 {
     const int DAY = 17;
 
-    [TestCase("target area: x=269..292, y=-68..-44", 0)]
-    [TestCase("target area: x=269..292, y=-68..-44", 0)]
-    public void TestCasePartOne(string targetArea, int expected)
+    [TestCase(20, 30, -10, -5, 45)]
+    [TestCase(269, 292, -68, -44, 528)]
+    public void TestCasePartOne(int x1, int x2, int y1, int y2, int expected)
     {
+        var targetArea = new Day17.TargetArea(x1, x2, y1, y2);
         Day17.PartOne(targetArea).Should().Be(expected);
     }
 
-    [TestCase("target area: x=269..292, y=-68..-44", 0)]
-    [TestCase("target area: x=269..292, y=-68..-44", 0)]
-    public void TestCasePartTwo(string targetArea, int expected)
+    [TestCase(20, 30, -10, -5, 45)]
+    [TestCase(269, 292, -68, -44, 0)]
+    public void TestCasePartTwo(int x1, int x2, int y1, int y2, int expected)
     {
+        var targetArea = new Day17.TargetArea(x1, x2, y1, y2);
         Day17.PartTwo(targetArea).Should().Be(expected);
     }
 }
