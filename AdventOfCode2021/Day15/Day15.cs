@@ -13,13 +13,30 @@ public static class Day15
     public static int PartOne(string filename)
     {
         int[,] map = ParseMap(filename);
-        return Dijkstra(map, new Point(0,0), new Point(map.GetLength(0)-1, map.GetLength(1)-1));
+        return Dijkstra(map, new Point(0, 0), new Point(map.GetLength(0) - 1, map.GetLength(1) - 1));
     }
 
     public static int PartTwo(string filename)
     {
         int[,] map = ParseMap(filename);
-        return 0;
+        map = MultiplyMapByFive(map);
+        return Dijkstra(map, new Point(0, 0), new Point(map.GetLength(0) - 1, map.GetLength(1) - 1));
+    }
+
+    internal static int[,] MultiplyMapByFive(int[,] map)
+    {
+        int xLen = map.GetLength(0);
+        int yLen = map.GetLength(1);
+        int[,] bigMap = new int[xLen * 5, yLen * 5];
+        for (int y = 0; y < yLen * 5; y++)
+        {
+            for (int x = 0; x < xLen * 5; x++)
+            {
+                int i = x / xLen * 5 + y / yLen * 5;
+                bigMap[x, y] = (map[x%xLen, y%yLen] + i - 1) % 9 + 1;
+            }
+        }
+        return bigMap;
     }
 
     internal static int[,] ParseMap(string filename)
@@ -46,7 +63,7 @@ public static class Day15
 
         for (int y = 0; y < graph.GetLength(1); y++)
         {
-            for(int x = 0; x < graph.GetLength(0); x++)
+            for (int x = 0; x < graph.GetLength(0); x++)
             {
                 Point p = new Point(x, y);
                 dist[p] = int.MaxValue;
@@ -55,7 +72,7 @@ public static class Day15
         }
         dist[start] = 0;
 
-        while(queue.Count > 0)
+        while (queue.Count > 0)
         {
             int min = queue.Min(p => dist[p]);
             Point u = queue.First(p => dist[p] == min);
@@ -63,14 +80,14 @@ public static class Day15
             queue.Remove(u);
 
             // If u is the target, return the distance to it
-            if(u == end)
+            if (u == end)
                 return dist[prev[u]] + graph[end.X, end.Y];
 
             // foreach neighbor still in queue
-            foreach(Point v in Neighbors(u).Where(p => queue.Contains(p)))
+            foreach (Point v in Neighbors(u).Where(p => queue.Contains(p)))
             {
                 var alt = dist[u] + graph[v.X, v.Y];
-                if(alt < dist[v])
+                if (alt < dist[v])
                 {
                     dist[v] = alt;
                     prev[v] = u;
@@ -83,9 +100,9 @@ public static class Day15
 
     internal static IEnumerable<Point> Neighbors(Point p)
     {
-        yield return new Point(p.X+1, p.Y);
-        yield return new Point(p.X-1, p.Y);
-        yield return new Point(p.X, p.Y-1);
-        yield return new Point(p.X, p.Y+1);
+        yield return new Point(p.X + 1, p.Y);
+        yield return new Point(p.X - 1, p.Y);
+        yield return new Point(p.X, p.Y - 1);
+        yield return new Point(p.X, p.Y + 1);
     }
 }
