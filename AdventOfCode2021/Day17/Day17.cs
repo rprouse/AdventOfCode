@@ -1,9 +1,5 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using AdventOfCode.Core;
 using System.Drawing;
 
 namespace AdventOfCode2021;
@@ -32,8 +28,7 @@ public static class Day17
         int maxY = 0;
         foreach (int x in possibleX)
         {
-            int y = x / 2;
-            while (true)
+            for(int y = x / 2; y <= Math.Abs(targetArea.TargetMin.Y); y++)
             {
                 int localMaxY = 0;
                 bool hitTarget = false;
@@ -52,12 +47,8 @@ public static class Day17
                 }
                 while (probe.LessThanTargetArea(targetArea));
 
-                if (!hitTarget)
-                    break;
-
-                if (localMaxY > maxY)
+                if (hitTarget && localMaxY > maxY)
                     maxY = localMaxY;
-                y++;
             }
         }
         return maxY;
@@ -65,7 +56,28 @@ public static class Day17
 
     public static int PartTwo(TargetArea targetArea)
     {
-        return 0;
+        int hits = 0;
+        // Possible X values are all positive and don't overshoot
+        for(int x = 1; x <= targetArea.TargetMax.X; x++)
+        {
+            // Possible Y values
+            for(int y = targetArea.TargetMin.Y; y <= Math.Abs(targetArea.TargetMin.Y); y++)
+            {
+                var probe = new Probe(x, y);
+                do
+                {
+                    probe.Step();
+
+                    if (probe.InTargetArea(targetArea))
+                    {
+                        hits++;
+                        break;
+                    }
+                }
+                while (probe.LessThanTargetArea(targetArea));
+            }
+        }
+        return hits;
     }
 
     public class Probe
