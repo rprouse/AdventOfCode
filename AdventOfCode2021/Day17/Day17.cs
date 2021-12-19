@@ -99,12 +99,12 @@ public static class Day17
 
         public bool LessThanTargetArea(TargetArea area) =>
             X <= area.TargetMax.X &&
-            Y >= area.TargetMax.Y;
+            Y >= area.TargetMin.Y;
 
         public bool InTargetArea(TargetArea area) =>
             LessThanTargetArea(area) &&
             X >= area.TargetMin.X &&
-            Y <= area.TargetMin.Y;
+            Y <= area.TargetMax.Y;
     }
 
     public class TargetArea
