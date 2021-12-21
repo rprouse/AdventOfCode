@@ -1,11 +1,13 @@
 using System;
 using System.Threading.Tasks;
 using AdventOfCode.Core;
+using AdventOfCode2021;
 using NUnit.Framework;
 
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 
-//Day24.PartTwo(TestBase.TestFile(24), true);
+int result = Day15.PartTwo(TestBase.PuzzleFile(15));
+Console.WriteLine(result);
 
 Console.ResetColor();
 Console.ReadLine();

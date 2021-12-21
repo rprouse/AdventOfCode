@@ -20,6 +20,7 @@ public static class Day15
     {
         int[,] map = ParseMap(filename);
         map = MultiplyMapByFive(map);
+        //return Dijkstra(map, new Point(0, 0), new Point(map.GetLength(0) - 1, map.GetLength(1) - 1));
         return UniformCostSearch(map, new Point(0, 0), new Point(map.GetLength(0) - 1, map.GetLength(1) - 1));
     }
 
@@ -56,10 +57,12 @@ public static class Day15
     // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Practical_optimizations_and_infinite_graphs
     internal static int UniformCostSearch(int[,] graph, Point start, Point end)
     {
+        int width = graph.GetLength(0);
+        int height = graph.GetLength(1);
         Node node = new Node { Point = start, Cost = 0 };
         var frontier = new PriorityQueue<Node, int>();
         frontier.Enqueue(node, 0);
-        List<Point> explored = new List<Point>();
+        bool[,] explored = new bool[graph.GetLength(0), graph.GetLength(1)];
 
         while(true)
         {
@@ -71,10 +74,10 @@ public static class Day15
             {
                 return node.Cost;
             }
-            explored.Add(node.Point);
-            foreach(var neighbor in Neighbors(node.Point).Where(p => InGraph(p, graph)))
+            explored[node.Point.X, node.Point.Y] = true;
+            foreach(var neighbor in Neighbors(node.Point, width, height))
             {
-                if(!explored.Contains(neighbor))
+                if(!explored[neighbor.X, neighbor.Y])
                 {
                     var neighborNode = new Node { Point = neighbor, Cost = graph[neighbor.X,neighbor.Y] + node.Cost };
                     frontier.Enqueue(neighborNode, neighborNode.Cost);
@@ -90,14 +93,17 @@ public static class Day15
     }
 
     internal static bool InGraph(Point point, int[,] map) =>
-        point.X > 0  && point.Y > 0 &&
-        point.X <= map.GetLength(0) &&
-        point.Y <= map.GetLength(1);
+        point.X >= 0 && 
+        point.Y >= 0 &&
+        point.X < map.GetLength(0) &&
+        point.Y < map.GetLength(1);
 
     // Returns the shortest distance to the destination
     // https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
     internal static int Dijkstra(int[,] graph, Point start, Point end)
     {
+        int width = graph.GetLength(0);
+        int height = graph.GetLength(1);
         List<Point> queue = new List<Point>();
         Dictionary<Point, int> dist = new Dictionary<Point, int>();
         Dictionary<Point, Point> prev = new Dictionary<Point, Point>();
@@ -125,7 +131,7 @@ public static class Day15
                 return dist[prev[u]] + graph[end.X, end.Y];
 
             // foreach neighbor still in queue
-            foreach (Point v in Neighbors(u).Where(p => queue.Contains(p)))
+            foreach (Point v in Neighbors(u, width, height).Where(p => queue.Contains(p)))
             {
                 var alt = dist[u] + graph[v.X, v.Y];
                 if (alt < dist[v])
@@ -134,16 +140,15 @@ public static class Day15
                     prev[v] = u;
                 }
             }
-
         }
         return 0;
     }
 
-    internal static IEnumerable<Point> Neighbors(Point p)
+    internal static IEnumerable<Point> Neighbors(Point p, int width, int height)
     {
-        yield return new Point(p.X + 1, p.Y);
-        yield return new Point(p.X - 1, p.Y);
-        yield return new Point(p.X, p.Y - 1);
-        yield return new Point(p.X, p.Y + 1);
+        if (p.X < width ) yield return new Point(p.X + 1, p.Y);
+        if (p.X > 0 ) yield return new Point(p.X - 1, p.Y);
+        if (p.Y > 0 )yield return new Point(p.X, p.Y - 1);
+        if (p.Y < height ) yield return new Point(p.X, p.Y + 1);
     }
 }
