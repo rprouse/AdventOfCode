@@ -34,9 +34,8 @@ public static class Day21
         }
     }
 
-    public static int PartTwo(string filename)
+    public static int PartTwo(int p1, int p2)
     {
-        string[] lines = filename.ReadAllLines();
         return 0;
     }
 }
