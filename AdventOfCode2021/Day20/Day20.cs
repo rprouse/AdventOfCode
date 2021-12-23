@@ -18,7 +18,7 @@ public static class Day20
             .Select(line => line.Select(c => c == '#' ? 1 : 0).ToArray())
             .ToArray();
 
-        //ViewImage(image);
+        ViewImage(image);
 
         for (int i = 0; i < passes; i++)
         {
@@ -64,7 +64,7 @@ public static class Day20
                 }
             }
             image = newImage;
-            //ViewImage(image);
+            ViewImage(image);
         }
 
         return image.Sum(l => l.Count(c => c == 1));
@@ -80,6 +80,7 @@ public static class Day20
             }
             Console.WriteLine();
         }
+        Console.WriteLine();
     }
 
     public static int PartTwo(string filename)
