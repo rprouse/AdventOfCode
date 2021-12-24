@@ -9,11 +9,11 @@ namespace AdventOfCode2021;
 
 public static class Day20
 {
-    public static int PartOne(string filename, int passes)
-    {
+    public static int Enhance(string filename, int passes)
+    { 
         (bool[] algorithm, HashSet<(int x, int y)> image) = ParseInput(filename);
 
-        ViewImage(image);
+        //ViewImage(image);
         for (int i = 0; i < passes / 2; i++)
         {
             image = Enhance(image, algorithm, true);
@@ -21,6 +21,7 @@ public static class Day20
             image = Enhance(image, algorithm, false);
             //ViewImage(image);
         }
+        //ViewImage(image);
 
         return image.Count;
     }
@@ -119,11 +120,5 @@ public static class Day20
             }
         }
         return (enhance, set);
-    }
-
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        return 0;
     }
 }

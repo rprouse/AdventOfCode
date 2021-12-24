@@ -15,13 +15,13 @@ public class Day20Tests : TestBase
     [TestCaseSource(nameof(TestDataOne))]
     public void TestPartOne(string filename, int expected)
     {
-        Day20.PartOne(filename, 2).Should().Be(expected);
+        Day20.Enhance(filename, 2).Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataTwo))]
     public void TestPartTwo(string filename, int expected)
     {
-        Day20.PartTwo(filename).Should().Be(expected);
+        Day20.Enhance(filename, 50).Should().Be(expected);
     }
 
     public static IEnumerable TestDataOne()
@@ -32,7 +32,7 @@ public class Day20Tests : TestBase
 
     public static IEnumerable TestDataTwo()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 3351);
+        yield return new TestCaseData(PuzzleFile(DAY), 16757);
     }
 }
