@@ -57,6 +57,33 @@ public static class Day25
                             }
                             break;
                         case 'v':
+                            next[y][x] = 'v';
+                            break;
+                    }
+                }
+            }
+            swap = cucumbers;
+            cucumbers = next;
+            next = swap;
+            next[0] = new char[cucumbers[0].Length];
+
+            for (int y = 0; y < cucumbers.Length; y++)
+            {
+                if (y < cucumbers.Length - 1)
+                    next[y + 1] = new char[cucumbers[y + 1].Length];
+
+                for (int x = 0; x < cucumbers[y].Length; x++)
+                {
+                    switch (cucumbers[y][x])
+                    {
+                        case '.':
+                            if (next[y][x] == '\0')
+                                next[y][x] = '.';
+                            break;
+                        case '>':
+                            next[y][x] = '>';
+                            break;
+                        case 'v':
                             if (y == cucumbers.Length - 1 && cucumbers[0][x] == '.')
                             {
                                 moved = true;
@@ -71,7 +98,7 @@ public static class Day25
                             }
                             else
                             {
-                                next[y][x] = '>';
+                                next[y][x] = 'v';
                             }
                             break;
                     }
@@ -82,15 +109,15 @@ public static class Day25
             next = swap;
             if (moved) moves++;
 
-            if (moves <= 5 || moves % 10 == 0 || moves >= 55)
-            {
-                Console.WriteLine($"Moves: {moves}");
-                Display(cucumbers);
-            }
-            if (moves == 60)
-                break;
+            //if (moves <= 5 || moves % 10 == 0 || moves >= 55)
+            //{
+            //    Console.WriteLine($"Moves: {moves}");
+            //    Display(cucumbers);
+            //}
+            //if (moves == 60)
+            //    break;
         }
-        return moves;
+        return moves + 1;
     }
 
     static void Display(char[][] cucumbers)
