@@ -16,9 +16,9 @@ public class Day21Tests : TestBase
         Day21.PartOne(p1, p2).Should().Be(expected);
     }
 
-    [TestCase(4, 8, 0)]
+    [TestCase(4, 8, 444356092776315)]
     [TestCase(6, 9, 0)]
-    public void TestCasePartTwo(int p1, int p2, int expected)
+    public void TestCasePartTwo(int p1, int p2, long expected)
     {
         Day21.PartTwo(p1, p2).Should().Be(expected);
     }
