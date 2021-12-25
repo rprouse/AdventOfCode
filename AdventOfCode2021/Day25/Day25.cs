@@ -1,7 +1,4 @@
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -108,14 +105,6 @@ public static class Day25
             cucumbers = next;
             next = swap;
             if (moved) moves++;
-
-            //if (moves <= 5 || moves % 10 == 0 || moves >= 55)
-            //{
-            //    Console.WriteLine($"Moves: {moves}");
-            //    Display(cucumbers);
-            //}
-            //if (moves == 60)
-            //    break;
         }
         return moves + 1;
     }
@@ -131,11 +120,5 @@ public static class Day25
             Console.WriteLine();
         }
         Console.WriteLine();
-    }
-
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        return 0;
     }
 }

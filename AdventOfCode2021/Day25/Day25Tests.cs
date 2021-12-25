@@ -16,21 +16,9 @@ public class Day25Tests : TestBase
         Day25.PartOne(filename).Should().Be(expected);
     }
 
-    [TestCaseSource(nameof(TestDataTwo))]
-    public void TestPartTwo(string filename, int expected)
-    {
-        Day25.PartTwo(filename).Should().Be(expected);
-    }
-
     public static IEnumerable TestDataOne()
     {
         yield return new TestCaseData(TestFile(DAY), 58);
         yield return new TestCaseData(PuzzleFile(DAY), 308);
-    }
-
-    public static IEnumerable TestDataTwo()
-    {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
     }
 }
