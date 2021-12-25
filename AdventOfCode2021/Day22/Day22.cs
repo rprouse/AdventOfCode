@@ -9,86 +9,78 @@ namespace AdventOfCode2021;
 
 public static class Day22
 {
-    public static int PartOne(string filename)
+    public static long PartOne(string filename, bool reduce)
     {
-        string[] lines = filename.ReadAllLines();
-        var reactor = new HashSet<(int x, int y, int z)>();
-        foreach(var line in lines)
+        var steps = filename.ReadAllLines()
+            .Select(line => new RebootStep(line, reduce))
+            .ToArray();
+
+        var reactor = new HashSet<long>();
+        foreach (var step in steps)
         {
-            if(line.StartsWith("on"))
+            for (int z = step.Z1; z <= step.Z2; z++)
             {
-                (int x1, int x2, int y1, int y2, int z1, int z2) =
-                    Parse(line.Substring(3));
-
-                (x1, x2, y1, y2, z1, z2) = 
-                    ReduceTo(x1, x2, y1, y2, z1, z2, -50, 50);
-
-                for (int z = z1; z <= z2; z++)
+                for (int y = step.Y1; y <= step.Y2; y++)
                 {
-                    for (int y = y1; y <= y2; y++)
+                    for (int x = step.X1; x <= step.X2; x++)
                     {
-                        for (int x = x1; x <= x2; x++)
+                        long index = x + y << 24 + z << 48;
+                        if (step.On)
                         {
-                            if(!reactor.Contains((x, y, z)))
-                                reactor.Add((x, y, z));
+                            reactor.Add(index);
                         }
-                    }
-                }
-            }
-            else
-            {
-                (int x1, int x2, int y1, int y2, int z1, int z2) =
-                    Parse(line.Substring(4));
-
-                (x1, x2, y1, y2, z1, z2) =
-                    ReduceTo(x1, x2, y1, y2, z1, z2, -50, 50);
-
-                for (int z = z1; z <= z2; z++)
-                {
-                    for (int y = y1; y <= y2; y++)
-                    {
-                        for (int x = x1; x <= x2; x++)
+                        else
                         {
-                            if (reactor.Contains((x, y, z)))
-                                reactor.Remove((x, y, z));
+                            reactor.Remove(index);
+
                         }
                     }
                 }
             }
         }
-        return reactor.Count;
+        return reactor.LongCount();
     }
 
-    static (int x1, int x2, int y1, int y2, int z1, int z2) ReduceTo(int x1, int x2, int y1, int y2, int z1, int z2, int min, int max)
+    public class RebootStep
     {
-        x1 = Math.Max(x1, min);
-        y1 = Math.Max(y1, min);
-        z1 = Math.Max(z1, min);
-        x2 = Math.Min(x2, max);
-        y2 = Math.Min(y2, max);
-        z2 = Math.Min(z2, max);
-        return (x1, x2, y1, y2, z1, z2);
-    }
+        public bool On { get; set; }
+        public int X1 { get; set; }
+        public int X2 { get; set; }
+        public int Y1 { get; set; }
+        public int Y2 { get; set; }
+        public int Z1 { get; set; }
+        public int Z2 { get; set; }
 
-    static (int x1, int x2, int y1, int y2, int z1, int z2) Parse(string line)
-    {
-        string[] parts = line.Split(',');
-        (int x1, int x2) = ParsePart(parts[0]);
-        (int y1, int y2) = ParsePart(parts[1]);
-        (int z1, int z2) = ParsePart(parts[2]);
-        return (x1, x2, y1, y2, z1, z2);
-    }
+        public RebootStep(string step, bool reduce)
+        {
+            On = step.StartsWith("on");
+            Parse(step.Substring(On ? 3 : 4));
+            if (reduce) Reduce();
+        }
 
-    static (int i1, int i2) ParsePart(string part)
-    {
-        part = part.Substring(2);
-        string[] parts = part.Split("..");
-        return (parts[0].ToInt(), parts[1].ToInt());
-    }
+        void Reduce()
+        {
+            X1 = Math.Max(X1, -50);
+            Y1 = Math.Max(Y1, -50);
+            Z1 = Math.Max(Z1, -50);
+            X2 = Math.Min(X2, 50);
+            Y2 = Math.Min(Y2, 50);
+            Z2 = Math.Min(Z2, 50);
+        }
 
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        void Parse(string line)
+        {
+            string[] parts = line.Split(',');
+            (X1, X2) = ParsePart(parts[0]);
+            (Y1, Y2) = ParsePart(parts[1]);
+            (Z1, Z2) = ParsePart(parts[2]);
+        }
+
+        static (int i1, int i2) ParsePart(string part)
+        {
+            part = part.Substring(2);
+            string[] parts = part.Split("..");
+            return (parts[0].ToInt(), parts[1].ToInt());
+        }
     }
 }
