@@ -36,27 +36,43 @@ public static class Day21
 
     public static long PartTwo(int p1, int p2)
     {
+        var outcomes = new Dictionary<int, long>();
+
+        for (int x = 1; x <= 3; x++)
+        {
+            for (int y = 1; y <= 3; y++)
+            {
+                for (int z = 1; z <= 3; z++)
+                {
+                    int outcome = x + y + z;
+                    if (outcomes.ContainsKey(outcome))
+                        outcomes[outcome]++;
+                    else
+                        outcomes[outcome] = 1;
+                }
+            }
+        }
+
         long wins1 = 0;
         long wins2 = 0;
-        QuantumRoll(0, 0, p1, p2, ref wins1, ref wins2);
+        QuantumRoll(0, 0, p1, p2, ref wins1, ref wins2, 1);
         return Math.Max(wins1, wins2);
+
+        void QuantumRoll(int score1, int score2, int player1, int player2, ref long wins1, ref long wins2, long universes)
+        {
+            foreach (var kvp in outcomes)
+            {
+                int p1 = Move(player1, kvp.Key);
+                int s1 = score1 + p1;
+
+                if (s1 < 21)
+                    QuantumRoll(score2, s1, player2, p1, ref wins2, ref wins1, kvp.Value * universes);
+                else
+                    wins2 += universes * kvp.Value;
+            }
+        }
     }
 
-    static void QuantumRoll(int score1, int score2, int player1, int player2, ref long wins1, ref long wins2)
-    {
-        if (score2 >= 21)
-        {
-            wins2++;
-            return;
-        }
-        int p1 = (player1 + 1 - 1) % 10 + 1;
-        int s1 = score1 + p1;
-        QuantumRoll(score2, s1, player2, p1, ref wins2, ref wins1);
-        int p2 = (player1 + 2 - 1) % 10 + 1;
-        int s2 = score1 + p2;
-        QuantumRoll(score2, s2, player2, p2, ref wins2, ref wins1);
-        int p3 = (player1 + 3 - 1) % 10 + 1;
-        int s3 = score1 + p3;
-        QuantumRoll(score2, s3, player2, p3, ref wins2, ref wins1);
-    }
+    static int Move(int position, int spaces) =>
+        (position + spaces - 1) % 10 + 1;
 }
