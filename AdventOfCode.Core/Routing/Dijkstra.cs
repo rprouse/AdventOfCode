@@ -20,41 +20,30 @@ namespace AdventOfCode.Core.Routing
 
         public int ShortestDistance(Point start, Point end)
         {
-            List<Point> queue = new List<Point>();
-            Dictionary<Point, int> dist = new Dictionary<Point, int>();
-            Dictionary<Point, Point> prev = new Dictionary<Point, Point>();
+            var queue = new PriorityQueue<Point, int>();
+            var dist = new Dictionary<Point, int>();
+            var prev = new Dictionary<Point, Point>();
 
-            for (int y = 0; y < _graph.GetLength(1); y++)
-            {
-                for (int x = 0; x < _graph.GetLength(0); x++)
-                {
-                    Point p = new Point(x, y);
-                    dist[p] = int.MaxValue;
-                    queue.Add(p);
-                }
-            }
+            queue.Enqueue(start, 0);
             dist[start] = 0;
 
             while (queue.Count > 0)
             {
-                // TODO: This is inefficient, use a priority queue?
-                int min = queue.Min(p => dist[p]);
-                Point u = queue.First(p => dist[p] == min);
-
-                queue.Remove(u);
+                Point u = queue.Dequeue();
 
                 // If u is the target, return the distance to it
                 if (u == end)
                     return dist[prev[u]] + _graph[end.X, end.Y];
 
                 // foreach neighbor still in queue
-                foreach (Point v in u.Neighbors(_width, _height).Where(p => queue.Contains(p)))
+                foreach (Point v in u.Neighbors(_width, _height))
                 {
                     var alt = dist[u] + _graph[v.X, v.Y];
-                    if (alt < dist[v])
+                    if (!dist.ContainsKey(v) || alt < dist[v])
                     {
                         dist[v] = alt;
                         prev[v] = u;
+                        queue.Enqueue(v, alt);
                     }
                 }
             }
