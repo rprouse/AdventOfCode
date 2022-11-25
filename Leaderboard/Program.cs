@@ -11,7 +11,7 @@ namespace Leaderboard
     {
         static void Main(string[] args)
         {
-            int year = 2020;
+            int year = 2022;
             if (args.Length > 1)
                 year = args[0].ToInt(year);
 
@@ -39,7 +39,7 @@ namespace Leaderboard
             foreach(var member in leaders.members.Values.OrderByDescending(m => m.local_score).ThenByDescending(m => m.stars))
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("{0,3}) {1,3}  ", place++, member.local_score);
+                Console.Write($"{place++,3}) {member.local_score,4}  ");
 
                 for(int d = 1; d <= 25; d++)
                 {

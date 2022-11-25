@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Leaderboard
 {
@@ -6,7 +6,7 @@ namespace Leaderboard
     {
         public string year { get; set; }
 
-        public string owner_id { get; set; }
+        public int owner_id { get; set; }
 
         public Dictionary<string, Member> members { get; set; }
     }
