@@ -34,6 +34,24 @@ public class Ingredient
 
 public static class Day15
 {
+    const int TOTAL = 100;
+
+    static IEnumerable<int[]> Combinations2()
+    {
+        for (int a = 1; a <= TOTAL - 1; a++)
+            for (int b = 1; b <= TOTAL - 1; b++)
+                if (a + b == TOTAL) yield return new[] { a, b };
+    }
+
+    static IEnumerable<int[]> Combinations4()
+    {
+        for (int a = 3; a <= TOTAL - 3; a++)
+            for (int b = 3; b <= TOTAL - 3; b++)
+                for (int c = 3; c <= TOTAL - 3; c++)
+                    for (int d = 3; d <= TOTAL - 3; d++)
+                        if (a + b + c + d == TOTAL) yield return new[] { a, b, c, d };
+    }
+
     // Any with a zero
     public static int PartOne(string filename)
     {
@@ -42,15 +60,18 @@ public static class Day15
             .Select(l => new Ingredient(l))
             .ToArray();
         int max = 0;
-        for(int i1 = 0; i1 <= 100; i1++)
+        var range = Enumerable.Range(0, ingredients.Length).ToArray();
+        var combinations = ingredients.Length == 2 ? Combinations2() : Combinations4();
+        foreach (var i in combinations)
         {
-            int i2 = 100 - i1;
-            int cap = ingredients[0].Capacity * i1 + ingredients[1].Capacity * i2;
-            int dur = ingredients[0].Durability * i1 + ingredients[1].Durability * i2;
-            int flv = ingredients[0].Flavor * i1 + ingredients[1].Flavor * i2;
-            int tex = ingredients[0].Texture * i1 + ingredients[1].Texture * i2;
-            if (cap <= 0 || dur <= 0 || flv <= 0 || tex <= 0)
-                continue;
+            int cap = range.Sum(n => ingredients[n].Capacity * i[n]);
+            if (cap <= 0) continue;
+            int dur = range.Sum(n => ingredients[n].Durability * i[n]);
+            if (dur <= 0) continue;
+            int flv = range.Sum(n => ingredients[n].Flavor * i[n]);
+            if (flv <= 0) continue;
+            int tex = range.Sum(n => ingredients[n].Texture * i[n]);
+            if (tex <= 0) continue;
 
             int score = cap * dur * flv * tex;
             if (score > max) max = score;
