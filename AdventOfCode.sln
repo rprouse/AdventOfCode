@@ -28,7 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Leaderboard", "Leaderboard\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2021", "AdventOfCode2021\AdventOfCode2021.csproj", "{A6627C62-7169-434F-99ED-838311DEE079}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode.Core.Tests", "AdventOfCode.Core.Tests\AdventOfCode.Core.Tests.csproj", "{24E56EBD-D8CB-4560-BEF9-AA0528DAD26C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode.Core.Tests", "AdventOfCode.Core.Tests\AdventOfCode.Core.Tests.csproj", "{24E56EBD-D8CB-4560-BEF9-AA0528DAD26C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2022", "AdventOfCode2022\AdventOfCode2022.csproj", "{454CE6C1-DAB6-48A9-A6E8-F7D6CD7CE038}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +82,10 @@ Global
 		{24E56EBD-D8CB-4560-BEF9-AA0528DAD26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24E56EBD-D8CB-4560-BEF9-AA0528DAD26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24E56EBD-D8CB-4560-BEF9-AA0528DAD26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{454CE6C1-DAB6-48A9-A6E8-F7D6CD7CE038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{454CE6C1-DAB6-48A9-A6E8-F7D6CD7CE038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{454CE6C1-DAB6-48A9-A6E8-F7D6CD7CE038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{454CE6C1-DAB6-48A9-A6E8-F7D6CD7CE038}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
