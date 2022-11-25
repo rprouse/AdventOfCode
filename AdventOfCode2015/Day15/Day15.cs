@@ -85,6 +85,25 @@ public static class Day15
             .ReadAllLines()
             .Select(l => new Ingredient(l))
             .ToArray();
-        return 0;
+        int max = 0;
+        var range = Enumerable.Range(0, ingredients.Length).ToArray();
+        var combinations = ingredients.Length == 2 ? Combinations2() : Combinations4();
+        foreach (var i in combinations)
+        {
+            int cap = range.Sum(n => ingredients[n].Capacity * i[n]);
+            if (cap <= 0) continue;
+            int dur = range.Sum(n => ingredients[n].Durability * i[n]);
+            if (dur <= 0) continue;
+            int flv = range.Sum(n => ingredients[n].Flavor * i[n]);
+            if (flv <= 0) continue;
+            int tex = range.Sum(n => ingredients[n].Texture * i[n]);
+            if (tex <= 0) continue;
+            int cal = range.Sum(n => ingredients[n].Calories * i[n]);
+            if (cal != 500) continue;
+
+            int score = cap * dur * flv * tex;
+            if (score > max) max = score;
+        }
+        return max;
     }
 }
