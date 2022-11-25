@@ -11,16 +11,17 @@ public class Day15Tests : TestBase
 {
     const int DAY = 15;
 
-    [Test]
-    public void TestPartOne()
+    [TestCase("Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8", "Butterscotch", -1, -2, 6, 3, 8)]
+    [TestCase("Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3", "Cinnamon", 2, 3, -2, -1, 3)]
+    public void CanParseIngredient(string line, string name, int cap, int dur, int flv, int txt, int cal)
     {
-        Day15.PartOne(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [Test]
-    public void TestPartTwo()
-    {
-        Day15.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+        var ingredient = new Ingredient(line);
+        ingredient.Name.Should().Be(name);
+        ingredient.Capacity.Should().Be(cap);
+        ingredient.Durability.Should().Be(dur);
+        ingredient.Flavor.Should().Be(flv);
+        ingredient.Texture.Should().Be(txt);
+        ingredient.Calories.Should().Be(cal);
     }
 
     [TestCaseSource(nameof(TestDataOne))]
@@ -37,7 +38,7 @@ public class Day15Tests : TestBase
 
     public static IEnumerable TestDataOne()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 62842880);
         yield return new TestCaseData(PuzzleFile(DAY), 0);
     }
 
