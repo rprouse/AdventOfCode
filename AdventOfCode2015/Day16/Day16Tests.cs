@@ -20,6 +20,6 @@ public class Day16Tests : TestBase
     [Test]
     public void TestPartTwo()
     {
-        Day16.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+        Day16.PartTwo(PuzzleFile(DAY)).Should().Be(405);
     }
 }
