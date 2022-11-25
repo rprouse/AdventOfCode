@@ -23,11 +23,10 @@ namespace Leaderboard
             var tokenFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".aoc");
             var token = File.ReadAllText(tokenFile).Trim();
 
-            var client = new RestClient($"https://adventofcode.com/{year}/leaderboard/private/view/{board}.json");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
+            var client = new RestClient("https://adventofcode.com");
+            var request = new RestRequest($"/{year}/leaderboard/private/view/{board}.json");
             request.AddHeader("Cookie", $"session={token}");
-            IRestResponse response = client.Execute(request);
+            RestResponse response = client.Get(request);
 
             //Console.WriteLine(response.Content);
             var leaders = JsonSerializer.Deserialize<Leaderboard>(response.Content);
