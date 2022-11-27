@@ -11,32 +11,16 @@ public static class Day19
 {
     public static int PartOne(string filename)
     {
-        string[] lines = filename
-            .ReadAllLines()
-            .Select(s => s.SimplifyInput())
-            .ToArray();
-
-        string start = lines[lines.Length - 1];
-        var substitutions = new Dictionary<char, List<string>>();
-        foreach (var line in lines) 
-        {
-            if (line == start) break;
-            char c = line[0];
-            string sub = line.Substring(5);
-            if (!substitutions.ContainsKey(c))
-                substitutions.Add(c, new List<string>());
-
-            substitutions[c].Add(sub);
-        }
+        (var molecule, var substitutions) = ParseInput(filename);
 
         var molecules = new List<string>();
-        for (int i = 0; i < start.Length; i++) 
+        for (int i = 0; i < molecule.Length; i++) 
         {
-            if (!substitutions.ContainsKey(start[i])) continue;
+            if (!substitutions.ContainsKey(molecule[i])) continue;
 
-            var firstPart = start.Substring(0, i);
-            var lastPart = start.Substring(i + 1);
-            foreach(var sub in substitutions[start[i]])
+            var firstPart = molecule.Substring(0, i);
+            var lastPart = molecule.Substring(i + 1);
+            foreach(var sub in substitutions[molecule[i]])
             {
                 molecules.Add(firstPart + sub + lastPart);
             }
@@ -46,8 +30,31 @@ public static class Day19
 
     public static int PartTwo(string filename)
     {
-        string[] lines = filename.ReadAllLines();
+        (var molecule, var substitutions) = ParseInput(filename);
+
         return 0;
+    }
+
+    static (string molecule, Dictionary<char, List<string>> substitutions) ParseInput(string filename)
+    {
+        string[] lines = filename
+            .ReadAllLines()
+            .Select(s => s.SimplifyInput())
+            .ToArray();
+
+        string molecule = lines[lines.Length - 1];
+        var substitutions = new Dictionary<char, List<string>>();
+        foreach (var line in lines)
+        {
+            if (line == molecule) break;
+            char c = line[0];
+            string sub = line.Substring(5);
+            if (!substitutions.ContainsKey(c))
+                substitutions.Add(c, new List<string>());
+
+            substitutions[c].Add(sub);
+        }
+        return (molecule, substitutions);
     }
 
     // Reduce the molecules to one letter
