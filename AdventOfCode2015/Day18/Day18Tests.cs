@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2015;
 
@@ -46,7 +44,7 @@ public class Day18Tests : TestBase
 
     public static IEnumerable TestDataTwo()
     {
-        yield return new TestCaseData(TestFile(DAY), 5, 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 100, 0);
+        yield return new TestCaseData(TestFile(DAY), 5, 17);
+        yield return new TestCaseData(PuzzleFile(DAY), 100, 924);
     }
 }

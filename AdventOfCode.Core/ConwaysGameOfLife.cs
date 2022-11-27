@@ -4,7 +4,7 @@ namespace AdventOfCode.Core;
 
 public class ConwaysGameOfLife
 {
-    bool[,] _board;
+    protected bool[,] _board;
 
     public ConwaysGameOfLife(string filename, char onChar = '#')
     {
