@@ -19,6 +19,7 @@ public static class Day17
         int[] containers = filename.GetInts().Order().ToArray();
         var subsetSum = new SubSetSum();
         var combinations = subsetSum.FindAllSubsets(containers, target);
-        return 0;
+        int min = combinations.Min(c => c.Length);
+        return combinations.Count(c => c.Length == min);
     }
 }
