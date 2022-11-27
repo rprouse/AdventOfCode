@@ -2,4 +2,4 @@ H => HO
 H => OH
 O => HH
 
-HOH
+HOHOHO
