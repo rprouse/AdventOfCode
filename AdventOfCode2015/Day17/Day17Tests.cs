@@ -12,21 +12,15 @@ public class Day17Tests : TestBase
     const int DAY = 17;
 
     [Test]
-    public void TestPartOne()
-    {
-        Day17.PartOne(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [Test]
     public void TestPartTwo()
     {
         Day17.PartTwo(PuzzleFile(DAY)).Should().Be(0);
     }
 
     [TestCaseSource(nameof(TestDataOne))]
-    public void TestPartOne(string filename, int expected)
+    public void TestPartOne(string filename, int target, int expected)
     {
-        Day17.PartOne(filename).Should().Be(expected);
+        Day17.PartOne(filename, target).Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataTwo))]
@@ -37,8 +31,8 @@ public class Day17Tests : TestBase
 
     public static IEnumerable TestDataOne()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 25, 4);
+        yield return new TestCaseData(PuzzleFile(DAY), 150, 0);
     }
 
     public static IEnumerable TestDataTwo()
