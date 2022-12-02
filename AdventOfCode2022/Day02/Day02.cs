@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
+using NUnit.Framework.Constraints;
 
 namespace AdventOfCode2022;
 
@@ -11,16 +12,15 @@ public static class Day02
 {
     public static int PartOne(string filename) =>
         filename.ReadAllLines()
-            .Select(l => l.Score())
+            .Select(l => l.ScorePartOne())
             .Sum();
 
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        return 0;
-    }
+    public static int PartTwo(string filename) =>
+        filename.ReadAllLines()
+            .Select(l => l.ScorePartTwo())
+            .Sum();
 
-    internal static int Score(this string line)
+    internal static int ScorePartOne(this string line)
     {
         // A - Rock
         // B - Paper
@@ -41,6 +41,47 @@ public static class Day02
 
         // Loss
         return p2.ChoiceScore();
+    }
+
+    internal static int ScorePartTwo(this string line)
+    {
+        // A - Rock / Lose
+        // B - Paper / Draw
+        // C - Scissors / Win
+        line = line.Convert();
+        char p1 = line[0];
+        char p2 = line[2];
+
+        switch (p2)
+        {
+            case 'A': // Loss
+                switch(p1)
+                {
+                    case 'A':
+                        return 'C'.ChoiceScore();
+                    case 'B':
+                        return 'A'.ChoiceScore();
+                    case 'C':
+                    default:
+                        return 'B'.ChoiceScore();
+                }
+
+            case 'B': // Tie
+                return p1.ChoiceScore() + 3;
+
+            case 'C': // Win
+            default:
+                switch (p1)
+                {
+                    case 'A':
+                        return 'B'.ChoiceScore() + 6;
+                    case 'B':
+                        return 'C'.ChoiceScore() + 6;
+                    case 'C':
+                    default:
+                        return 'A'.ChoiceScore() + 6;
+                }
+        }
     }
 
     internal static int ChoiceScore(this char c) =>
