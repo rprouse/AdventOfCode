@@ -1,10 +1,7 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
-using NUnit.Framework.Constraints;
 
 namespace AdventOfCode2022;
 
@@ -20,23 +17,30 @@ public static class Day02
             .Select(l => l.ScorePartTwo())
             .Sum();
 
+    static Dictionary<char, char> _wins = new Dictionary<char, char>
+    {
+        { 'A', 'C' }, { 'B', 'A' }, { 'C', 'B' }
+    };
+
+    internal static (char p1, char p2) ParseLine(this string line)
+    {
+        line = line.Convert();
+        return (line[0], line[2]);
+    }
+
     internal static int ScorePartOne(this string line)
     {
         // A - Rock
         // B - Paper
         // C - Scissors
-        line = line.Convert();
-        char p1 = line[0];
-        char p2 = line[2];
+        (char p1, char p2) = line.ParseLine();
 
         // Tie
         if (p1 == p2)
             return p2.ChoiceScore() + 3;
 
         // Win
-        if ((p2 == 'A' && p1 == 'C') ||
-            (p2 == 'B' && p1 == 'A') ||
-            (p2 == 'C' && p1 == 'B'))
+        if (_wins[p2] == p1)
             return p2.ChoiceScore() + 6;
 
         // Loss
@@ -45,43 +49,22 @@ public static class Day02
 
     internal static int ScorePartTwo(this string line)
     {
-        // A - Rock / Lose
-        // B - Paper / Draw
-        // C - Scissors / Win
-        line = line.Convert();
-        char p1 = line[0];
-        char p2 = line[2];
+        // A - Lose
+        // B - Draw
+        // C - Win
+        (char p1, char p2) = line.ParseLine();
 
-        switch (p2)
+        return p2 switch
         {
-            case 'A': // Loss
-                switch(p1)
-                {
-                    case 'A':
-                        return 'C'.ChoiceScore();
-                    case 'B':
-                        return 'A'.ChoiceScore();
-                    case 'C':
-                    default:
-                        return 'B'.ChoiceScore();
-                }
-
-            case 'B': // Tie
-                return p1.ChoiceScore() + 3;
-
-            case 'C': // Win
-            default:
-                switch (p1)
-                {
-                    case 'A':
-                        return 'B'.ChoiceScore() + 6;
-                    case 'B':
-                        return 'C'.ChoiceScore() + 6;
-                    case 'C':
-                    default:
-                        return 'A'.ChoiceScore() + 6;
-                }
-        }
+            'A' => _wins[p1].ChoiceScore(), // Lose
+            'B' => p1.ChoiceScore() + 3,    // Tie
+            'C' => _wins                    // Win
+                    .Where(p => p.Value == p1)
+                    .Select(p => p.Key)
+                    .First()
+                    .ChoiceScore() + 6,
+            _ => throw new NotSupportedException($"{line} unrecognized")
+        }; ;
     }
 
     internal static int ChoiceScore(this char c) =>

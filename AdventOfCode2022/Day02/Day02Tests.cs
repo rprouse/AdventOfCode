@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2022;
 
@@ -17,7 +15,7 @@ public class Day02Tests : TestBase
     [TestCase('C', 3)]
     public void CanScoreChoice(char choice, int expected)
     {
-        Day02.ChoiceScore(choice).Should().Be(expected);
+        choice.ChoiceScore().Should().Be(expected);
     }
 
     [TestCase("A Y", 8)]
@@ -25,7 +23,7 @@ public class Day02Tests : TestBase
     [TestCase("C Z", 6)]
     public void CanScorePartOne(string text, int expected)
     {
-        Day02.ScorePartOne(text).Should().Be(expected);
+        text.ScorePartOne().Should().Be(expected);
     }
 
     [TestCase("A Y", 4)]
@@ -33,7 +31,7 @@ public class Day02Tests : TestBase
     [TestCase("C Z", 7)]
     public void CanScorePartTwo(string text, int expected)
     {
-        Day02.ScorePartTwo(text).Should().Be(expected);
+        text.ScorePartTwo().Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataOne))]
