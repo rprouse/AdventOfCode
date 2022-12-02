@@ -32,27 +32,28 @@ public static class Day19
     {
         (var target, var substitutions) = ParseInput(filename);
 
-        // Add the e => substitutions
-        substitutions['e'] = substitutions.Keys.Select(c => c.ToString()).ToList();
-        int count = 0;
-        string molecule = "e";
-        var molecules = new List<string> { "e" };
-        while (true)
-        {
-            count++;
-            for (int i = 0; i < molecule.Length; i++)
-            {
-                if (!substitutions.ContainsKey(molecule[i])) continue;
+        //// Add the e => substitutions
+        //substitutions['e'] = substitutions.Keys.Select(c => c.ToString()).ToList();
+        //int count = 0;
+        //string molecule = "e";
+        //var molecules = new List<string> { "e" };
+        //while (true)
+        //{
+        //    count++;
+        //    for (int i = 0; i < molecule.Length; i++)
+        //    {
+        //        if (!substitutions.ContainsKey(molecule[i])) continue;
 
-                var firstPart = molecule.Substring(0, i);
-                var lastPart = molecule.Substring(i + 1);
-                foreach (var sub in substitutions[molecule[i]])
-                {
-                    molecules.Add(firstPart + sub + lastPart);
-                }
-            }
-        }
-        return count;
+        //        var firstPart = molecule.Substring(0, i);
+        //        var lastPart = molecule.Substring(i + 1);
+        //        foreach (var sub in substitutions[molecule[i]])
+        //        {
+        //            molecules.Add(firstPart + sub + lastPart);
+        //        }
+        //    }
+        //}
+        //return count;
+        return 0;
     }
 
     static (string molecule, Dictionary<char, List<string>> substitutions) ParseInput(string filename)
