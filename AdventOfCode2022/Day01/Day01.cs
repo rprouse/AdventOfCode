@@ -11,10 +11,25 @@ public static class Day01
 {
     public static int PartOne(string filename)
     {
+        var calories = CountCalories(filename);
+        return calories.Max();
+    }
+
+    public static int PartTwo(string filename)
+    {
+        var calories = CountCalories(filename)
+            .OrderByDescending(i => i)
+            .Take(3)
+            .Sum();
+        return calories;
+    }
+
+    private static List<int> CountCalories(string filename)
+    {
         string[] lines = filename.ReadAllLinesIncludingBlank();
         var calories = new List<int>();
         int count = 0;
-        foreach ( string line in lines )
+        foreach (string line in lines)
         {
             if (string.IsNullOrWhiteSpace(line))
             {
@@ -25,12 +40,6 @@ public static class Day01
             count += line.ToInt();
         }
         calories.Add(count);
-        return calories.Max();
-    }
-
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLinesIncludingBlank();
-        return 0;
+        return calories;
     }
 }
