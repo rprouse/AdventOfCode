@@ -17,6 +17,7 @@ public static class Day02
             .Select(l => l.ScorePartTwo())
             .Sum();
 
+    // A - Rock, B - Paper, C - Scissors
     static Dictionary<char, char> _wins = new Dictionary<char, char>
     {
         { 'A', 'C' }, { 'B', 'A' }, { 'C', 'B' }
@@ -30,12 +31,9 @@ public static class Day02
 
     internal static int ScorePartOne(this string line)
     {
-        // A - Rock
-        // B - Paper
-        // C - Scissors
         (char p1, char p2) = line.ParseLine();
 
-        // Tie
+        // Draw
         if (p1 == p2)
             return p2.ChoiceScore() + 3;
 
@@ -49,16 +47,13 @@ public static class Day02
 
     internal static int ScorePartTwo(this string line)
     {
-        // A - Lose
-        // B - Draw
-        // C - Win
         (char p1, char p2) = line.ParseLine();
 
         return p2 switch
         {
-            'A' => _wins[p1].ChoiceScore(), // Lose
-            'B' => p1.ChoiceScore() + 3,    // Tie
-            'C' => _wins                    // Win
+            'A' => _wins[p1].ChoiceScore(), // A - I Lose
+            'B' => p1.ChoiceScore() + 3,    // B - I Draw
+            'C' => _wins                    // C - I Win
                     .Where(p => p.Value == p1)
                     .Select(p => p.Key)
                     .First()
