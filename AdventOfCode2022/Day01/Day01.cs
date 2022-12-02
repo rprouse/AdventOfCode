@@ -11,13 +11,26 @@ public static class Day01
 {
     public static int PartOne(string filename)
     {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        string[] lines = filename.ReadAllLinesIncludingBlank();
+        var calories = new List<int>();
+        int count = 0;
+        foreach ( string line in lines )
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                calories.Add(count);
+                count = 0;
+                continue;
+            }
+            count += line.ToInt();
+        }
+        calories.Add(count);
+        return calories.Max();
     }
 
     public static int PartTwo(string filename)
     {
-        string[] lines = filename.ReadAllLines();
+        string[] lines = filename.ReadAllLinesIncludingBlank();
         return 0;
     }
 }
