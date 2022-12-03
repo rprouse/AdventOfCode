@@ -24,16 +24,24 @@ public class Day03Tests : TestBase
         Day03.PartTwo(PuzzleFile(DAY)).Should().Be(0);
     }
 
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartOne(string text, int expected)
+    [TestCase('p', 16)]
+    [TestCase('L', 38)]
+    [TestCase('P', 42)]
+    [TestCase('v', 22)]
+    public void TestPriority(char c, int expected)
     {
-        Day03.PartOne(text).Should().Be(expected);
+        c.Priority().Should().Be(expected);
     }
 
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartTwo(string text, int expected)
+    [TestCase("vJrwpWtwJgWrhcsFMMfFFhFp", 'p')]
+    [TestCase("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", 'L')]
+    [TestCase("PmmdzqPrVvPwwTWBwg", 'P')]
+    [TestCase("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn", 'v')]
+    [TestCase("ttgJtRGJQctTZtZT", 't')]
+    [TestCase("CrZsJsPPZsGzwwsLwLmpwMDw", 's')]
+    public void TestCommonLetter(string text, char expected)
     {
-        Day03.PartTwo(text).Should().Be(expected);
+        text.Common().Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataOne))]
@@ -50,8 +58,8 @@ public class Day03Tests : TestBase
 
     public static IEnumerable TestDataOne()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 157);
+        yield return new TestCaseData(PuzzleFile(DAY), 7908);
     }
 
     public static IEnumerable TestDataTwo()
