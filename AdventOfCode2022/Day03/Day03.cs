@@ -1,7 +1,3 @@
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -17,7 +13,20 @@ public static class Day03
     public static int PartTwo(string filename)
     {
         string[] lines = filename.ReadAllLines();
-        return 0;
+        int sum = 0;
+        for (int i = 0; i < lines.Length; i += 3)
+        {
+            foreach (char c in lines[i])
+            {
+                if (lines[i + 1].Any(d => d == c) &&
+                    lines[i + 2].Any(d => d == c))
+                {
+                    sum += c.Priority();
+                    break;
+                }
+            }
+        }
+        return sum;
     }
 
     internal static int Priority(this char c) =>
@@ -28,7 +37,7 @@ public static class Day03
         int len = line.Length;
         char[] a = line.Substring(0, len / 2).ToCharArray();
         char[] b = line.Substring(len / 2).ToCharArray();
-        foreach(char c in a )
+        foreach (char c in a)
         {
             if (b.Any(d => d == c))
                 return c;
