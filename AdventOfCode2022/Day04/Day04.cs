@@ -33,12 +33,28 @@ public static class Day04
     public static int PartTwo(string filename)
     {
         string[] lines = filename.ReadAllLines();
-        return 0;
+        int count = 0;
+        foreach (string line in lines)
+        {
+            var parts = line.Split(',');
+            var r1 = GetRange(parts[0]);
+            var r2 = GetRange(parts[1]);
+            if (r1.Overlaps(r2) || r2.Overlaps(r1))
+                count++;
+        }
+        return count;
     }
 
     internal record Range(int Min, int Max)
     {
         public bool Contains(Range r2) =>
             Min <= r2.Min && Max >= r2.Max;
+
+        public bool Overlaps(Range r2)
+        {
+            if (Min >= r2.Min && Min <= r2.Max) return true;
+            if (Max >= r2.Min && Max <= r2.Max) return true;
+            return false;
+        }
     }
 }
