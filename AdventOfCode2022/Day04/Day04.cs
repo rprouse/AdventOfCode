@@ -1,60 +1,30 @@
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
 namespace AdventOfCode2022;
 
-public static class Day04
+public static partial class Day04
 {
-    public static int PartOne(string filename)
+    public static int PartOne(string filename) =>
+        CalculateDifferences(filename, (r1, r2) =>
+            r1.Contains(r2) || r2.Contains(r1));
+
+    public static int PartTwo(string filename) =>
+        CalculateDifferences(filename, (r1, r2) => 
+            r1.Overlaps(r2) || r2.Overlaps(r1));
+
+    internal static int CalculateDifferences(string filename, Func<Range, Range, bool> comparer)
     {
-        string[] lines = filename.ReadAllLines();
-        int count = 0;
-        foreach (string line in lines)
-        {
-            var parts = line.Split(',');
-            var r1 = GetRange(parts[0]);
-            var r2 = GetRange(parts[1]);
-            if (r1.Contains(r2) || r2.Contains(r1))
-                count++;
-        }
-        return count;
+        return filename
+            .ReadAllLines()
+            .Select(ParseLine)
+            .Count(ranges => comparer(ranges.r1, ranges.r2));
     }
 
-    static Range GetRange(string str)
+    internal static (Range r1, Range r2) ParseLine(string line)
     {
-        var parts = str.Split('-');
-        return new Range(parts[0].ToInt(), parts[1].ToInt());
-    }
-
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        int count = 0;
-        foreach (string line in lines)
-        {
-            var parts = line.Split(',');
-            var r1 = GetRange(parts[0]);
-            var r2 = GetRange(parts[1]);
-            if (r1.Overlaps(r2) || r2.Overlaps(r1))
-                count++;
-        }
-        return count;
-    }
-
-    internal record Range(int Min, int Max)
-    {
-        public bool Contains(Range r2) =>
-            Min <= r2.Min && Max >= r2.Max;
-
-        public bool Overlaps(Range r2)
-        {
-            if (Min >= r2.Min && Min <= r2.Max) return true;
-            if (Max >= r2.Min && Max <= r2.Max) return true;
-            return false;
-        }
+        var parts = line.Split(',');
+        return (Range.GetRange(parts[0]), Range.GetRange(parts[1]));
     }
 }
