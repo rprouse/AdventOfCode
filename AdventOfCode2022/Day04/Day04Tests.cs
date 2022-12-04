@@ -50,8 +50,8 @@ public class Day04Tests : TestBase
 
     public static IEnumerable TestDataOne()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 2);
+        yield return new TestCaseData(PuzzleFile(DAY), 431);
     }
 
     public static IEnumerable TestDataTwo()
