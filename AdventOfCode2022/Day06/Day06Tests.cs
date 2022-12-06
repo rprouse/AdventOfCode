@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.IO;
 using AdventOfCode.Core;
-using NUnit.Framework;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace AdventOfCode2022;
 
@@ -31,7 +28,7 @@ public class Day06Tests : TestBase
     [TestCase("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 11)]
     public void TestCasePartOne(string text, int expected)
     {
-        Day06.FindStartPacket(text).Should().Be(expected);
+        Day06.FindFirstPacket(text, Day06.StartPacketSize).Should().Be(expected);
     }
 
     [TestCase("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 19)]
@@ -41,6 +38,6 @@ public class Day06Tests : TestBase
     [TestCase("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 26)]
     public void TestCasePartTwo(string text, int expected)
     {
-        Day06.FindMessagePacket(text).Should().Be(expected);
+        Day06.FindFirstPacket(text, Day06.MessagePacketSize).Should().Be(expected);
     }
 }
