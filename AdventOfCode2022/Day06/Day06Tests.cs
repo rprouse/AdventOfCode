@@ -21,7 +21,7 @@ public class Day06Tests : TestBase
     [Test]
     public void TestPartTwo()
     {
-        Day06.PartTwo(PuzzleFile(DAY)).Should().Be(0);
+        Day06.PartTwo(PuzzleFile(DAY)).Should().Be(3263);
     }
 
     [TestCase("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 7)]
@@ -34,21 +34,13 @@ public class Day06Tests : TestBase
         Day06.FindStartPacket(text).Should().Be(expected);
     }
 
-    [TestCase("", 0, Ignore = "If Needed")]
+    [TestCase("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 19)]
+    [TestCase("bvwbjplbgvbhsrlpgdmjqwftvncz", 23)]
+    [TestCase("nppdvjthqldpwncqszvftbrmjlhg", 23)]
+    [TestCase("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 29)]
+    [TestCase("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 26)]
     public void TestCasePartTwo(string text, int expected)
     {
-        Day06.PartTwo(text).Should().Be(expected);
-    }
-
-    [TestCaseSource(nameof(TestDataTwo))]
-    public void TestPartTwo(string filename, int expected)
-    {
-        Day06.PartTwo(filename).Should().Be(expected);
-    }
-
-    public static IEnumerable TestDataTwo()
-    {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        Day06.FindMessagePacket(text).Should().Be(expected);
     }
 }

@@ -29,9 +29,28 @@ public static class Day06
         return -1;
     }
 
-    public static int PartTwo(string filename)
+    public static int PartTwo(string filename) =>
+        FindMessagePacket(filename.ReadFirstLine());
+
+    internal static int FindMessagePacket(string text)
     {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        int i = 14;
+        for (; i < text.Length; i++)
+        {
+            bool match = false;
+            for (int a = i - 13; a < i; a++)
+            {
+                for (int b = a + 1; b <= i; b++)
+                {
+                    if (text[a] == text[b])
+                    {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+            if (!match) return i + 1;
+        }
+        return -1;
     }
 }
