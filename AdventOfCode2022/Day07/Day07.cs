@@ -9,16 +9,19 @@ namespace AdventOfCode2022;
 
 public static class Day07
 {
-    public static int PartOne(string filename)
+    public static long PartOne(string filename)
     {
         Directory root = PlaybackCommands(filename);
-        return 0;
+        return root.DirectoriesSmallerThan(100000).Sum(d => d.Size());
     }
 
-    public static int PartTwo(string filename)
+    public static long PartTwo(string filename)
     {
-        string[] lines = filename.ReadAllLines();
-        return 0;
+        Directory root = PlaybackCommands(filename);
+        var free = 70000000 - root.Size();
+        var needed = 30000000 - free;
+        var possible = root.DirectoriesLargerThan(needed);
+        return possible.Min(d => d.Size());
     }
 
     private static Directory PlaybackCommands(string filename)
@@ -85,13 +88,40 @@ internal class Directory
     public IList<Directory> Directories { get; } = new List<Directory>();
     public IList<File> Files { get; } = new List<File>();
 
-    public long Size() =>
-        Files.Sum(f => f.Size) + Directories.Sum(d => d.Size());
-
-    public IEnumerable<long> SizeOfDirectoriesLargerThan(long size)
+    long _cachedSize = -1;
+    public long Size()
     {
-        yield return 0;
+        if (_cachedSize < 0)
+            _cachedSize = Files.Sum(f => f.Size) + Directories.Sum(d => d.Size());
+
+        return _cachedSize;
     }
+
+    public IEnumerable<Directory> DirectoriesSmallerThan(long size)
+    {
+        foreach (var dir in Directories)
+        {
+            if (dir.Size() <= size) yield return dir;
+            foreach (var subdir in dir.DirectoriesSmallerThan(size))
+            {
+                yield return subdir;
+            }
+        }
+    }
+
+    public IEnumerable<Directory> DirectoriesLargerThan(long size)
+    {
+        foreach (var dir in Directories)
+        {
+            if (dir.Size() >= size) yield return dir;
+            foreach (var subdir in dir.DirectoriesLargerThan(size))
+            {
+                yield return subdir;
+            }
+        }
+    }
+
+    public override string ToString() => $"{Name}: {Size()}";
 }
 
 internal record File(string Name, long Size);
