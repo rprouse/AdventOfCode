@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace AdventOfCode.Core
 {

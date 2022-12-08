@@ -12,30 +12,6 @@ public class Day08Tests : TestBase
 {
     const int DAY = 08;
 
-    [Test]
-    public void TestPartOne()
-    {
-        Day08.PartOne(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [Test]
-    public void TestPartTwo()
-    {
-        Day08.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartOne(string text, int expected)
-    {
-        Day08.PartOne(text).Should().Be(expected);
-    }
-
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartTwo(string text, int expected)
-    {
-        Day08.PartTwo(text).Should().Be(expected);
-    }
-
     [TestCaseSource(nameof(TestDataOne))]
     public void TestPartOne(string filename, int expected)
     {
@@ -50,8 +26,8 @@ public class Day08Tests : TestBase
 
     public static IEnumerable TestDataOne()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 21);
+        yield return new TestCaseData(PuzzleFile(DAY), 1794);
     }
 
     public static IEnumerable TestDataTwo()
