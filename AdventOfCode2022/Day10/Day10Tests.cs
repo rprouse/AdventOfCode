@@ -19,7 +19,7 @@ public class Day10Tests : TestBase
     }
 
     [TestCaseSource(nameof(TestDataTwo))]
-    public void TestPartTwo(string filename, int expected)
+    public void TestPartTwo(string filename, string expected)
     {
         Day10.PartTwo(filename).Should().Be(expected);
     }
@@ -32,7 +32,9 @@ public class Day10Tests : TestBase
 
     public static IEnumerable TestDataTwo()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY),
+            "##..##..##..##..##..##..##..##..##..##..\r\n###...###..####..####...###...###..####.\r\n####...#####...#####....####....####....\r\n#####.....#####.....#####.....#####.....\r\n######......######......######......####\r\n#######.......#######.......#######.....\r\n");
+        yield return new TestCaseData(PuzzleFile(DAY),
+            "####.########..###.####..####.####.####.\r\n#.......#.#..#.#..#.#..#.#.......#.#....\r\n###....#.####..#..#.###.####....#.####..\r\n#.....#...#..#.###..#..#.#.....#...#....\r\n#....#....#..#.#....#..#.#....#....#....\r\n#....####.###..#...####..#....####.#....\r\n");
     }
 }
