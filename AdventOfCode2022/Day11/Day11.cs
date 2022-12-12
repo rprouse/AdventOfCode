@@ -1,22 +1,20 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
-using System.Linq.Expressions;
 
 namespace AdventOfCode2022;
 
 public static class Day11
 {
-    public static int PartOne(string filename)
+    public static ulong CalculateMonkeyBusiness(string filename, int rounds, bool divideByThree)
     {
         Monkey[] monkeys = ParseMonkeys(filename).ToArray();
-        for (int round = 0; round < 20; round++)
+        uint leastCommonMultiple = LeastCommonMultiple(monkeys.Select(m => m.Divisible));
+        for (int round = 0; round < rounds; round++)
         {
             foreach (var monkey in monkeys)
-                monkey.ProcessRound(monkeys);
+                monkey.ProcessRound(monkeys, divideByThree, leastCommonMultiple);
         }
         var mostActive = monkeys
             .OrderByDescending(m => m.Inspected)
@@ -27,12 +25,6 @@ public static class Day11
         return mostActive[0] * mostActive[1];
     }
 
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        return 0;
-    }
-
     public static IEnumerable<Monkey> ParseMonkeys(string filename)
     {
         string[] lines = filename.ReadAllLines();
@@ -41,9 +33,9 @@ public static class Day11
             var monkey = new Monkey
             {
                 Number = lines[i++].Substring(7, 1).ToInt(),
-                Items = new Queue<int>(lines[i++].Substring(18).Split(", ").Select(s => s.ToInt())), // Reverse?
+                Items = new Queue<ulong>(lines[i++].Substring(18).Split(", ").Select(s => (ulong)s.ToInt())),
                 OperationStr = lines[i++].Substring(23),
-                Divisible = lines[i++].Substring(21).ToInt(),
+                Divisible = (uint)lines[i++].Substring(21).ToInt(),
                 TruePass = lines[i++].Substring(29).ToInt(),
                 FalsePass = lines[i++].Substring(30).ToInt()
             };
@@ -52,13 +44,39 @@ public static class Day11
             if (monkey.OperationStr == "* old")
                 monkey.Operation = (i) => i * i;
             else if (monkey.OperationStr[0] == '*')
-                monkey.Operation = (i) => i * monkey.OperationStr.Substring(2).ToInt();
+            {
+                monkey.Operand = (uint)monkey.OperationStr.Substring(2).ToInt();
+                monkey.Operation = (i) => i * monkey.Operand;
+            }
             else if (monkey.OperationStr[0] == '+')
-                monkey.Operation = (i) => i + monkey.OperationStr.Substring(2).ToInt();
+            {
+                monkey.Operand = (uint)monkey.OperationStr.Substring(2).ToInt();
+                monkey.Operation = (i) => i + monkey.Operand;
+            }
             else
                 throw new InvalidOperationException($"Invalid operation {monkey.OperationStr}");
 
             yield return monkey;
+        }
+    }
+
+    public static uint LeastCommonMultiple(IEnumerable<uint> values)
+    {
+        uint[] sorted = values.OrderByDescending(v => v).ToArray();
+        uint multiple = 1;
+        while (true)
+        {
+            uint canditate = sorted[0] * multiple++;
+            bool allMultiples = true;
+            for (int i = 1; i < sorted.Length; i++)
+            {
+                if (canditate % sorted[i] != 0)
+                {
+                    allMultiples = false;
+                    break;
+                }
+            }
+            if (allMultiples) return canditate;
         }
     }
 }
@@ -67,9 +85,9 @@ public class Monkey
 {
     public int Number { get; set; }
 
-    public Queue<int> Items { get; set; }
+    public Queue<ulong> Items { get; set; }
 
-    public int Divisible { get; set; }
+    public uint Divisible { get; set; }
 
     public int TruePass { get; set; }
 
@@ -77,16 +95,23 @@ public class Monkey
 
     public string OperationStr { get; set; }
 
-    public Func<int, int> Operation { get; set; }
+    public uint Operand { get; set; }
 
-    public int Inspected { get; set; }
+    public Func<ulong, ulong> Operation { get; set; }
 
-    public void ProcessRound(Monkey[] monkeys)
+    public ulong Inspected { get; set; }
+
+    public void ProcessRound(Monkey[] monkeys, bool divideByThree, uint leastCommonMultiple)
     {
-        while (Items.TryDequeue(out int worry))
+        while (Items.TryDequeue(out ulong worry))
         {
             Inspected++;
-            worry = Operation(worry) / 3;
+            worry = Operation(worry);
+            if (divideByThree)
+                worry /= 3;
+            else 
+                worry = worry % leastCommonMultiple;
+
             if (worry % Divisible == 0)
                 monkeys[TruePass].Items.Enqueue(worry);
             else
