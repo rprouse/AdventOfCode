@@ -10,7 +10,7 @@ public static class Day11
     public static ulong CalculateMonkeyBusiness(string filename, int rounds, bool divideByThree)
     {
         Monkey[] monkeys = ParseMonkeys(filename).ToArray();
-        uint leastCommonMultiple = LeastCommonMultiple(monkeys.Select(m => m.Divisible));
+        ulong leastCommonMultiple = AocMath.LeastCommonMultiple(monkeys.Select(m => m.Divisible));
         for (int round = 0; round < rounds; round++)
         {
             foreach (var monkey in monkeys)
@@ -59,26 +59,6 @@ public static class Day11
             yield return monkey;
         }
     }
-
-    public static uint LeastCommonMultiple(IEnumerable<uint> values)
-    {
-        uint[] sorted = values.OrderByDescending(v => v).ToArray();
-        uint multiple = 1;
-        while (true)
-        {
-            uint canditate = sorted[0] * multiple++;
-            bool allMultiples = true;
-            for (int i = 1; i < sorted.Length; i++)
-            {
-                if (canditate % sorted[i] != 0)
-                {
-                    allMultiples = false;
-                    break;
-                }
-            }
-            if (allMultiples) return canditate;
-        }
-    }
 }
 
 public class Monkey
@@ -101,7 +81,7 @@ public class Monkey
 
     public ulong Inspected { get; set; }
 
-    public void ProcessRound(Monkey[] monkeys, bool divideByThree, uint leastCommonMultiple)
+    public void ProcessRound(Monkey[] monkeys, bool divideByThree, ulong leastCommonMultiple)
     {
         while (Items.TryDequeue(out ulong worry))
         {

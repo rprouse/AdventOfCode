@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -15,10 +15,10 @@ namespace AdventOfCode2019
             return moons.Sum(m => m.TotalEnergy);
         }
 
-        public static long PartTwo(Moon[] moons)
+        public static ulong PartTwo(Moon[] moons)
         {
             // Find the X period
-            int x = 1;
+            uint x = 1;
             do
             {
                 moons[0].AdjustVelocityX(moons[1]);
@@ -45,7 +45,7 @@ namespace AdventOfCode2019
             while (moons.Any(m => !m.IsInitialX));
             
             // Find the Y period
-            int y = 1;
+            uint y = 1;
             do
             {
                 moons[0].AdjustVelocityY(moons[1]);
@@ -72,7 +72,7 @@ namespace AdventOfCode2019
             while (moons.Any(m => !m.IsInitialY));
 
             // Find the Z period
-            int z = 1;
+            uint z = 1;
             do
             {
                 moons[0].AdjustVelocityZ(moons[1]);
@@ -98,22 +98,7 @@ namespace AdventOfCode2019
             }
             while (moons.Any(m => !m.IsInitialZ));
 
-            return LeastCommonMultiple(x, LeastCommonMultiple(y, z));
-        }
-        static long GreatestCommonFactor(long a, long b)
-        {
-            while (b != 0)
-            {
-                long temp = b;
-                b = a % b;
-                a = temp;
-            }
-            return a;
-        }
-
-        static long LeastCommonMultiple(long a, long b)
-        {
-            return (a * b / GreatestCommonFactor(a, b));
+            return AocMath.LeastCommonMultiple(x, AocMath.LeastCommonMultiple(y, z));
         }
 
         private static void MoveMoons(Moon[] moons)
