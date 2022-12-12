@@ -50,7 +50,7 @@ public class Day12Tests : TestBase
 
     public static IEnumerable TestDataOne()
     {
-        yield return new TestCaseData(TestFile(DAY), 0);
+        yield return new TestCaseData(TestFile(DAY), 31);
         yield return new TestCaseData(PuzzleFile(DAY), 0);
     }
 
