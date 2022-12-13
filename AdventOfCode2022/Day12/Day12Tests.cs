@@ -12,30 +12,6 @@ public class Day12Tests : TestBase
 {
     const int DAY = 12;
 
-    [Test]
-    public void TestPartOne()
-    {
-        Day12.PartOne(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [Test]
-    public void TestPartTwo()
-    {
-        Day12.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-    }
-
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartOne(string text, int expected)
-    {
-        Day12.PartOne(text).Should().Be(expected);
-    }
-
-    [TestCase("", 0, Ignore = "If Needed")]
-    public void TestCasePartTwo(string text, int expected)
-    {
-        Day12.PartTwo(text).Should().Be(expected);
-    }
-
     [TestCaseSource(nameof(TestDataOne))]
     public void TestPartOne(string filename, int expected)
     {

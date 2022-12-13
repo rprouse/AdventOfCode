@@ -6,6 +6,7 @@ using System.Linq;
 using AdventOfCode.Core;
 using System.Drawing;
 using AdventOfCode.Core.Routing;
+using NUnit.Framework;
 
 namespace AdventOfCode2022;
 
@@ -93,11 +94,23 @@ public class HeightMap
                 if (!dist.ContainsKey(v) || alt < dist[v])
                 {
                     dist[v] = alt;
-                    prev[v] = u; // This is wrong marking the previous point with the dist. I'll need to keep a separate list.
+                    prev[v] = u;
                     queue.Enqueue(v, alt);
                 }
             }
         }
+
+        // We shouldn't get here, so dump the distances
+        var sb = new StringBuilder(_width * _height);
+        for (int y = 0; y < _height; y++)
+        {
+            for (int x = 0; x < _width; x++)
+            {
+                sb.Append(dist.ContainsKey(new Point(x, y)) ? '#' : _map[x,y]);
+            }
+            sb.AppendLine();
+        }
+        TestContext.Write(sb.ToString());
         return 0;
     }
 }
