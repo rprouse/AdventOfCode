@@ -1,10 +1,3 @@
-using System;
-using System.Collections;
-using System.IO;
-using AdventOfCode.Core;
-using NUnit.Framework;
-using FluentAssertions;
-
 namespace AdventOfCode2023;
 
 [Parallelizable(ParallelScope.All)]

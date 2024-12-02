@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AdventOfCode.Core;
-
 namespace AdventOfCode2024;
 
 public static class Day02

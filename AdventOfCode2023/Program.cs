@@ -1,9 +1,3 @@
-using System;
-using System.Threading.Tasks;
-using AdventOfCode.Core;
-using AdventOfCode2023;
-using NUnit.Framework;
-
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 
 //int result = Day15.PartTwo(TestBase.PuzzleFile(15));
