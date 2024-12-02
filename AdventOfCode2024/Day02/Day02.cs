@@ -1,7 +1,5 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AdventOfCode.Core;
 
@@ -63,22 +61,20 @@ public static class Day02
                     if (i - 1 == s)
                     {
                         if (s > 0 &&
-                            ( increasing == arr[i - 2] > arr[i] ||
-                              arr[i - 2] == arr[i] ||
-                              Math.Abs(arr[i - 2] - arr[i]) > 3))
+                            (increasing == arr[i - 2] > arr[i] ||
+                             arr[i - 2] == arr[i] ||
+                             Math.Abs(arr[i - 2] - arr[i]) > 3))
                         {
                             safe = false;
                         }
                     }
-                    else if (i != s)
+                    else if (i != s &&
+                        (increasing == arr[i - 1] > arr[i] ||
+                         arr[i - 1] == arr[i] ||
+                         Math.Abs(arr[i - 1] - arr[i]) > 3))
                     {
-                        if (increasing == arr[i - 1] > arr[i] ||
-                            arr[i - 1] == arr[i] ||
-                            Math.Abs(arr[i - 1] - arr[i]) > 3)
-                        {
-                            safe = false;
-                            break;
-                        }
+                        safe = false;
+                        break;
                     }
                 }
                 if (safe)
