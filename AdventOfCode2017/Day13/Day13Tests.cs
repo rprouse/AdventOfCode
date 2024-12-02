@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.IO;
 using AdventOfCode.Core;
 using NUnit.Framework;
@@ -20,7 +20,7 @@ namespace AdventOfCode2017
         public void TestTheorum(int step, bool expected)
         {
             var actual = step % ((4-1) * 2) == 0;
-            Assert.AreEqual(actual, expected);
+            Assert.Equals(actual, expected);
         }
 
         [TestCaseSource(nameof(TestDataOne))]
