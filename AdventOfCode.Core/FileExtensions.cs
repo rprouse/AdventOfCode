@@ -52,7 +52,7 @@ namespace AdventOfCode.Core
         /// <returns></returns>
         public static string[] SplitStrings(this string filename) =>
             filename.ReadFirstLine()
-                .Split(',', ' ');
+                .Split(',', ' ', options: System.StringSplitOptions.TrimEntries | System.StringSplitOptions.RemoveEmptyEntries);
 
         /// <summary>
         /// Returns the first line of a file as a string
