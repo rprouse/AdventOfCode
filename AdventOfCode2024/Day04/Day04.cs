@@ -14,7 +14,7 @@ public static class Day04
                     continue;
 
                 // Horizontal forward
-                if (x <= lines[y].Length - 4 && lines[y][x+1] == 'M' && lines[y][x + 2] == 'A' && lines[y][x + 3] == 'S')
+                if (x <= lines[y].Length - 4 && lines[y][x + 1] == 'M' && lines[y][x + 2] == 'A' && lines[y][x + 3] == 'S')
                     count++;
                 // Horizontal backward
                 if (x >= 3 && lines[y][x - 1] == 'M' && lines[y][x - 2] == 'A' && lines[y][x - 3] == 'S')
@@ -45,6 +45,25 @@ public static class Day04
     public static int PartTwo(string filename)
     {
         string[] lines = filename.ReadAllLines();
-        return 0;
+        int count = 0;
+        for (int y = 0; y < lines.Length; y++)
+        {
+            for (int x = 0; x < lines[y].Length; x++)
+            {
+                if (lines[y][x] != 'A')
+                    continue;
+
+                if (x > 0 && y > 0 && x < lines[y].Length - 1 && y < lines.Length - 1)
+                {
+                    bool a = (lines[y - 1][x - 1] == 'M' && lines[y + 1][x + 1] == 'S') || (lines[y - 1][x - 1] == 'S' && lines[y + 1][x + 1] == 'M');
+                    bool b = (lines[y - 1][x + 1] == 'M' && lines[y + 1][x - 1] == 'S') || (lines[y - 1][x + 1] == 'S' && lines[y + 1][x - 1] == 'M');
+                    if (a && b)
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     }
 }
