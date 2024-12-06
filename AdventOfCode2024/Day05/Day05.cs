@@ -4,11 +4,72 @@ public static class Day05
 {
     public static int PartOne(string filename)
     {
-        string[] lines = filename.ReadAllLines();
+        Dictionary<int, List<int>> rules;
+        List<int[]> updates;
+        ParseInputData(filename, out rules, out updates);
 
+        // Process updates
+        return FilterValidUpdates(rules, updates, true).Sum(update => update[update.Length / 2]);
+    }
+
+    public static int PartTwo(string filename)
+    {
+        Dictionary<int, List<int>> rules;
+        List<int[]> updates;
+        ParseInputData(filename, out rules, out updates);
+
+        // Process updates
+        int sum = 0;
+        foreach (var update in FilterValidUpdates(rules, updates, false))
+        {
+            // Put the update into the correct order
+            Array.Sort(update, (a, b) => {
+                if (rules.ContainsKey(a) && rules[a].Contains(b)) return -1;
+                if (rules.ContainsKey(b) && rules[b].Contains(a)) return 1;
+                return 0;
+            });
+            sum += update[update.Length / 2];
+        }
+        return sum;
+    }
+
+    private static IEnumerable<int[]> FilterValidUpdates(Dictionary<int, List<int>> rules, List<int[]> updates, bool returnValid)
+    {
+        foreach (var update in updates)
+        {
+            bool valid = true;
+            for (int i = update.Length - 1; i > 0; i--)
+            {
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (rules.ContainsKey(update[i]) && rules[update[i]].Contains(update[j]))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (!valid)
+                {
+                    if (!returnValid)
+                    {
+                        yield return update;
+                    }
+                    break;
+                }
+            }
+            if (valid && returnValid)
+            {
+                yield return update;
+            }
+        }
+    }
+
+    private static void ParseInputData(string filename, out Dictionary<int, List<int>> rules, out List<int[]> updates)
+    {
         // Parse input
-        Dictionary<int, List<int>> rules = new();
-        List<int[]> updates = new();
+        string[] lines = filename.ReadAllLines();
+        rules = new();
+        updates = new();
         foreach (string line in lines)
         {
             if (line.Length == 5 && line[2] == '|')
@@ -27,36 +88,5 @@ public static class Day05
                 updates.Add(pages);
             }
         }
-
-        // Process updates
-        int sum = 0;
-        foreach (var update in updates)
-        {
-            bool valid = true;
-            for (int i = update.Length - 1; i > 0; i--)
-            {
-                for (int j = i - 1; j >= 0; j--)
-                {
-                    if (rules.ContainsKey(update[i]) && rules[update[i]].Contains(update[j]))
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
-                if (!valid) break;
-            }
-            if (valid)
-            {
-                sum += update[update.Length/2];
-            }        
-        }
-
-        return sum;
-    }
-
-    public static int PartTwo(string filename)
-    {
-        string[] lines = filename.ReadAllLines();
-        return 0;
     }
 }
