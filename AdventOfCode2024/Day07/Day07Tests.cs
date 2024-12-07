@@ -13,12 +13,6 @@ public class Day07Tests : TestBase
         calibration.Inputs.Should().BeEquivalentTo([81, 40, 27]);
     }
 
-    [Test]
-    public void TestPartTwo()
-    {
-        Day07.PartTwo(PuzzleFile(DAY)).Should().Be(0);
-    }
-
     [TestCase("190: 10 19", true)]
     [TestCase("3267: 81 40 27", true)]
     [TestCase("83: 17 5", false)]
@@ -34,10 +28,19 @@ public class Day07Tests : TestBase
         calibration.ValidWithAdditionAndMultiplication().Should().Be(expected);
     }
 
-    [TestCase("", 0UL, Ignore = "If Needed")]
-    public void TestCasePartTwo(string text, ulong expected)
+    [TestCase("190: 10 19", true)]
+    [TestCase("3267: 81 40 27", true)]
+    [TestCase("83: 17 5", false)]
+    [TestCase("156: 15 6", true)]
+    [TestCase("7290: 6 8 6 15", true)]
+    [TestCase("161011: 16 10 13", false)]
+    [TestCase("192: 17 8 14", true)]
+    [TestCase("21037: 9 7 18 13", false)]
+    [TestCase("292: 11 6 16 20", true)]
+    public void CanDetermineIfValidWithMultiplicationDivisionAndConcatination(string text, bool expected)
     {
-        Day07.PartTwo(text).Should().Be(expected);
+        var calibration = new Calibration(text);
+        calibration.ValidWithAdditionMultiplicationAndConcatination().Should().Be(expected);
     }
 
     [TestCaseSource(nameof(TestDataOne))]
@@ -61,6 +64,6 @@ public class Day07Tests : TestBase
     public static IEnumerable TestDataTwo()
     {
         yield return new TestCaseData(TestFile(DAY), 11387UL);
-        yield return new TestCaseData(PuzzleFile(DAY), 0);
+        yield return new TestCaseData(PuzzleFile(DAY), 105517128211543UL);
     }
 }
