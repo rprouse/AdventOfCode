@@ -19,12 +19,15 @@ public static class Day06
         int xDir, yDir, xPos, yPos;
         ParseMap(filename, out map, out xDir, out yDir, out xPos, out yPos);
 
-        // Walk the map once to find all routes
-        WalkMap(map, xDir, yDir, xPos, yPos);
+        // Mark the starting position with an S
+        map[yPos][xPos] = 'S';
 
-        // Walk the map again to find all loops
         while (true)
         {
+            // Mark the current position with an X if it is not an O
+            if (map[yPos][xPos] != 'O')
+                map[yPos][xPos] = 'X';
+
             // Calculate the next position.
             int nextX = xPos + xDir;
             int nextY = yPos + yDir;
@@ -35,45 +38,10 @@ public static class Day06
                 break;
             }
 
-            // If we turn right, would that result in a loop?
-            // Only do it if the next square is not an obstacle and not visited yet.
-            if (map[nextY][nextX] == '#' && map[nextY][nextX] != 'O')
+            // If we put an obstacle here, will it cause a loop?
+            if (map[nextY][nextX] != '#' && map[nextY][nextX] != 'S' && map[nextY][nextX] != 'O' && IsLoop(map, xDir, yDir, xPos, yPos))
             {
-                int xRight, yRight;
-                if (xDir == 0)
-                {
-                    xRight = -yDir;
-                    yRight = 0;
-                }
-                else
-                {
-                    yRight = xDir;
-                    xRight = 0;
-                }
-
-                int xNew = xPos + xRight;
-                int yNew = yPos + yRight;
-                if (xNew >= 0 && xNew < map[0].Length && yNew >= 0 && yNew < map.Length)
-                {
-                    if (map[yNew][xNew] == 'X')
-                    {
-                        // We could be in a loop because we are on a walked path
-                        // but not if we are walking in the wrong direction.
-                        // So let's walk it and see if we hit an obstacle.
-                        while (xNew >= 0 && xNew < map[0].Length && yNew >= 0 && yNew < map.Length)
-                        {
-                            if (map[yNew][xNew] == '#')
-                            {
-                                // We hit an obstacle, so we are in a loop
-                                // Mark the potential obtruction point
-                                map[nextY][nextX] = 'O';
-                                break;
-                            }
-                            xNew += xRight;
-                            yNew += yRight;
-                        }
-                    }
-                }
+                map[nextY][nextX] = 'O';
             }
 
             // Are we stepping against an obstacles?
@@ -166,6 +134,67 @@ public static class Day06
             if (nextX < 0 || nextX >= map[0].Length || nextY < 0 || nextY >= map.Length)
             {
                 break;
+            }
+
+            // Are we stepping against an obstacles?
+            if (map[nextY][nextX] == '#')
+            {
+                // Turn right
+                if (xDir == 0)
+                {
+                    xDir = -yDir;
+                    yDir = 0;
+                }
+                else
+                {
+                    yDir = xDir;
+                    xDir = 0;
+                }
+                nextX = xPos + xDir;
+                nextY = yPos + yDir;
+            }
+            xPos = nextX;
+            yPos = nextY;
+        }
+    }
+
+    private static bool IsLoop(char[][] map, int xDir, int yDir, int xPos, int yPos)
+    {
+        // Save where we are and which way we are going.
+        int saveX = xPos;
+        int saveY = yPos;
+        int saveXDir = xDir;
+        int saveYDir = yDir;
+
+        // Turn right
+        if (xDir == 0)
+        {
+            xDir = -yDir;
+            yDir = 0;
+        }
+        else
+        {
+            yDir = xDir;
+            xDir = 0;
+        }
+
+        // Walk the map.
+        while (true)
+        {
+            // Calculate the next position.
+            int nextX = xPos + xDir;
+            int nextY = yPos + yDir;
+
+            // Are we back at the starting position?
+            if (xPos == saveX && yPos == saveY && saveXDir == xDir && saveYDir == yDir)
+            {
+                return true;
+            }
+
+            // Are we stepping out of bounds?
+            if (nextX < 0 || nextX >= map[0].Length || nextY < 0 || nextY >= map.Length)
+            {
+                return false;
             }
 
             // Are we stepping against an obstacles?
